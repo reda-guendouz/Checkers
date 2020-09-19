@@ -29,7 +29,7 @@
 #include <unistd.h>
 #include <time.h>
 #include <math.h>
-#include <SDL/SDL.h>
+#include <SDL.h>
 
 // A decommentr si on fonctionne en local, sinon sur un terminal
 // on a des lenteurs
