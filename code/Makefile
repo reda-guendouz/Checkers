@@ -31,9 +31,9 @@ sans_ttf:
 	./exemple
 
 
-exemple: exemple.c graphics.o
-	$(CC) $(CFLAGS) graphics.o exemple.c -o exemple $(LIBS)
-	./exemple
+exemple: controleur.c graphics.o
+	$(CC) $(CFLAGS) graphics.o controleur.c -o resultat $(LIBS)
+	./resultat
 
 tar: clean
 	rm -rf $(DIR)
@@ -52,6 +52,6 @@ clean:
 	rm -f *core
 	rm -f *.o
 	rm -f police.h
-	rm -f exemple
+	rm -f exemple resultat
 	rm -f *.tar
 	rm -rf $(DIR)
