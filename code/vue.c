@@ -24,18 +24,14 @@ void creation_damier(){
         for (P1.y = 25;P1.y!=525;P1.y+=50)
         {
             if ((P1.x+P1.y)%100==0)
-                dessiner_case(P1,25,argent);
+                dessiner_case(P1,25,argent); // dessiner case claire
             else
             {
-                dessiner_case(P1,25,gris);
+                dessiner_case(P1,25,gris); // dessiner case foncee
                 if (P1.y<200)
-                {
                     draw_fill_circle(P1,23,blanc);
-                } else if (P1.y>300)
-                {
-                    draw_fill_circle(P1,23,noir);
-                }
-                
+                else if (P1.y>300)
+                    draw_fill_circle(P1,23,noir);                
             }
         }
         
