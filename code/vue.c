@@ -28,9 +28,9 @@ void creation_damier(){
             else
             {
                 dessiner_case(P1,25,gris); // dessiner case foncee
-                if (P1.y<200)
+                if (P1.x<200)
                     draw_fill_circle(P1,23,blanc); // dessiner pion blanc
-                else if (P1.y>300)
+                else if (P1.x>300)
                     draw_fill_circle(P1,23,noir); // dessiner pion noir               
             }
         }
