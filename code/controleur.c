@@ -13,6 +13,7 @@
 int main()
 {
 	init_graphics(799,600); /* (largeur, hauteur) */
+	affiche_menu_principal();
 	int fin = 1;
 	SDL_Event event;    // Creation d une entree clavier a recuperer
 	while (fin) {
@@ -22,12 +23,14 @@ int main()
 			case SDL_KEYDOWN:
 				switch (event.key.keysym.sym){
 					case SDLK_UP:    // Si touche du haut => Damier
+						reset_screen();
 						creation_damier(); // Mise à disposition graphique du damier sur une plage de 500 par 500 (10x10 cases)
 						init_tabDamier();
 						test_afficheTab();
 						break;
 					case SDLK_DOWN:  // Si touche du bas => Parametre
-						printf("Parametre\n");
+						reset_screen();
+						affiche_parametre();
 						break;
 					case SDLK_ESCAPE:// Si echap => QUIT
 						fin = 0;
