@@ -52,6 +52,6 @@ clean:
 	rm -f *core
 	rm -f *.o
 	rm -f police.h
-	rm -f exemple resultat
+	rm -f exemple controleur
 	rm -f *.tar
 	rm -rf $(DIR)
