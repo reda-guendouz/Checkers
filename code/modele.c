@@ -22,7 +22,7 @@ void init_tabDamier ()
                 tableau[l][c] = 0;
                 if (c<4)
                     tableau[l][c] = 1;
-                else if (c>6)
+                else if (c>5)
                     tableau[l][c] = 2;           
             }
 		}		

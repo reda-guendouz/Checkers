@@ -20,6 +20,7 @@ void creation_damier(){
     POINT P1;
     P1.x=25;
     P1.y=25;
+    affiche_auto_off();
     for(P1.x=25;P1.x!=525;P1.x+=50){
         for (P1.y = 25;P1.y!=525;P1.y+=50)
         {
@@ -43,4 +44,5 @@ void creation_damier(){
     aff_pol("Pions restants (noir) :",20,P2,vert);
     P2.x = 505; P2.y = 250;
     aff_pol("Pions restants (blanc) :",20,P2,vert);
+    affiche_all();
 }
