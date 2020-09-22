@@ -33,3 +33,10 @@ void test_afficheTab(){
 		}		
 	}
 }
+
+numCase clic_to_numCase(POINT p){
+	numCase nc;
+	nc.c = p.x/50;
+	nc.l = p.y/50;
+	return nc;
+}

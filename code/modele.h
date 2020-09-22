@@ -17,3 +17,5 @@ typedef struct numCase
 void init_tabDamier ();
 
 void test_afficheTab();
+
+numCase clic_to_numCase(POINT p);
