@@ -1,3 +1,5 @@
+#include "modele.h"
+
 int tableau[10][10];
 /************************
 * Tableau :
