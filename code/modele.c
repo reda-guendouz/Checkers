@@ -1,14 +1,5 @@
 #include "modele.h"
 
-int tableau[10][10];
-/************************
-* Tableau :
-* -1 => case claire (impossible de s'y déplacer)
-* 0  => case jouable (sombre)
-* 1  => case occupée par un pion blanc
-* 2  => case occupée par un pion noir
-*************************/
-
 void init_tabDamier ()
 {
 	int l,c;
