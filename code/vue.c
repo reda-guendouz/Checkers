@@ -68,13 +68,13 @@ void affiche_parametre() {
     aff_pol("Choisissez vos parametres de jeu :",40,P1, blanc);
     P1.x = 5;
     P1.y = 480;
-    aff_pol("Choisissez les couleurs du damiers :", 30, P1, blanc);
+    aff_pol("Choisissez un theme de couleur :", 30, P1, blanc);
     P1.x = 55;
     P1.y = 400;
-    aff_pol("- Couleurs des cases :", 30, P1, blanc);
+    aff_pol("Theme Original :", 30, P1, blanc);
     P1.x = 55;
     P1.y = 280;
-    aff_pol("- Couleurs des pions :", 30, P1, blanc);    
+    aff_pol("Theme Sombre :", 30, P1, blanc);    
     
     affiche_all();
 
