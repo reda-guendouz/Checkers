@@ -40,3 +40,9 @@ numCase clic_to_numCase(POINT p){
 	nc.l = p.y/50;
 	return nc;
 }
+
+int deplacement(numCase source, numCase destination){
+	tableau[destination.c][destination.l] = tableau[source.c][source.l];
+	tableau[source.c][source.l] = 0;
+	return 0;
+}
