@@ -12,7 +12,11 @@
 
 int main()
 {
-	init_graphics(799,600); /* (largeur, hauteur) */
+	SDL_Init(SDL_INIT_EVERYTHING);
+	const SDL_VideoInfo* info = SDL_GetVideoInfo();
+	int largeur = info->current_w;
+	int hauteur = info->current_h;
+	init_graphics(largeur,hauteur); /* (largeur, hauteur) */
 	affiche_menu_principal();
 	int fin = 1;
 	SDL_Event event;    // Creation d une entree clavier a recuperer
