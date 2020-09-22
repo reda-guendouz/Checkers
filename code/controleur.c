@@ -17,6 +17,7 @@ int main()
 	int largeur = info->current_w;
 	int hauteur = info->current_h;
 	init_graphics(largeur,hauteur); /* (largeur, hauteur) */
+    affiche_auto_off();
 	affiche_menu_principal();
 	int fin = 1;
 	SDL_Event event;    // Creation d une entree clavier a recuperer

@@ -17,7 +17,6 @@ void dessiner_case(POINT centre,int taille,COULEUR clr){
 }
 
 void reset_screen() {
-    affiche_auto_off();
     POINT p1,p2;
     p1.x = 0;
     p1.y = 0;
@@ -61,7 +60,6 @@ void creation_damier(){
 }
 
 void affiche_parametre() {
-    affiche_auto_off();
     POINT P1;
     P1.x = 5;
     P1.y = 580;
@@ -81,7 +79,6 @@ void affiche_parametre() {
 }
 
 void affiche_menu_principal() {
-    affiche_auto_off();
     POINT P1;
     P1.x = 180;
     P1.y = 580;
@@ -99,7 +96,5 @@ void affiche_menu_principal() {
     P1.y = 60;
     aff_pol("Realise par Marwane BAHRAOUI & Reda GUENDOUZ", 10, P1, blanc);
 
-
     affiche_all();
-
 }
