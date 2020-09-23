@@ -23,3 +23,5 @@ numCase clic_to_numCase(POINT p);
 int deplacement(numCase source, numCase destination);
 
 int est_dans_la_zone(POINT p);
+
+POINT numCase_to_point(numCase nc);

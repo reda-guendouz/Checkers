@@ -54,3 +54,10 @@ int est_dans_la_zone(POINT p){
 	}
 	return 0;
 }
+
+POINT numCase_to_point(numCase nc){
+	POINT p;
+	p.x = (nc.c*50)+25;
+	p.y = (nc.l*50)+25;
+	return p;
+}
