@@ -1,9 +1,7 @@
-void dessiner_case(POINT centre,int taille,COULEUR clr);
+void affiche_piece(PIECE P, POINT p);
+	
 
-void reset_screen();
+void affiche_case(POINT p1,POINT p2, COULEUR clr);
 
-void creation_damier();
 
-void affiche_parametre();
-
-void affiche_menu_principal();
+void affiche_damier_classique();
