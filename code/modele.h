@@ -1,11 +1,21 @@
-int tableau[10][10];
-/************************
-* Tableau :
-* -1 => case claire (impossible de s'y déplacer)
-* 0  => case jouable (sombre)
-* 1  => case occupée par un pion blanc
-* 2  => case occupée par un pion noir
-*************************/
+typedef enum{
+    VIDE,PION,DAME
+}TYPEP;
+
+typedef enum{
+    NOIR,BLANC
+}COULP;
+
+typedef struct PIECE
+{
+    TYPEP typeP;
+    COULP coulP;
+}PIECE;
+
+/*
+* tableau global a tout le projet
+*/
+PIECE tableau[10][10];
 
 typedef struct numCase
 {
