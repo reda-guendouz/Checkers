@@ -35,9 +35,6 @@ void test_afficheTab(){
 
 
 void deplacement(numCase source, numCase destination){
-    
-}
-
-int est_dans_la_zone(POINT p){
- return 0;
+    tableau[destination.c][destination.l].typeP = tableau[source.c][source.l].typeP;
+    tableau[source.c][source.l].typeP = VIDE;
 }
