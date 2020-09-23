@@ -5,9 +5,9 @@
 #include<stdio.h>
 #include<SDL/SDL.h> 
 
-#define LARGEUR_FENETRE 800
+#define LARGEUR_FENETRE 900
 
-#define HAUTEUR_FENETRE 700
+#define HAUTEUR_FENETRE 600
 
 
 /****************************
