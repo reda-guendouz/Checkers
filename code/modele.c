@@ -41,17 +41,14 @@ numCase clic_to_numCase(POINT p){
 	return nc;
 }
 
-int deplacement(numCase source, numCase destination){
+void deplacement(numCase source, numCase destination){
 	tableau[destination.c][destination.l] = tableau[source.c][source.l];
 	tableau[source.c][source.l] = 0;
-	return 0;
 }
 
 int est_dans_la_zone(POINT p){
 	if (p.x < 500 && p.y < 500)
-	{
 		return 1;
-	}
 	return 0;
 }
 
