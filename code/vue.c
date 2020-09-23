@@ -32,7 +32,6 @@ void creation_damier(){
     POINT P1;
     P1.x=25;
     P1.y=25;
-    affiche_auto_off();
     for(P1.x=25;P1.x!=525;P1.x+=50){
         for (P1.y = 25;P1.y!=525;P1.y+=50)
         {
