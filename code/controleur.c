@@ -19,7 +19,8 @@ int main()
 {	
 	init_graphics(LARGEUR_FENETRE,HAUTEUR_FENETRE);
 
-
+    init_tabDamier();
+    test_afficheTab();
 
 	wait_escape();
 	return 0;

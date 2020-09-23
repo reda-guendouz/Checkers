@@ -37,18 +37,13 @@ void test_afficheTab(){
 	{
 		for (c=0; c!=10; c++)
 		{
-            printf("ligne : %d, colonne %d, valeur => %d\n",c,l,tableau[l][c].typeP);
+            printf("ligne : %d, colonne %d, typeP => %d, coulP => %d\n",c,l,tableau[l][c].typeP,tableau[l][c].coulP);
 		}		
 	}
 }
 
 
-void deplacement(numCase source, numCase destination){
-    if (/* condition */)
-    {
-        /* code */
-    }
-    
+void deplacement(numCase source, numCase destination){ 
     tableau[destination.c][destination.l].typeP = tableau[source.c][source.l].typeP;
     tableau[source.c][source.l].typeP = VIDE;
 }
