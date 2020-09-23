@@ -31,10 +31,24 @@ void init_tabDamier ()
 }
 
 void test_afficheTab(){
+    int l,c;
+	
+	for (l=0; l!=10; l++)
+	{
+		for (c=0; c!=10; c++)
+		{
+            printf("ligne : %d, colonne %d, valeur => %d\n",c,l,tableau[l][c].typeP);
+		}		
+	}
 }
 
 
 void deplacement(numCase source, numCase destination){
+    if (/* condition */)
+    {
+        /* code */
+    }
+    
     tableau[destination.c][destination.l].typeP = tableau[source.c][source.l].typeP;
     tableau[source.c][source.l].typeP = VIDE;
 }

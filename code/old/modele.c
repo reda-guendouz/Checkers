@@ -30,7 +30,7 @@ void test_afficheTab(){
 		for (c=0; c!=10; c++)
 		{
             printf("ligne : %d, colonne %d, valeur => %d\n",l,c,tableau[l][c]);
-:	}		
+		}		
 	}
 }
 
