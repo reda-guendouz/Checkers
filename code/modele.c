@@ -1,5 +1,10 @@
 #include "modele.h"
 
+int abs(int val){
+    if (val<0)
+        return -val;
+    return val;
+}
 
 void init_tabDamier ()
 {
@@ -45,11 +50,11 @@ void test_afficheTab(){
 
 void deplacement(numCase source, numCase destination){
     PIECE pi;
-    if (destination.c - source.c != 1) // dans le cas d'une prise
+    if (abs(destination.c - source.c) != 1) // dans le cas d'une prise
     {
         numCase nc;
-        nc.c = destination.c - source.c;
-        nc.l = destination.l - source.l;
+        nc.c = abs((destination.c - source.c)/2);
+        nc.l = abs((destination.l - source.l)/2);
         tableau[nc.c][nc.l] = tableau[destination.c][destination.l]; // car la destination est toujours vide    
     }
 
@@ -60,27 +65,71 @@ void deplacement(numCase source, numCase destination){
 
 
 
-BOOL conditions_deplacement(numCase source,numCase destination){
-    COULP joueur = tableau[source.c][source.l].coulP;
+BOOL deplacement_possible(numCase source,numCase destination){
     if (tableau[destination.c][destination.l].typeP==VIDE)
     {
-        if (destination.c-source.c == 1 && destination.l-source.l == 1) // case adjacente a distance de 1 case
+        if (abs(destination.c-source.c) == 1 && abs(destination.l-source.l == 1) && tableau[destination.c][destination.l].typeP==VIDE) // case adjacente a distance de 1 case
             return true;
-        if ( destination.c-source.c == 2 && destination.l-source.l == 2) // prise case adjacente a distance de 2 cases
-        {
-            if (tableau[source.c+1][source.l+1].coulP != joueur) // verification de la couleur du pion pris
-                return true;
-        }
+        else
+            return prise_possible(source,destination);
     }
 
     return false;
 }
 
-numCase* deplacement_possible(numCase source){
-    int compteur = 0;
-    numCase temp [15];
-    for (i = 1; i != 3; i++)
+BOOL prise_possible(numCase source, numCase destination){
+    COULP joueur = tableau[source.c][source.l].coulP;
+    PIECE pi1,pi2,pi_pion_pris;
+    int dist1, dist2;
+    dist1 = destination.c - source.c;
+    dist2 = destination.l - source.l;
+    pi1 = tableau[source.c][source.l];
+    pi2 = tableau[destination.c][destination.l];
+    pi_pion_pris = tableau[source.c + (dist1/2)][source.l + (dist2/2)];
+    if ( abs(dist1)==2 && abs(dist2)==2 && pi2.typeP==VIDE && pi_pion_pris.typeP == PION && pi_pion_pris.coulP != joueur )
+        return true;
+    return false;
+}
+
+numCase* numCases_possibles(numCase source){
+    int compteur = 0,i;
+    int col [4] = {1,1,-1,-1};
+    int lig [4] = {1,-1,1,-1};
+    numCase possible,prise;
+    PIECE pi;
+    numCase temp [9];
+
+    for (i = 0; i != 4; i++)
     {
-        if (source.c-1)
-    }    
+        possible.c = col[i]; possible.l = lig[i];
+        prise.c = col[i]*2;  prise.l = lig[i]*2;
+        pi = tableau[possible.c][possible.l];
+        if (pi.typeP==VIDE)
+        {
+            temp[compteur] = possible;
+            compteur++;
+        } else if (prise_possible(source,prise))
+        {
+            temp[compteur]=prise;
+            compteur++;
+        }
+    }
+    /*
+    if (pi1.typeP==VIDE)
+    {
+        numCase nc2;
+        nc2.c = source.c+1;
+        nc2.l = source.l+1;
+        temp[compteur] = nc2;
+        compteur++;
+    } else if (prise_possible(source,nc1))
+    {
+        numCase nc;
+        nc.c = source.c+2;
+        nc.l = source.l+2;
+        temp[compteur] = nc;
+        compteur++;
+    }
+    */
+   numCase cases_possibles [compteur];    
 }
