@@ -52,10 +52,13 @@ void deplacement(numCase source, numCase destination){
         nc.l = destination.l - source.l;
         tableau[nc.c][nc.l] = tableau[destination.c][destination.l]; // car la destination est toujours vide    
     }
+    
+    pi = tableau[destination.c][destination.l];
+    tableau[destination.c][destination.l] = tableau[source.c][source.l];
+    tableau[source.c][source.l] = pi;
+}
 
-    tableau[destination.c][destination.l].typeP = tableau[source.c][source.l].typeP;
-    tableau[source.c][source.l].typeP = VIDE;
-} 
+
 
 BOOL conditions_deplacement(numCase source,numCase destination){
     if (/* condition */)
@@ -65,8 +68,4 @@ BOOL conditions_deplacement(numCase source,numCase destination){
     
 
     return false;
-}
-    pi = tableau[destination.c][destination.l];
-    tableau[destination.c][destination.l] = tableau[source.c][source.l];
-    tableau[source.c][source.l] = pi;
 }
