@@ -8,7 +8,7 @@ void init_tabDamier ()
     {
         for (j = 0; j < 10; j++)
         {
-            if ((i+j)%2==1)
+            if ((i+j)%2==0)
                 tableau[i][j].typeP=VIDE;
             else
             {
