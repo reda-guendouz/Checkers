@@ -79,13 +79,11 @@ void affiche_damier_classique() {
 void affiche_damier_alternatif() {
 	int i,j;
 	PIECE P;
-	POINT p1, p2;
-	p2.x = 0;
-	p2.y = 0;
+	POINT p1;
 	for (i = 0; i<10; i++) {
 		for (j = 0; j<10; j++) {
-			p1.x =i*50 + 22;
-			p1.y =j*50 + 22;
+			p1.x =i*50 + 300;
+			p1.y =j*50 + 50;
 			if ((i+j)%2 == 0)
 				affiche_case_ronde(p1,20, argent);
 			else { 
@@ -97,7 +95,6 @@ void affiche_damier_alternatif() {
 			}
 		}
 	}
-	draw_rectangle(p2,p1,noir);
 	affiche_all();
 }
 
