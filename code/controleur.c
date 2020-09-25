@@ -5,9 +5,9 @@
 #include<stdio.h>
 #include<SDL/SDL.h> 
 
-#define LARGEUR_FENETRE 900
+#define LARGEUR_FENETRE 1100
 
-#define HAUTEUR_FENETRE 600
+#define HAUTEUR_FENETRE 650
 
 
 /****************************
@@ -37,9 +37,11 @@ int main()
 	nc2.l = 1;
 	init_graphics(LARGEUR_FENETRE,HAUTEUR_FENETRE);
 	affiche_auto_off();
+	fill_screen(blanc);
 	init_tabDamier();
 	//test_afficheTab();
 
+	//affiche_damier_classique();
 	affiche_damier_alternatif();
 	deplacement(nc1,nc2);
 	wait_clic();
