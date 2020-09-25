@@ -1,6 +1,6 @@
 #include "graphics.h"
-#include "vue.c"
 #include "modele.c"
+#include "vue.c"
 #include<stdlib.h>
 #include<stdio.h>
 #include<SDL/SDL.h> 
@@ -19,9 +19,10 @@ int main()
 {	
 	init_graphics(LARGEUR_FENETRE,HAUTEUR_FENETRE);
 
-    init_tabDamier();
-    test_afficheTab();
+	init_tabDamier();
+	//test_afficheTab();
 
+    	affiche_damier_classique();
 	wait_escape();
 	return 0;
 	
