@@ -28,10 +28,8 @@ void init_tabDamier ();
 
 void test_afficheTab();
 
-numCase clic_to_numCase(POINT p);
-
 void deplacement(numCase source, numCase destination);
 
-int est_dans_la_zone(POINT p);
+BOOL conditions_deplacement(numCase source,numCase destination);
 
-POINT numCase_to_point(numCase nc);
+*numCase deplacement_possible(numCase nc);

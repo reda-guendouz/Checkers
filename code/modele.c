@@ -55,4 +55,14 @@ void deplacement(numCase source, numCase destination){
 
     tableau[destination.c][destination.l].typeP = tableau[source.c][source.l].typeP;
     tableau[source.c][source.l].typeP = VIDE;
+} 
+
+BOOL conditions_deplacement(numCase source,numCase destination){
+    if (/* condition */)
+    {
+        /* code */
+    }
+    
+
+    return false;
 }
