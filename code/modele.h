@@ -32,4 +32,4 @@ void deplacement(numCase source, numCase destination);
 
 BOOL conditions_deplacement(numCase source,numCase destination);
 
-numCase* deplacement_possible(numCase nc);
+numCase* deplacement_possible(numCase source);
