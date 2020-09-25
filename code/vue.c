@@ -41,6 +41,7 @@ void affiche_case_carre(POINT p1, POINT p2, COULEUR clr) {
 
 void affiche_case_ronde(POINT p,int rayon, COULEUR clr) {
 	draw_fill_circle(p,rayon,clr);
+	draw_circle(p,rayon,noir);
 }
 
 void affiche_damier_classique() {
@@ -50,14 +51,14 @@ void affiche_damier_classique() {
 	POINT p2;
 	for (i = 0; i<10; i++) {
 		for (j = 0; j<10; j++) {
-			p1.x =i*50;
-			p1.y =j*50;
+			p1.x =i*50 +300;
+			p1.y =j*50 + 25;
 			p2.x = p1.x + 50;
 			p2.y = p1.y + 50;
 			if ((i+j)%2 == 0)
 				affiche_case_carre(p1,p2, argent);
 			else { 
-				affiche_case_carre(p1,p2, gris);
+				affiche_case_carre(p1,p2, marron);
 				p1.x += 25;
 				p1.y += 25;
 				P = tableau[i][j];
@@ -67,13 +68,20 @@ void affiche_damier_classique() {
 			}
 		}
 	}
+	p2.x = 300;
+	p2.y = 25;
+	p1.x += 50;
+	p1.y += 50;
+	draw_rectangle(p2,p1,noir);
 	affiche_all();
 }
 
 void affiche_damier_alternatif() {
 	int i,j;
 	PIECE P;
-	POINT p1;
+	POINT p1, p2;
+	p2.x = 0;
+	p2.y = 0;
 	for (i = 0; i<10; i++) {
 		for (j = 0; j<10; j++) {
 			p1.x =i*50 + 22;
@@ -81,7 +89,7 @@ void affiche_damier_alternatif() {
 			if ((i+j)%2 == 0)
 				affiche_case_ronde(p1,20, argent);
 			else { 
-				affiche_case_ronde(p1,20, gris);
+				affiche_case_ronde(p1,20, marron);
 				P = tableau[j][i];
 				if (P.typeP == PION)
 					affiche_piece_losange(P,p1);
@@ -89,6 +97,7 @@ void affiche_damier_alternatif() {
 			}
 		}
 	}
+	draw_rectangle(p2,p1,noir);
 	affiche_all();
 }
 
