@@ -44,6 +44,15 @@ void test_afficheTab(){
 
 
 void deplacement(numCase source, numCase destination){ 
+    int i;
+    if (destination.c - source.c != 1)
+    {
+        numCase nc;
+        nc.c = destination.c - source.c;
+        nc.l = destination.l - source.l;
+        tableau[nc.c][nc.l].typeP=VIDE;     
+    }
+
     tableau[destination.c][destination.l].typeP = tableau[source.c][source.l].typeP;
     tableau[source.c][source.l].typeP = VIDE;
 }
