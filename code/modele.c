@@ -43,16 +43,17 @@ void test_afficheTab(){
 }
 
 
-void deplacement(numCase source, numCase destination){ 
-    int i;
+void deplacement(numCase source, numCase destination){
+    PIECE pi;
     if (destination.c - source.c != 1)
     {
         numCase nc;
         nc.c = destination.c - source.c;
         nc.l = destination.l - source.l;
-        tableau[nc.c][nc.l].typeP=VIDE;     
+        tableau[nc.c][nc.l] = tableau[destination.c][destination.l]; // car la destination est toujours vide    
     }
 
-    tableau[destination.c][destination.l].typeP = tableau[source.c][source.l].typeP;
-    tableau[source.c][source.l].typeP = VIDE;
+    pi = tableau[destination.c][destination.l];
+    tableau[destination.c][destination.l] = tableau[source.c][source.l];
+    tableau[source.c][source.l] = pi;
 }
