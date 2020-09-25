@@ -22,7 +22,7 @@ int main()
 	init_tabDamier();
 	//test_afficheTab();
 
-    	affiche_damier_classique();
+	affiche_damier_alternatif();
 	wait_escape();
 	return 0;
 	
