@@ -18,7 +18,7 @@
 int main()
 {	
 	init_graphics(LARGEUR_FENETRE,HAUTEUR_FENETRE);
-
+	affiche_auto_off();
 	init_tabDamier();
 	//test_afficheTab();
 

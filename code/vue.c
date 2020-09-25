@@ -67,6 +67,7 @@ void affiche_damier_classique() {
 			}
 		}
 	}
+	affiche_all();
 }
 
 void affiche_damier_alternatif() {
@@ -88,7 +89,7 @@ void affiche_damier_alternatif() {
 			}
 		}
 	}
-
+	affiche_all();
 }
 
 /*
