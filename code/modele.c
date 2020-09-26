@@ -110,12 +110,14 @@ numCase* numCases_possibles_avant_prise(numCase source){
     {
         taille=2;
         col = (int *)malloc(taille*sizeof(int));
+        lig = (int *)malloc(taille*sizeof(int));
         col[0] = 1; col[1] = 1;
         lig[0] = 1; lig[1] = -1;
     } else
     {
         taille=4;
         col = (int *)malloc(taille*sizeof(int));
+        lig = (int *)malloc(taille*sizeof(int));
         col[0] = 1; col[1] = 1; col[2] = -1; col[3] = -1;
         lig[0] = 1; lig[1] = -1;lig[2] = 1; lig[3] = -1;
     }
