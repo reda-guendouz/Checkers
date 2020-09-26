@@ -91,50 +91,62 @@ BOOL prise_possible(numCase source, numCase destination){
     return false;
 }
 
-// a modifier
 numCase* numCases_possibles_apres_prise(numCase source){
     int compteur = 0,i;
-    int col [4] = {2,2,-2,-2};
-    int lig [4] = {2,-2,2,-2};
-    numCase prise;
+    int col [4] = {1,1,-1,-1};
+    int lig [4] = {1,-1,1,-1};
+    numCase possible,prise;
+    PIECE pi,pi_destination,pi_source;
+    numCase *cases_possibles = NULL;
     numCase temp [5];
-
+    
+    pi_source = tableau[source.c][source.l];
+    COULP joueur = pi_source.coulP;
     for (i = 0; i != 4; i++)
     {
-        prise.c = col[i];  prise.l = lig[i];
-        if (prise_possible(source,prise))
+        possible.c = col[i]; possible.l = lig[i];
+        prise.c = col[i]*2;  prise.l = lig[i]*2;
+        pi = tableau[possible.c][possible.l];
+        pi_destination = tableau[prise.c][prise.l];
+        if (pi.coulP != joueur && pi_destination.typeP==VIDE)
         {
-            temp[compteur]=prise;
+            temp[compteur] = prise;
             compteur++;
         }
     }
-   numCase *cases_possibles = NULL;
 
-   // verifier compteur different de 0 + remplit cases_possibles avec temp à l'aide de malloc et de taille compteur
-
-   return cases_possibles;   
+    if (compteur != 0)
+    {
+        cases_possibles = (numCase *)malloc(compteur*sizeof(numCase));
+        for (i = 0; i != compteur; i++)
+            cases_possibles[i] = temp[i];
+    }
+    
+    return cases_possibles;
 }
 
-// a modifier
 numCase* numCases_possibles_avant_prise(numCase source){
-    int compteur = 0,i;
+    int compteur = 0,i,taille;
     numCase possible,prise;
     PIECE pi,pi_destination,pi_source;
+    numCase *cases_possibles = NULL;
+    numCase temp [5];
 
-    numCase cases_possibles [4] = {NULL,NULL,NULL,NULL};
     pi_source = tableau[source.c][source.l];
     COULP joueur = pi_source.coulP;
     if (pi_source.typeP==PION)
     {
+        taille=2;
         int col [2] = {1,1};
         int lig [2] = {1,-1};
     } else
     {
+        taille=4;
         int col [4] = {1,1,-1,-1};
         int lig [4] = {1,-1,1,-1};
     }
 
-    for (i = 0; i != 4; i++)
+    for (i = 0; i != taille; i++)
     {
         possible.c = col[i]; possible.l = lig[i];
         prise.c = col[i]*2;  prise.l = lig[i]*2;
@@ -142,13 +154,21 @@ numCase* numCases_possibles_avant_prise(numCase source){
         pi_destination = tableau[prise.c][prise.l];
         if (pi.typeP==VIDE)
         {
-            cases_possibles[compteur] = possible;
+            temp[compteur] = possible;
             compteur++;
         } else if (pi.coulP != joueur && pi_destination.typeP==VIDE)
         {
-            cases_possibles[compteur]=prise;
+            temp[compteur] = prise;
             compteur++;
         }
     }
+
+    if (compteur != 0)
+    {
+        cases_possibles = (numCase *)malloc(compteur*sizeof(numCase));
+        for (i = 0; i != compteur; i++)
+            cases_possibles[i] = temp[i];
+    }
+    
     return cases_possibles;
 }
