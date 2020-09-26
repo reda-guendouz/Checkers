@@ -5,11 +5,15 @@
 *          Fonctions           *
 *******************************/
 
+/*******************************
+*      Affichage de piece      *
+*******************************/
+
 void affiche_piece_ronde(PIECE P, POINT p){
 	if (P.coulP == NOIR) 
-		draw_fill_circle(p,25,noir);
+		draw_fill_circle(p,RAYON,noir);
 	else 
-		draw_fill_circle(p,25,blanc);	
+		draw_fill_circle(p,RAYON,blanc);	
 	
 }
 
@@ -34,15 +38,60 @@ void affiche_piece_losange(PIECE P, POINT p) {
 
 }
 
+
+/*******************************
+*       Affiche case           *
+*******************************/
+
+
 void affiche_case_carre(POINT p1, POINT p2, COULEUR clr) {
 	draw_fill_rectangle(p1,p2, clr);
 	
 }
 
-void affiche_case_ronde(POINT p,int rayon, COULEUR clr) {
-	draw_fill_circle(p,rayon,clr);
-	draw_circle(p,rayon,noir);
+void affiche_case_ronde(POINT p, COULEUR clr) {
+	draw_fill_circle(p,RAYON,clr);
+	draw_circle(p,RAYON,noir);
 }
+
+/*******************************
+*       Effacer une piece      *
+*******************************/
+
+void efface_piece_ronde(POINT p) {
+	POINT p1,p2;
+	p1.x = p.x - TAILLE_CASE/2;
+	p1.y = p.y - TAILLE_CASE/2;
+	p2.x = p.x + TAILLE_CASE/2;
+	p2.y = p.y + TAILLE_CASE/2;
+	printf("p1: %d %d\n",p1.x,p1.y);
+	printf("p2: %d %d\n",p2.x,p2.y);
+	affiche_case_carre(p1,p2, marron);
+}
+
+void efface_piece_losange(POINT p) {
+	affiche_case_ronde(p, marron);
+}
+
+/*******************************
+*      Deplacement piece       *
+*******************************/
+
+
+void affiche_deplacement_piece_ronde(PIECE P,POINT p1, POINT p2) {
+	efface_piece_ronde(p1);
+	affiche_piece_ronde(P, p2);
+}
+
+void affiche_deplacement_piece_losange(PIECE P,POINT p1, POINT p2) {
+	efface_piece_losange(p1);
+	affiche_piece_losange(P,p2);
+}
+
+
+/*******************************
+*        Affiche damier        *
+*******************************/
 
 void affiche_damier_classique() {
 	int i,j;
@@ -51,16 +100,16 @@ void affiche_damier_classique() {
 	POINT p2;
 	for (i = 0; i<10; i++) {
 		for (j = 0; j<10; j++) {
-			p1.x =i*50 +300;
-			p1.y =j*50 + 25;
-			p2.x = p1.x + 50;
-			p2.y = p1.y + 50;
+			p1.x =i*TAILLE_CASE +300;
+			p1.y =j*TAILLE_CASE + 25;
+			p2.x = p1.x + TAILLE_CASE;
+			p2.y = p1.y + TAILLE_CASE;
 			if ((i+j)%2 == 0)
 				affiche_case_carre(p1,p2, argent);
 			else { 
 				affiche_case_carre(p1,p2, marron);
-				p1.x += 25;
-				p1.y += 25;
+				p1.x += TAILLE_CASE/2;
+				p1.y += TAILLE_CASE/2;
 				P = tableau[i][j];
 				if (P.typeP == PION)
 					affiche_piece_ronde(P,p1);
@@ -70,8 +119,8 @@ void affiche_damier_classique() {
 	}
 	p2.x = 300;
 	p2.y = 25;
-	p1.x += 50;
-	p1.y += 50;
+	p1.x += TAILLE_CASE;
+	p1.y += TAILLE_CASE;
 	draw_rectangle(p2,p1,noir);
 	affiche_all();
 }
@@ -82,12 +131,12 @@ void affiche_damier_alternatif() {
 	POINT p1;
 	for (i = 0; i<10; i++) {
 		for (j = 0; j<10; j++) {
-			p1.x =i*50 + 300;
-			p1.y =j*50 + 50;
+			p1.x =i*TAILLE_CASE + 300;
+			p1.y =j*TAILLE_CASE + 50;
 			if ((i+j)%2 == 0)
-				affiche_case_ronde(p1,20, argent);
+				affiche_case_ronde(p1, argent);
 			else { 
-				affiche_case_ronde(p1,20, marron);
+				affiche_case_ronde(p1, marron);
 				P = tableau[j][i];
 				if (P.typeP == PION)
 					affiche_piece_losange(P,p1);
@@ -97,50 +146,3 @@ void affiche_damier_alternatif() {
 	}
 	affiche_all();
 }
-
-/*
-void dessiner_case(POINT centre,int taille,COULEUR clr){
-    POINT p1,p2;
-    p1.x = centre.x - taille;
-    p1.y = centre.y - taille;
-
-    p2.x = centre.x + taille;
-    p2.y = centre.y + taille;
-
-    draw_fill_rectangle(p1,p2,clr);
-}
-
-void reset_screen() {
-    POINT p1,p2;
-    p1.x = 0;
-    p1.y = 0;
-
-    p2.x = 800;
-    p2.y = 800;
-
-    draw_fill_rectangle(p1,p2,noir);
-    affiche_all();
-}
-
-void creation_damier(){
-    POINT P1;
-    P1.x=25;
-    P1.y=25;
-    for(P1.x=25;P1.x!=525;P1.x+=50){
-        for (P1.y = 25;P1.y!=525;P1.y+=50)
-        {
-            if ((P1.x+P1.y)%100==0)
-                dessiner_case(P1,25,argent); // dessiner case claire
-            else
-            {
-                dessiner_case(P1,25,gris); // dessiner case foncee
-                if (P1.x<200)
-                    draw_fill_circle(P1,23,blanc); // dessiner pion blanc
-                else if (P1.x>300)
-                    draw_fill_circle(P1,23,noir); // dessiner pion noir               
-            }
-        }
-        
-    }
-
- */

@@ -14,17 +14,31 @@
 *            Main           *
 ****************************/
 
-POINT numCase_to_point(numCase nc){
+POINT numCase_to_point_classique(numCase nc){
 	POINT p;
-	p.x = (nc.c*50)+25;
-	p.y = (nc.l*50)+25;
+	p.x = (nc.c*TAILLE_CASE)+ 325;
+	p.y = (nc.l*TAILLE_CASE) + 50;
 	return p;
 }
 
-numCase clic_to_numCase(POINT p){
+numCase clic_to_numCase_classique(POINT p){
 	numCase nc;
-	nc.c = p.x/50;
-	nc.l = p.y/50;
+	nc.c = p.x/TAILLE_CASE - 300;
+	nc.l = p.y/TAILLE_CASE	- 50;
+	return nc;
+}
+
+POINT numCase_to_point_alternatif(numCase nc){
+	POINT p;
+	p.x = (nc.l*TAILLE_CASE) + 300;
+	p.y = (nc.c*TAILLE_CASE) + 50;
+	return p;
+}
+
+numCase clic_to_numCase_alternatif(POINT p){
+	numCase nc;
+	nc.c = p.x/TAILLE_CASE - 300;
+	nc.l = p.y/TAILLE_CASE	- 50;
 	return nc;
 }
 
@@ -41,12 +55,23 @@ int main()
 	init_tabDamier();
 	//test_afficheTab();
 
-	//affiche_damier_classique();
-	affiche_damier_alternatif();
-	deplacement(nc1,nc2);
+	affiche_damier_classique();
+	//affiche_damier_alternatif();
 	wait_clic();
+	deplacement(nc1,nc2);
+	POINT p2;
+	p2 = numCase_to_point_classique(nc2);
+	//p2 = numCase_to_point_alternatif(nc2);
+	POINT p1;
+	p1 = numCase_to_point_classique(nc1);
+	//p1 = numCase_to_point_alternatif(nc1);
+	printf("%d %d\n",p1.x, p1.y);
+	printf("%d %d\n",p2.x, p2.y);
 	//affiche_damier_classique();
-	affiche_damier_alternatif();
+	//affiche_damier_alternatif();
+	PIECE P = tableau[nc1.l][nc1.c];
+	affiche_deplacement_piece_ronde(P,p1,p2);
+	//affiche_deplacement_piece_losange(P,p1,p2);
 	wait_escape();
 	return 0;
 	
