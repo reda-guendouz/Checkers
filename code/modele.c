@@ -41,9 +41,7 @@ void test_afficheTab(){
 	for (l=0; l!=10; l++)
 	{
 		for (c=0; c!=10; c++)
-		{
             printf("ligne : %d, colonne %d, typeP => %d, coulP => %d\n",c,l,tableau[l][c].typeP,tableau[l][c].coulP);
-		}		
 	}
 }
 
@@ -63,33 +61,6 @@ void deplacement(numCase source, numCase destination){
     tableau[source.c][source.l] = pi;
 }
 
-
-
-BOOL deplacement_possible(numCase source,numCase destination){
-    if (tableau[destination.c][destination.l].typeP==VIDE)
-    {
-        if (abs(destination.c-source.c) == 1 && abs(destination.l-source.l == 1) && tableau[destination.c][destination.l].typeP==VIDE) // case adjacente a distance de 1 case
-            return true;
-        else
-            return prise_possible(source,destination);
-    }
-
-    return false;
-}
-
-BOOL prise_possible(numCase source, numCase destination){
-    COULP joueur = tableau[source.c][source.l].coulP;
-    PIECE pi1,pi2,pi_pion_pris;
-    int dist1, dist2;
-    dist1 = destination.c - source.c;
-    dist2 = destination.l - source.l;
-    pi1 = tableau[source.c][source.l];
-    pi2 = tableau[destination.c][destination.l];
-    pi_pion_pris = tableau[source.c + (dist1/2)][source.l + (dist2/2)];
-    if ( abs(dist1)==2 && abs(dist2)==2 && pi2.typeP==VIDE && pi_pion_pris.typeP != VIDE && pi_pion_pris.coulP != joueur )
-        return true;
-    return false;
-}
 
 numCase* numCases_possibles_apres_prise(numCase source){
     int compteur = 0,i;
@@ -127,6 +98,7 @@ numCase* numCases_possibles_apres_prise(numCase source){
 
 numCase* numCases_possibles_avant_prise(numCase source){
     int compteur = 0,i,taille;
+    int *col = NULL; int *lig = NULL;
     numCase possible,prise;
     PIECE pi,pi_destination,pi_source;
     numCase *cases_possibles = NULL;
@@ -137,13 +109,15 @@ numCase* numCases_possibles_avant_prise(numCase source){
     if (pi_source.typeP==PION)
     {
         taille=2;
-        int col [2] = {1,1};
-        int lig [2] = {1,-1};
+        col = (int *)malloc(taille*sizeof(int));
+        col[0] = 1; col[1] = 1;
+        lig[0] = 1; lig[1] = -1;
     } else
     {
         taille=4;
-        int col [4] = {1,1,-1,-1};
-        int lig [4] = {1,-1,1,-1};
+        col = (int *)malloc(taille*sizeof(int));
+        col[0] = 1; col[1] = 1; col[2] = -1; col[3] = -1;
+        lig[0] = 1; lig[1] = -1;lig[2] = 1; lig[3] = -1;
     }
 
     for (i = 0; i != taille; i++)
