@@ -121,7 +121,7 @@ numCase* numCases_possibles_apres_prise(numCase source){
         for (i = 0; i != compteur; i++)
             cases_possibles[i] = temp[i];
     }
-    
+
     return cases_possibles;
 }
 
