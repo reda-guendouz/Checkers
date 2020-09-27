@@ -65,7 +65,7 @@ int main()
 	fill_screen(blanc);
 	init_tabDamier();
 	//test_afficheTab();
-
+	/*
 	affiche_damier_classique();
 	//affiche_damier_alternatif();
 	wait_clic();
@@ -83,7 +83,7 @@ int main()
 	PIECE P = tableau[nc1.l][nc1.c];
 	affiche_deplacement_piece_ronde(P,p1,p2);
 	//affiche_deplacement_piece_losange(P,p1,p2);
-
+	*/
 	while (jeu_fini)
 	{
 		// jeu
