@@ -51,8 +51,8 @@ void deplacement(numCase source, numCase destination){
     if (abs(destination.c - source.c) != 1) // dans le cas d'une prise
     {
         numCase nc;
-        nc.c = abs((destination.c - source.c)/2);
-        nc.l = abs((destination.l - source.l)/2);
+        nc.c = source.c + (destination.c - source.c)/2;
+        nc.l = source.l + (destination.l - source.l)/2;
         tableau[nc.c][nc.l] = tableau[destination.c][destination.l]; // car la destination est toujours vide    
     }
 
