@@ -51,12 +51,8 @@ int main()
 	nc2.l = 1;
 	init_graphics(LARGEUR_FENETRE,HAUTEUR_FENETRE);
 	affiche_auto_off();
-	fill_screen(blanc);
 	init_tabDamier();
-	//test_afficheTab();
-
-	affiche_damier_classique();
-	//affiche_damier_alternatif();
+	affiche_plateau(CLASSIQUE,argent,gris,blanc,darkblue);
 	wait_clic();
 	deplacement(nc1,nc2);
 	POINT p2;
@@ -65,13 +61,9 @@ int main()
 	POINT p1;
 	p1 = numCase_to_point_classique(nc1);
 	//p1 = numCase_to_point_alternatif(nc1);
-	printf("%d %d\n",p1.x, p1.y);
-	printf("%d %d\n",p2.x, p2.y);
-	//affiche_damier_classique();
-	//affiche_damier_alternatif();
 	PIECE P = tableau[nc1.l][nc1.c];
-	affiche_deplacement_piece_ronde(P,p1,p2);
-	//affiche_deplacement_piece_losange(P,p1,p2);
+	affiche_deplacement_piece_ronde(P,p1,p2,gris,blanc,darkblue);
+	//affiche_deplacement_piece_losange(P,p1,p2,gris,blanc,noir);
 	wait_escape();
 	return 0;
 	
