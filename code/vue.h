@@ -1,3 +1,15 @@
+#ifndef H_GRAPHICS
+#define H_GRAPHICS
+	#include "graphics.h"
+#endif
+
+#ifndef H_MODELE
+#define H_MODELE
+	#include "modele.h"
+#endif
+
+#define H_VUE
+
 #define RAYON 22
 #define TAILLE_CASE 50
 

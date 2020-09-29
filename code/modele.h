@@ -1,3 +1,13 @@
+#ifndef H_GRAPHICS
+#define H_GRAPHICS
+    #include "graphics.h"
+#endif
+
+#define H_MODELE
+
+#include<stdlib.h>
+#include<stdio.h>
+
 typedef enum{
     VIDE,PION,DAME
 }TYPEP;

@@ -3,6 +3,19 @@ CFLAGS=-O2 -Wall `sdl-config --cflags`
 LIBS=`sdl-config --libs` -lm -lSDL_ttf
 DIR=IN200
 
+all: controleur 
+
+controleur: controleur.c vue.o modele.o graphics.o 
+	$(CC) $(CFLAGS) graphics.o vue.o modele.o controleur.c -o resultat $(LIBS)
+	./resultat
+
+vue.o: vue.c vue.h
+	if [ ! -f vue.o  ]; then $(CC) $(CFLAGS) -c vue.c; elif [ vue.o -ot vue.c ]; then $(CC) $(CFLAGS) -c vue.c; fi
+
+modele.o: modele.c modele.h
+	if [ ! -f modele.o  ]; then $(CC) $(CFLAGS) -c modele.c; elif [ modele.o -ot modele.c ]; then $(CC) $(CFLAGS) -c modele.c; fi
+
+
 #Cible generique pour Linux
 %: graphics.o %.c
 	rm -f $@
@@ -30,10 +43,6 @@ sans_ttf:
 	$(CC) $(CFLAGS) graphics.o exemple.c -o exemple $(LIBS)
 	./exemple
 
-
-controleur: controleur.c graphics.o
-	$(CC) $(CFLAGS) graphics.o controleur.c -o resultat $(LIBS)
-	./resultat
 
 tar: clean
 	rm -rf $(DIR)

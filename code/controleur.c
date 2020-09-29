@@ -1,6 +1,12 @@
+#ifndef H_GRAPHICS
+#define H_GRAPHICS
 #include "graphics.h"
-#include "modele.c"
-#include "vue.c"
+#endif
+
+#include "modele.h"
+
+#include "vue.h"
+
 #include<stdlib.h>
 #include<stdio.h>
 #include<SDL/SDL.h> 

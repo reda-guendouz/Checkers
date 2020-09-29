@@ -1,5 +1,6 @@
 #include "modele.h"
 
+
 int abs(int val){
     if (val<0)
         return -val;
