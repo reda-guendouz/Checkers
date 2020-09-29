@@ -15,10 +15,70 @@
 
 #define HAUTEUR_FENETRE 650
 
+/****************************
+*          Protoypes        *
+****************************/
+
+void deplacement(numCase source,numCase destination);
+
+BOOL second_clic_valide(numCase* cases_possibles,numCase ncClic2);
+
+COULP changer_joueur(COULP joueur);
+
+BOOL clic_valide(POINT clic, COULP joueur,DAMIER_CHOIX dc);
+
+BOOL peut_jouer(COULP joueur);
+
+POINT numCase_to_point_classique(numCase nc);
+
+numCase clic_to_numCase_classique(POINT p);
+
+POINT numCase_to_point_alternatif(numCase nc);
+
+numCase clic_to_numCase_alternatif(POINT p);
+
+numCase clic_to_numCase(POINT p,DAMIER_CHOIX dc);
 
 /****************************
-*            Main           *
+*          Fonctions        *
 ****************************/
+
+BOOL second_clic_valide(numCase* cases_possibles,numCase ncClic2){
+	int taille_cases_possibles,i;
+	taille_cases_possibles = (int)(sizeof(cases_possibles));
+	taille_cases_possibles = taille_cases_possibles/(int)(sizeof(numCase));
+	for (i = 0; i != taille_cases_possibles; i++)
+	{
+		if (cases_possibles[i].c == ncClic2.c && cases_possibles[i].l == ncClic2.l)
+			return true;
+	}
+	return false;
+}
+
+COULP changer_joueur(COULP joueur){
+	if (joueur==NOIR)
+		return BLANC;
+	else
+		return NOIR;
+}
+
+BOOL clic_valide(POINT clic, COULP joueur,DAMIER_CHOIX dc){
+	numCase clicNc = clic_to_numCase(clic,dc);
+	COULP testCouleurJoueur;
+	printf("colonne : %d,\t ligne : %d\n",clicNc.c,clicNc.l);
+	if(clicNc.c >= 0 && clicNc.l >= 0 && clicNc.c < 10 && clicNc.l < 10){
+		testCouleurJoueur = tableau[clicNc.c][clicNc.l].coulP;
+		if (joueur == testCouleurJoueur)
+			return true;
+	}
+
+	return false; 	
+}
+
+BOOL peut_jouer(COULP joueur){
+	// verif
+	return true;
+}
 
 POINT numCase_to_point_classique(numCase nc){
 	POINT p;
@@ -29,8 +89,8 @@ POINT numCase_to_point_classique(numCase nc){
 
 numCase clic_to_numCase_classique(POINT p){
 	numCase nc;
-	nc.c = p.x/TAILLE_CASE - 300;
-	nc.l = p.y/TAILLE_CASE	- 50;
+	nc.c = (p.x - 300)/TAILLE_CASE;
+	nc.l = (p.y - 25)/TAILLE_CASE;
 	return nc;
 }
 
@@ -48,28 +108,59 @@ numCase clic_to_numCase_alternatif(POINT p){
 	return nc;
 }
 
+numCase clic_to_numCase(POINT p,DAMIER_CHOIX dc){
+	numCase nc;
+	if (dc == CLASSIQUE)
+		nc = clic_to_numCase_classique(p);
+	else
+		nc = clic_to_numCase_alternatif(p);
+	return nc;
+}
+
+
+/****************************
+*            Main           *
+****************************/
+
+
 int main()
 {	
-	numCase nc1,nc2;
-	nc1.c = 3;
-	nc1.l = 2;
-	nc2.c = 4;
-	nc2.l = 1;
+	COULP joueur_actuel = BLANC;
+	BOOL jeu_en_cours=true,partie_en_cours=true;
 	init_graphics(LARGEUR_FENETRE,HAUTEUR_FENETRE);
 	affiche_auto_off();
 	init_tabDamier();
-	affiche_plateau(CLASSIQUE,argent,gris,blanc,darkblue);
-	wait_clic();
-	deplacement(nc1,nc2);
-	POINT p2;
-	p2 = numCase_to_point_classique(nc2);
-	//p2 = numCase_to_point_alternatif(nc2);
-	POINT p1;
-	p1 = numCase_to_point_classique(nc1);
-	//p1 = numCase_to_point_alternatif(nc1);
-	PIECE P = tableau[nc1.l][nc1.c];
-	affiche_deplacement_piece_ronde(P,p1,p2,gris,blanc,darkblue);
-	//affiche_deplacement_piece_losange(P,p1,p2,gris,blanc,noir);
+	DAMIER_CHOIX dc = CLASSIQUE;
+	POINT clic1,clic2;
+	numCase ncClic1,ncClic2;
+	numCase *cases_possibles = NULL;
+	
+	while (jeu_en_cours)
+	{
+		while (partie_en_cours)
+		{
+			affiche_plateau(dc,argent,gris,blanc,darkblue);
+			do {
+				clic1 = wait_clic();
+			} while (!clic_valide(clic1, joueur_actuel,dc));
+			ncClic1 = clic_to_numCase(clic1,dc);
+			cases_possibles = numCases_possibles_avant_prise(ncClic1);
+			clic2 = wait_clic();
+			ncClic2 = clic_to_numCase(clic2,dc);
+			if (second_clic_valide(cases_possibles,ncClic2))
+			{
+				deplacement(ncClic1,ncClic2);
+				joueur_actuel = changer_joueur(joueur_actuel);
+				partie_en_cours = peut_jouer(joueur_actuel);
+			} else
+			{
+				// afficher animation second clic invalide (faire clignoter la mauvaise case cliqué en rouge par exemple)
+				printf("foo\n");
+			}
+		}
+		// jeu_en_cours = "Voulez-vous continuer ?"
+	}
+	
 	wait_escape();
 	return 0;
 	
