@@ -31,7 +31,7 @@ void affiche_piece_losange(PIECE P, POINT p,COULEUR clr_pion_clair, COULEUR clr_
 *       Affiche case           *
 *******************************/
 
-void affiche_case_carre(POINT p1, POINT p2, COULEUR clr);
+void affiche_case_carre(POINT p1, POINT p2, COULEUR clr); //todo
 
 void affiche_case_ronde(POINT p, COULEUR clr);
 

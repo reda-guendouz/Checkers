@@ -51,7 +51,7 @@ void deplacement(numCase source,numCase destination,DAMIER_CHOIX dc, COULEUR clr
 	POINT p1 = numCase_to_point(source,dc), p2 = numCase_to_point(destination,dc);
 	if (dc == CLASSIQUE) {
 		printf("p1 %d %d  p2  %d %d\n", p1.x, p1.y,p2.x, p2.y);
-		deplacement_modele(source,destination);
+		appliqueCoup(source,destination);
 		affiche_deplacement_piece_ronde(P, p1,p2,clr_case_sombre, clr_pion_clair, clr_pion_sombre);
 	}
 	//else

@@ -47,18 +47,18 @@ void test_afficheTab(){
 }
 
 
-void deplacement_modele(numCase source, numCase destination){
-    PIECE pi;
-    printf("distance = %d",abs(destination.c - source.c));
+void appliqueCoup(numCase source, numCase destination){
+    PIECE pi = tableau[destination.c][destination.l];
+    printf("distance = %d\n",abs(destination.c - source.c));
     if (abs(destination.c - source.c) != 1) // dans le cas d'une prise
     {
         numCase nc;
         nc.c = source.c + (destination.c - source.c)/2;
         nc.l = source.l + (destination.l - source.l)/2;
-        tableau[nc.c][nc.l] = tableau[destination.c][destination.l]; // car la destination est toujours vide    
+        tableau[nc.c][nc.l] = pi; // car la destination est toujours vide    
     }
 
-    pi = tableau[destination.c][destination.l];
+    
     tableau[destination.c][destination.l] = tableau[source.c][source.l];
     tableau[source.c][source.l] = pi;
 }

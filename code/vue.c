@@ -77,6 +77,7 @@ void efface_piece_losange(POINT p, COULEUR clr) {
 *      Deplacement piece       *
 *******************************/
 
+//todo combine
 
 void affiche_deplacement_piece_ronde(PIECE P,POINT p1, POINT p2, COULEUR clr_case_sombre, COULEUR clr_pion_clair, COULEUR clr_pion_sombre) {
 	efface_piece_ronde(p1, clr_case_sombre);

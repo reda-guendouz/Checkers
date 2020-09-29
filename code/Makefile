@@ -15,7 +15,6 @@ vue.o: vue.c vue.h
 modele.o: modele.c modele.h
 	if [ ! -f modele.o  ]; then $(CC) $(CFLAGS) -c modele.c; elif [ modele.o -ot modele.c ]; then $(CC) $(CFLAGS) -c modele.c; fi
 
-
 #Cible generique pour Linux
 %: graphics.o %.c
 	rm -f $@
