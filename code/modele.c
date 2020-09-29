@@ -136,7 +136,7 @@ numCase* numCases_possibles_avant_prise(numCase source){
     {
         possible.c = col[i]; possible.l = lig[i];
         prise.c = col[i]*2;  prise.l = lig[i]*2;
-        if (source.c + possible.c >= 0 && source.c + possible.c < 10 && source.l + possible.l >= 0 && source.l + possible.l < 10)
+        if (source.c + possible.c >= 0 && source.l + possible.l >=0 && source.c + possible.c < 10 && source.l + possible.l < 10)
         {
             pi = tableau[source.c + possible.c][source.l + possible.l];
             pi_destination = tableau[source.c + prise.c][source.l + prise.l];
