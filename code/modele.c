@@ -136,21 +136,26 @@ numCase* numCases_possibles_avant_prise(numCase source){
     {
         possible.c = col[i]; possible.l = lig[i];
         prise.c = col[i]*2;  prise.l = lig[i]*2;
-        pi = tableau[source.c + possible.c][source.l + possible.l];
-        pi_destination = tableau[source.c + prise.c][source.l + prise.l];
-        if (pi.typeP==VIDE)
+        if (source.c + possible.c >= 0 && source.c + possible.c < 10 && source.l + possible.l >= 0 && source.l + possible.l < 10)
         {
-            retour.c = source.c + possible.c;
-            retour.l = source.l + possible.l;
-            temp[compteur] = retour;
-            compteur++;
-        } else if (pi.coulP != joueur && pi_destination.typeP==VIDE)
-        {
-            retour.c = source.c + prise.c;
-            retour.l = source.l + prise.l;
-            temp[compteur] = retour;
-            compteur++;
+            pi = tableau[source.c + possible.c][source.l + possible.l];
+            pi_destination = tableau[source.c + prise.c][source.l + prise.l];
+            if (pi.typeP==VIDE)
+            {
+                retour.c = source.c + possible.c;
+                retour.l = source.l + possible.l;
+                temp[compteur] = retour;
+                compteur++;
+            } else if (pi.coulP != joueur && pi_destination.typeP==VIDE)
+            {
+                retour.c = source.c + prise.c;
+                retour.l = source.l + prise.l;
+                temp[compteur] = retour;
+                compteur++;
+            }
         }
+        
+        
     }
 
     if (compteur != 0)

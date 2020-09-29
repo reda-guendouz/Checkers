@@ -166,8 +166,8 @@ int main()
 		{
 			do {
 				clic1 = wait_clic();
-				printf("clic1 fait !\n");
 			} while (!clic_valide(clic1, joueur_actuel,dc));
+			printf("clic1 fait !\n");
 			printf("joueur : %d, \t clic valide\n",joueur_actuel);
 			ncClic1 = clic_to_numCase(clic1,dc);
 			cases_possibles = numCases_possibles_avant_prise(ncClic1);
