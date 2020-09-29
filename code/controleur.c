@@ -21,7 +21,7 @@
 
 void deplacement(numCase source,numCase destination,DAMIER_CHOIX dc,COULEUR clr_case_sombre, COULEUR clr_pion_clair, COULEUR clr_pion_sombre);
 
-BOOL second_clic_valide(numCase* cases_possibles,numCase ncClic2);
+BOOL second_clic_valide(numCase* cases_possibles,numCase ncClic2,int taille);
 
 COULP changer_joueur(COULP joueur);
 
@@ -57,11 +57,9 @@ void deplacement(numCase source,numCase destination,DAMIER_CHOIX dc, COULEUR clr
 		//affiche_deplacement_piece_losange();
 }
 
-BOOL second_clic_valide(numCase* cases_possibles,numCase ncClic2){
-	int taille_cases_possibles,i;
-	taille_cases_possibles = (int)(sizeof(cases_possibles));
-	taille_cases_possibles = taille_cases_possibles/(int)(sizeof(numCase));
-	for (i = 0; i != taille_cases_possibles; i++)
+BOOL second_clic_valide(numCase* cases_possibles,numCase ncClic2,int taille){
+	int i;
+	for (i = 0; i != taille; i++)
 	{
 		if (cases_possibles[i].c == ncClic2.c && cases_possibles[i].l == ncClic2.l)
 			return true;
@@ -149,6 +147,8 @@ POINT numCase_to_point(numCase nc,DAMIER_CHOIX dc){
 
 int main()
 {	
+	int taille_possible = 0;
+	int* ptr_taille_possible = &taille_possible;
 	COULP joueur_actuel = NOIR;
 	BOOL jeu_en_cours=true,partie_en_cours=true;
 	init_graphics(LARGEUR_FENETRE,HAUTEUR_FENETRE);
@@ -170,16 +170,12 @@ int main()
 			printf("clic1 fait !\n");
 			printf("joueur : %d, \t clic valide\n",joueur_actuel);
 			ncClic1 = clic_to_numCase(clic1,dc);
-			cases_possibles = numCases_possibles_avant_prise(ncClic1);
-			
-			int i;
-			for (i = 0; i != 2; i++)
-				printf("numero %d : c(%d)\tl(%d)\n",i,cases_possibles[i].c,cases_possibles[i].l);
-			
+			cases_possibles = numCases_possibles_avant_prise(ncClic1,ptr_taille_possible);
+
 			clic2 = wait_clic();
 			printf("clic2 fait !\n");
 			ncClic2 = clic_to_numCase(clic2,dc);
-			if (second_clic_valide(cases_possibles,ncClic2))
+			if (second_clic_valide(cases_possibles,ncClic2,taille_possible))
 			{
 				deplacement(ncClic1,ncClic2,dc,gris,blanc,darkblue);
 				printf("j(%d)\n",joueur_actuel);

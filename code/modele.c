@@ -100,8 +100,9 @@ numCase* numCases_possibles_apres_prise(numCase source){
     return cases_possibles;
 }
 
-numCase* numCases_possibles_avant_prise(numCase source){
-    int compteur = 0,i,taille;
+numCase* numCases_possibles_avant_prise(numCase source,int *taille_cmpt){
+    int compteur=0;
+    int i,taille;
     int *col = NULL; int *lig = NULL;
     numCase possible,prise,retour;
     PIECE pi,pi_destination,pi_source;
@@ -136,7 +137,7 @@ numCase* numCases_possibles_avant_prise(numCase source){
     {
         possible.c = col[i]; possible.l = lig[i];
         prise.c = col[i]*2;  prise.l = lig[i]*2;
-        if (source.c + possible.c >= 0 && source.l + possible.l >=0 && source.c + possible.c < 10 && source.l + possible.l < 10)
+        if (source.c + abs(possible.c) >= 0 && source.l + abs(possible.l) >=0 && source.c + abs(possible.c) < 9 && source.l + abs(possible.l) < 9)
         {
             pi = tableau[source.c + possible.c][source.l + possible.l];
             pi_destination = tableau[source.c + prise.c][source.l + prise.l];
@@ -165,5 +166,9 @@ numCase* numCases_possibles_avant_prise(numCase source){
             cases_possibles[i] = temp[i];
     }
 
+    for (i = 0; i != 2; i++)
+		printf("numero %d : c(%d)\tl(%d)\n",i,cases_possibles[i].c,cases_possibles[i].l);
+
+    *taille_cmpt = compteur;
     return cases_possibles;
 }
