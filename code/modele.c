@@ -137,16 +137,17 @@ numCase* numCases_possibles_avant_prise(numCase source,int *taille_cmpt){
     {
         possible.c = col[i]; possible.l = lig[i];
         prise.c = col[i]*2;  prise.l = lig[i]*2;
-        if (source.c + abs(possible.c) >= 0 && source.l + abs(possible.l) >=0 && source.c + abs(possible.c) < 9 && source.l + abs(possible.l) < 9)
+        if (source.c + possible.c >= 0 && source.l + possible.l >=0 && source.c + possible.c < 10 && source.l + possible.l < 10)
         {
             pi = tableau[source.c + possible.c][source.l + possible.l];
             pi_destination = tableau[source.c + prise.c][source.l + prise.l];
             if (pi.typeP==VIDE)
-            {
+            {                
                 retour.c = source.c + possible.c;
                 retour.l = source.l + possible.l;
                 temp[compteur] = retour;
                 compteur++;
+                printf("source.c %d source.l %d possible.c %d possible.l %d\n",source.c,source.l,retour.c,retour.l);
             } else if (pi.coulP != joueur && pi_destination.typeP==VIDE)
             {
                 retour.c = source.c + prise.c;
@@ -155,8 +156,6 @@ numCase* numCases_possibles_avant_prise(numCase source,int *taille_cmpt){
                 compteur++;
             }
         }
-        
-        
     }
 
     if (compteur != 0)
@@ -166,7 +165,7 @@ numCase* numCases_possibles_avant_prise(numCase source,int *taille_cmpt){
             cases_possibles[i] = temp[i];
     }
 
-    for (i = 0; i != 2; i++)
+    for (i = 0; i != compteur; i++)
 		printf("numero %d : c(%d)\tl(%d)\n",i,cases_possibles[i].c,cases_possibles[i].l);
 
     *taille_cmpt = compteur;
