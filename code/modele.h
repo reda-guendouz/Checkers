@@ -38,7 +38,7 @@ void init_tabDamier ();
 
 void test_afficheTab();
 
-void deplacement(numCase source, numCase destination);
+void deplacement_modele(numCase source, numCase destination);
 
 BOOL conditions_deplacement(numCase source,numCase destination);
 

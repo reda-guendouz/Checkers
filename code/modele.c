@@ -47,8 +47,9 @@ void test_afficheTab(){
 }
 
 
-void deplacement(numCase source, numCase destination){
+void deplacement_modele(numCase source, numCase destination){
     PIECE pi;
+    printf("distance = %d",abs(destination.c - source.c));
     if (abs(destination.c - source.c) != 1) // dans le cas d'une prise
     {
         numCase nc;
@@ -67,7 +68,7 @@ numCase* numCases_possibles_apres_prise(numCase source){
     int compteur = 0,i;
     int col [4] = {1,1,-1,-1};
     int lig [4] = {1,-1,1,-1};
-    numCase possible,prise;
+    numCase possible,prise,retour;
     PIECE pi,pi_destination,pi_source;
     numCase *cases_possibles = NULL;
     numCase temp [5];
@@ -82,7 +83,9 @@ numCase* numCases_possibles_apres_prise(numCase source){
         pi_destination = tableau[prise.c][prise.l];
         if (pi.coulP != joueur && pi_destination.typeP==VIDE)
         {
-            temp[compteur] = prise;
+            retour.c = source.c + prise.c;
+            retour.l = source.l + prise.l;
+            temp[compteur] = retour;
             compteur++;
         }
     }
@@ -100,7 +103,7 @@ numCase* numCases_possibles_apres_prise(numCase source){
 numCase* numCases_possibles_avant_prise(numCase source){
     int compteur = 0,i,taille;
     int *col = NULL; int *lig = NULL;
-    numCase possible,prise;
+    numCase possible,prise,retour;
     PIECE pi,pi_destination,pi_source;
     numCase *cases_possibles = NULL;
     numCase temp [5];
@@ -112,7 +115,13 @@ numCase* numCases_possibles_avant_prise(numCase source){
         taille=2;
         col = (int *)malloc(taille*sizeof(int));
         lig = (int *)malloc(taille*sizeof(int));
-        col[0] = 1; col[1] = 1;
+        if (pi_source.coulP==BLANC)
+        {
+            col[0] = 1; col[1] = 1;
+        } else
+        {
+            col[0] = -1; col[1] = -1;
+        }
         lig[0] = 1; lig[1] = -1;
     } else
     {
@@ -127,15 +136,19 @@ numCase* numCases_possibles_avant_prise(numCase source){
     {
         possible.c = col[i]; possible.l = lig[i];
         prise.c = col[i]*2;  prise.l = lig[i]*2;
-        pi = tableau[possible.c][possible.l];
-        pi_destination = tableau[prise.c][prise.l];
+        pi = tableau[source.c + possible.c][source.l + possible.l];
+        pi_destination = tableau[source.c + prise.c][source.l + prise.l];
         if (pi.typeP==VIDE)
         {
-            temp[compteur] = possible;
+            retour.c = source.c + possible.c;
+            retour.l = source.l + possible.l;
+            temp[compteur] = retour;
             compteur++;
         } else if (pi.coulP != joueur && pi_destination.typeP==VIDE)
         {
-            temp[compteur] = prise;
+            retour.c = source.c + prise.c;
+            retour.l = source.l + prise.l;
+            temp[compteur] = retour;
             compteur++;
         }
     }
@@ -146,6 +159,6 @@ numCase* numCases_possibles_avant_prise(numCase source){
         for (i = 0; i != compteur; i++)
             cases_possibles[i] = temp[i];
     }
-    
+
     return cases_possibles;
 }

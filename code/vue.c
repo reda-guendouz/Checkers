@@ -81,11 +81,13 @@ void efface_piece_losange(POINT p, COULEUR clr) {
 void affiche_deplacement_piece_ronde(PIECE P,POINT p1, POINT p2, COULEUR clr_case_sombre, COULEUR clr_pion_clair, COULEUR clr_pion_sombre) {
 	efface_piece_ronde(p1, clr_case_sombre);
 	affiche_piece_ronde(P, p2, clr_pion_clair,clr_pion_sombre);
+	affiche_all();
 }
 
 void affiche_deplacement_piece_losange(PIECE P,POINT p1, POINT p2, COULEUR clr_case_sombre, COULEUR clr_pion_clair, COULEUR clr_pion_sombre){ 
 	efface_piece_losange(p1, clr_case_sombre);
 	affiche_piece_losange(P,p2,clr_pion_clair,clr_pion_sombre);
+	affiche_all();
 }
 
 

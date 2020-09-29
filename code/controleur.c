@@ -19,7 +19,7 @@
 *          Protoypes        *
 ****************************/
 
-void deplacement(numCase source,numCase destination);
+void deplacement(numCase source,numCase destination,DAMIER_CHOIX dc,COULEUR clr_case_sombre, COULEUR clr_pion_clair, COULEUR clr_pion_sombre);
 
 BOOL second_clic_valide(numCase* cases_possibles,numCase ncClic2);
 
@@ -39,9 +39,23 @@ numCase clic_to_numCase_alternatif(POINT p);
 
 numCase clic_to_numCase(POINT p,DAMIER_CHOIX dc);
 
+POINT numCase_to_point(numCase nc,DAMIER_CHOIX dc);
+
 /****************************
 *          Fonctions        *
 ****************************/
+
+void deplacement(numCase source,numCase destination,DAMIER_CHOIX dc, COULEUR clr_case_sombre, COULEUR clr_pion_clair, COULEUR clr_pion_sombre){
+	printf("deplacement de c1(%d) l1(%d) -> c2(%d) l2(%d)\n",source.c,source.l,destination.c,destination.l);
+	PIECE P = tableau[source.c][source.l];
+	POINT p1 = numCase_to_point(source,dc), p2 = numCase_to_point(destination,dc);
+	if (dc == CLASSIQUE) {
+		printf("p1 %d %d  p2  %d %d\n", p1.x, p1.y,p2.x, p2.y);
+		affiche_deplacement_piece_ronde(P, p1,p2,clr_case_sombre, clr_pion_clair, clr_pion_sombre);
+	}
+	//else
+		//affiche_deplacement_piece_losange();
+}
 
 BOOL second_clic_valide(numCase* cases_possibles,numCase ncClic2){
 	int taille_cases_possibles,i;
@@ -117,6 +131,16 @@ numCase clic_to_numCase(POINT p,DAMIER_CHOIX dc){
 	return nc;
 }
 
+POINT numCase_to_point(numCase nc,DAMIER_CHOIX dc){
+	POINT p;
+	if (dc == CLASSIQUE)
+		p = numCase_to_point_classique(nc);
+	else
+		p = numCase_to_point_alternatif(nc);
+	return p;
+}
+
+
 
 /****************************
 *            Main           *
@@ -125,7 +149,7 @@ numCase clic_to_numCase(POINT p,DAMIER_CHOIX dc){
 
 int main()
 {	
-	COULP joueur_actuel = BLANC;
+	COULP joueur_actuel = NOIR;
 	BOOL jeu_en_cours=true,partie_en_cours=true;
 	init_graphics(LARGEUR_FENETRE,HAUTEUR_FENETRE);
 	affiche_auto_off();
@@ -134,27 +158,37 @@ int main()
 	POINT clic1,clic2;
 	numCase ncClic1,ncClic2;
 	numCase *cases_possibles = NULL;
-	
+	affiche_plateau(dc,argent,gris,blanc,darkblue);
+
 	while (jeu_en_cours)
 	{
 		while (partie_en_cours)
 		{
-			affiche_plateau(dc,argent,gris,blanc,darkblue);
 			do {
 				clic1 = wait_clic();
+				printf("clic1 fait !\n");
 			} while (!clic_valide(clic1, joueur_actuel,dc));
+			printf("joueur : %d, \t clic valide\n",joueur_actuel);
 			ncClic1 = clic_to_numCase(clic1,dc);
 			cases_possibles = numCases_possibles_avant_prise(ncClic1);
+			
+			int i;
+			for (i = 0; i != 2; i++)
+				printf("numero %d : c(%d)\tl(%d)\n",i,cases_possibles[i].c,cases_possibles[i].l);
+			
 			clic2 = wait_clic();
+			printf("clic2 fait !\n");
 			ncClic2 = clic_to_numCase(clic2,dc);
 			if (second_clic_valide(cases_possibles,ncClic2))
 			{
-				deplacement(ncClic1,ncClic2);
+				deplacement(ncClic1,ncClic2,dc,gris,blanc,darkblue);
+				printf("j(%d)\n",joueur_actuel);
 				joueur_actuel = changer_joueur(joueur_actuel);
 				partie_en_cours = peut_jouer(joueur_actuel);
 			} else
 			{
 				// afficher animation second clic invalide (faire clignoter la mauvaise case cliqué en rouge par exemple)
+				printf("c2(%d) l2(%d)\n",ncClic2.c,ncClic2.l);
 				printf("foo\n");
 			}
 		}
