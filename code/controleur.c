@@ -66,22 +66,42 @@ COULP changer_joueur(COULP joueur){
 		return NOIR;
 }
 
-BOOL clic_valide(POINT clic_source, COULP joueur,INTERFACE_GRAPHIQUE ig){
+BOOL clic_valide(POINT clic_source, COULP joueur_actuel,INTERFACE_GRAPHIQUE ig){
 	numCase source = clic_to_numCase(clic_source,ig);
-	COULP testCouleurJoueur;
+	PIECE pi_source = tableau[source.c][source.l];
 	printf("colonne : %d,\t ligne : %d\n",source.c,source.l);
 	if(source.c >= 0 && source.l >= 0 && source.c < 10 && source.l < 10){
-		testCouleurJoueur = tableau[source.c][source.l].coulP;
-		if (joueur == testCouleurJoueur)
+		if (joueur_actuel == pi_source.coulP && pi_source.typeP!=VIDE)
 			return true;
 	}
-
 	return false; 	
 }
 
 BOOL peut_jouer(COULP joueur){
-	// verif
-	return true;
+	COULP joueur_suivant;
+	numCase source;
+	int verif_taille_cases_possibles = 0,col,lig;
+	int *ptr_verif = &verif_taille_cases_possibles;
+
+	if (joueur==NOIR)
+		joueur_suivant = BLANC;
+	else
+		joueur_suivant = NOIR;
+
+	for (col = 0; col < 10; col++)
+	{
+		for (lig = 0; lig < 10; lig++)
+		{
+			source.c = col; source.l = lig;
+			if (tableau[col][lig].coulP == joueur_suivant)
+			{
+				numCases_possibles_avant_prise(source,ptr_verif);
+				if (verif_taille_cases_possibles > 0)
+					return true;
+			}
+		}
+	}
+	return false;
 }
 
 
@@ -132,7 +152,7 @@ int main()
 	init_graphics(LARGEUR_FENETRE,HAUTEUR_FENETRE);
 	affiche_auto_off();
 	init_tabDamier();
-	INTERFACE_GRAPHIQUE ig = ALTERNATIF;
+	INTERFACE_GRAPHIQUE ig = CLASSIQUE;
 	POINT clic1,clic2;
 	numCase source,destination;
 	numCase *cases_possibles = NULL;
@@ -145,8 +165,10 @@ int main()
 			do {
 				clic1 = wait_clic();
 			} while (!clic_valide(clic1, joueur_actuel,ig));
+			/*
 			printf("clic1 fait !\n");
 			printf("joueur : %d, \t clic valide\n",joueur_actuel);
+			*/
 			source = clic_to_numCase(clic1,ig);
 			cases_possibles = numCases_possibles_avant_prise(source,ptr_taille_possible);
 			// todo : si taille 0 source devient rouge
@@ -155,6 +177,7 @@ int main()
 			destination = clic_to_numCase(clic2,ig);
 			if (second_clic_valide(cases_possibles,destination,taille_possible))
 			{
+				printf("clic2 validé !\n");
 				deplacement(source,destination,ig,th);
 				printf("j(%d)\n",joueur_actuel);
 				joueur_actuel = changer_joueur(joueur_actuel);
@@ -165,8 +188,9 @@ int main()
 				printf("c2(%d) l2(%d)\n",destination.c,destination.l);
 				printf("foo\n");
 			}
-			affiche_damier_alternatif(th);
+			affiche_damier_classique(th);
 		}
+		wait_escape();
 		// jeu_en_cours = "Voulez-vous continuer ?"
 	}
 	
