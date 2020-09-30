@@ -11,10 +11,6 @@
 #include<stdio.h>
 #include<SDL/SDL.h> 
 
-#define LARGEUR_FENETRE 1100
-
-#define HAUTEUR_FENETRE 650
-
 /****************************
 *          Protoypes        *
 ****************************/
@@ -88,7 +84,7 @@ BOOL peut_jouer(COULP joueur){
 numCase clic_to_numCase(POINT p,INTERFACE_GRAPHIQUE ig){
 	numCase nc;
 	if (ig == CLASSIQUE) {
-		nc.c = (p.x - 300)/TAILLE_CASE;
+		nc.c = (p.x - 275)/TAILLE_CASE;
 		nc.l = (p.y - 25)/TAILLE_CASE;
 	}
 	else {
@@ -101,7 +97,7 @@ numCase clic_to_numCase(POINT p,INTERFACE_GRAPHIQUE ig){
 POINT numCase_to_point(numCase nc,INTERFACE_GRAPHIQUE ig){
 	POINT p;
 	if (ig == CLASSIQUE) {
-		p.x = (nc.c*TAILLE_CASE)+ 325;
+		p.x = (nc.c*TAILLE_CASE)+ 300;
 		p.y = (nc.l*TAILLE_CASE) + 50;
 	}
 	else {
@@ -119,25 +115,23 @@ POINT numCase_to_point(numCase nc,INTERFACE_GRAPHIQUE ig){
 
 
 int main()
-{	
+{
 	int taille_possible = 0;
 	int* ptr_taille_possible = &taille_possible;
 	COULP joueur_actuel = BLANC;
-	THEME th;
-	th.caseClaire = argent;
-	th.caseSombre = marron;
-	th.pionClair = blanc;
-	th.pionSombre = noir;
+	init_themes();
+	THEME th = themes[2];
 	BOOL jeu_en_cours=true,partie_en_cours=true;
 	init_graphics(LARGEUR_FENETRE,HAUTEUR_FENETRE);
+	affiche_menu();
+	wait_clic();
 	affiche_auto_off();
 	init_tabDamier();
-	INTERFACE_GRAPHIQUE ig = ALTERNATIF;
+	INTERFACE_GRAPHIQUE ig = CLASSIQUE;
 	POINT clic1,clic2;
 	numCase source,destination;
 	numCase *cases_possibles = NULL;
 	affiche_plateau(ig,th);
-
 	while (jeu_en_cours)
 	{
 		while (partie_en_cours)
@@ -165,7 +159,7 @@ int main()
 				printf("c2(%d) l2(%d)\n",destination.c,destination.l);
 				printf("foo\n");
 			}
-			affiche_damier_alternatif(th);
+			affiche_damier_classique(th);
 		}
 		// jeu_en_cours = "Voulez-vous continuer ?"
 	}
