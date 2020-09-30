@@ -1,6 +1,6 @@
 #include "modele.h"
 
-int abs(int val){
+int absol(int val){
     if (val<0)
         return -val;
     return val;
@@ -53,19 +53,27 @@ void test_afficheTab(){
 
 
 void appliqueCoup(numCase source, numCase destination){
-    PIECE pi;
+    PIECE pi = tableau[destination.c][destination.l];
     printf("distance = %d\n",abs(destination.c - source.c));
+
+    if (destination.c==9 || destination.c==0)
+    {
+        if (tableau[source.c][source.l].coulP==NOIR && destination.c==0)
+            tableau[source.c][source.l].typeP=DAME;
+        else if (tableau[source.c][source.l].coulP==BLANC && destination.c==9)
+            tableau[source.c][source.l].typeP=DAME;
+    }
+
     if (abs(destination.c - source.c) != 1) // dans le cas d'une prise
     {
         numCase nc;
         nc.c = source.c + (destination.c - source.c)/2;
         nc.l = source.l + (destination.l - source.l)/2;
-        tableau[nc.c][nc.l] = tableau[destination.c][destination.l]; // car la destination est toujours vide    
+        tableau[nc.c][nc.l] = pi; // car la destination est toujours vide    
     }
 
-    pi = tableau[destination.c][destination.l];
     tableau[destination.c][destination.l] = tableau[source.c][source.l];
-    tableau[source.c][source.l] = pi;
+    tableau[source.c][source.l] = pi;    
 }
 
 
@@ -115,6 +123,8 @@ numCase* numCases_possibles_avant_prise(numCase source,int *taille_cmpt){
     numCase temp [5];
 
     pi_source = tableau[source.c][source.l];
+    if (pi_source.typeP == VIDE)
+        return false; 
     COULP joueur = pi_source.coulP;
     if (pi_source.typeP==PION)
     {
@@ -153,7 +163,8 @@ numCase* numCases_possibles_avant_prise(numCase source,int *taille_cmpt){
                 temp[compteur] = retour;
                 compteur++;
                 printf("source.c %d source.l %d possible.c %d possible.l %d\n",source.c,source.l,retour.c,retour.l);
-            } else if (pi.coulP != joueur && pi_destination.typeP==VIDE)
+            } else if (pi.coulP != joueur && pi_destination.typeP==VIDE && 
+            source.c + prise.c >= 0 && source.l + prise.l >=0 && source.c + prise.c < 10 && source.l + prise.l < 10)
             {
                 retour.c = source.c + prise.c;
                 retour.l = source.l + prise.l;

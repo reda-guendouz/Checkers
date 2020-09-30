@@ -33,7 +33,7 @@ typedef struct numCase
 	int c;
 }numCase;
 
-
+int absol(int a);
 void init_tabDamier ();
 
 void test_afficheTab();
