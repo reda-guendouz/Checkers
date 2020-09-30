@@ -1,3 +1,13 @@
+#ifndef H_GRAPHICS
+#define H_GRAPHICS
+    #include "graphics.h"
+#endif
+
+#define H_MODELE
+
+#include<stdlib.h>
+#include<stdio.h>
+
 typedef enum{
     VIDE,PION,DAME
 }TYPEP;
@@ -28,10 +38,12 @@ void init_tabDamier ();
 
 void test_afficheTab();
 
-numCase clic_to_numCase(POINT p);
+void appliqueCoup(numCase source, numCase destination);
 
-void deplacement(numCase source, numCase destination);
+BOOL conditions_deplacement(numCase source,numCase destination);
 
-int est_dans_la_zone(POINT p);
+numCase* deplacement_possible(numCase source);
 
-POINT numCase_to_point(numCase nc);
+numCase* numCases_possibles_apres_prise(numCase source);
+
+numCase* numCases_possibles_avant_prise(numCase source, int *compteur);
