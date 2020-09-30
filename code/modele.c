@@ -6,6 +6,12 @@ int abs(int val){
     return val;
 }
 
+int abs(int val){
+    if (val<0)
+        return -val;
+    return val;
+}
+
 void init_tabDamier ()
 {
     int i,j;
@@ -46,8 +52,9 @@ void test_afficheTab(){
 }
 
 
-void deplacement(numCase source, numCase destination){
+void appliqueCoup(numCase source, numCase destination){
     PIECE pi;
+    printf("distance = %d\n",abs(destination.c - source.c));
     if (abs(destination.c - source.c) != 1) // dans le cas d'une prise
     {
         numCase nc;
@@ -66,7 +73,7 @@ numCase* numCases_possibles_apres_prise(numCase source){
     int compteur = 0,i;
     int col [4] = {1,1,-1,-1};
     int lig [4] = {1,-1,1,-1};
-    numCase possible,prise;
+    numCase possible,prise,retour;
     PIECE pi,pi_destination,pi_source;
     numCase *cases_possibles = NULL;
     numCase temp [5];
@@ -81,7 +88,9 @@ numCase* numCases_possibles_apres_prise(numCase source){
         pi_destination = tableau[prise.c][prise.l];
         if (pi.coulP != joueur && pi_destination.typeP==VIDE)
         {
-            temp[compteur] = prise;
+            retour.c = source.c + prise.c;
+            retour.l = source.l + prise.l;
+            temp[compteur] = retour;
             compteur++;
         }
     }
@@ -96,10 +105,11 @@ numCase* numCases_possibles_apres_prise(numCase source){
     return cases_possibles;
 }
 
-numCase* numCases_possibles_avant_prise(numCase source){
-    int compteur = 0,i,taille;
+numCase* numCases_possibles_avant_prise(numCase source,int *taille_cmpt){
+    int compteur=0;
+    int i,taille;
     int *col = NULL; int *lig = NULL;
-    numCase possible,prise;
+    numCase possible,prise,retour;
     PIECE pi,pi_destination,pi_source;
     numCase *cases_possibles = NULL;
     numCase temp [5];
@@ -111,7 +121,13 @@ numCase* numCases_possibles_avant_prise(numCase source){
         taille=2;
         col = (int *)malloc(taille*sizeof(int));
         lig = (int *)malloc(taille*sizeof(int));
-        col[0] = 1; col[1] = 1;
+        if (pi_source.coulP==BLANC)
+        {
+            col[0] = 1; col[1] = 1;
+        } else
+        {
+            col[0] = -1; col[1] = -1;
+        }
         lig[0] = 1; lig[1] = -1;
     } else
     {
@@ -126,16 +142,24 @@ numCase* numCases_possibles_avant_prise(numCase source){
     {
         possible.c = col[i]; possible.l = lig[i];
         prise.c = col[i]*2;  prise.l = lig[i]*2;
-        pi = tableau[possible.c][possible.l];
-        pi_destination = tableau[prise.c][prise.l];
-        if (pi.typeP==VIDE)
+        if (source.c + possible.c >= 0 && source.l + possible.l >=0 && source.c + possible.c < 10 && source.l + possible.l < 10)
         {
-            temp[compteur] = possible;
-            compteur++;
-        } else if (pi.coulP != joueur && pi_destination.typeP==VIDE)
-        {
-            temp[compteur] = prise;
-            compteur++;
+            pi = tableau[source.c + possible.c][source.l + possible.l];
+            pi_destination = tableau[source.c + prise.c][source.l + prise.l];
+            if (pi.typeP==VIDE)
+            {                
+                retour.c = source.c + possible.c;
+                retour.l = source.l + possible.l;
+                temp[compteur] = retour;
+                compteur++;
+                printf("source.c %d source.l %d possible.c %d possible.l %d\n",source.c,source.l,retour.c,retour.l);
+            } else if (pi.coulP != joueur && pi_destination.typeP==VIDE)
+            {
+                retour.c = source.c + prise.c;
+                retour.l = source.l + prise.l;
+                temp[compteur] = retour;
+                compteur++;
+            }
         }
     }
 
@@ -145,6 +169,10 @@ numCase* numCases_possibles_avant_prise(numCase source){
         for (i = 0; i != compteur; i++)
             cases_possibles[i] = temp[i];
     }
-    
+
+    for (i = 0; i != compteur; i++)
+		printf("numero %d : c(%d)\tl(%d)\n",i,cases_possibles[i].c,cases_possibles[i].l);
+
+    *taille_cmpt = compteur;
     return cases_possibles;
 }

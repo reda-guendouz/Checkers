@@ -1,9 +1,75 @@
-void affiche_piece_ronde(PIECE P, POINT p);
-void affiche_piece_losange(PIECE P, POINT p);
+#ifndef H_GRAPHICS
+#define H_GRAPHICS
+	#include "graphics.h"
+#endif
 
-void affiche_case_carre(POINT p1,POINT p2, COULEUR clr);
-void affiche_case_rond(POINT p, int rayon, COULEUR clr);
+#ifndef H_MODELE
+#define H_MODELE
+	#include "modele.h"
+#endif
 
-void affiche_damier_classique();
+#define H_VUE
 
-void affiche_damier_alternatif();
+#define RAYON 22
+#define TAILLE_CASE 50
+
+typedef enum{
+    CLASSIQUE,ALTERNATIF
+}INTERFACE_GRAPHIQUE;
+
+typedef struct {
+	COULEUR caseClaire;
+	COULEUR caseSombre;
+	COULEUR pionClair;
+	COULEUR pionSombre;
+}THEME;
+
+/*******************************
+*      Affichage de piece      *
+*******************************/
+
+void affiche_piece_ronde(PIECE P, POINT p,THEME theme);
+
+void affiche_piece_losange(PIECE P, POINT p,THEME theme);
+
+/*******************************
+*       Affiche case           *
+*******************************/
+
+void affiche_case_carre(POINT p1,COULEUR clr); 
+
+void affiche_case_ronde(POINT p, COULEUR clr);
+
+/*******************************
+*       Effacer une piece      *
+*******************************/
+
+void efface_piece_ronde(POINT p,THEME theme);
+
+void efface_piece_losange(POINT p, THEME theme);
+
+/*******************************
+*      Deplacement piece       *
+*******************************/
+
+void affiche_deplacement_piece(INTERFACE_GRAPHIQUE ig, PIECE P,POINT p1, POINT p2, THEME theme);
+
+/*******************************
+*        Affiche damier        *
+*******************************/
+
+void affiche_damier_classique(THEME theme);
+
+void affiche_damier_alternatif(THEME theme);
+
+/*******************************
+*        Affiche MENU          *
+*******************************/
+
+void affiche_menu_retour();
+
+/*******************************
+*        Affiche Plateau       *
+*******************************/
+
+void affiche_plateau(INTERFACE_GRAPHIQUE ig, THEME theme);
