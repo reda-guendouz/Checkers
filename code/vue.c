@@ -112,8 +112,8 @@ void init_themes() {
 	th.pionClair  = blanc;
 	th.pionSombre = darkgray;
 	themes[0] = th;
-	th.caseClaire = gray;
-	th.caseSombre = noir;
+	th.caseClaire = darkgray;
+	th.caseSombre = gray;
 	th.pionClair  = darksalmon;
 	th.pionSombre = darkred;
 	themes[1] = th;
@@ -131,37 +131,47 @@ void init_themes() {
 
 void affiche_themes(INTERFACE_GRAPHIQUE ig) {	
 	int i,j,k;
-	POINT p1;
+	POINT p1,p2;
 	PIECE P;
 	P.typeP = PION;
-	P.coulP = NOIR;
 	THEME th;
-	p1.x = 150;
-	p1.y = 450;
-	for (i = 0; i<4;i++) {
+	p1.x = 325;
+	p1.y = 350;
+	for (i = 0; i!= 4;i++) {
 		th = themes[i];
-		for (j = 0; j<2; j++) {
+		P.coulP = BLANC;
+		p2.x = p1.x;
+		p2.y = p1.y;
+		for (j = 0; j <2; j++)
+		{
 			for (k = 0; k<2; k++) {
-				if (i%2 == 0) 
-					p1.x +=200;
-				else
-					p1.y +=200;		
-				p1.x +=j*TAILLE_CASE;
-				p1.y +=k*TAILLE_CASE;
-				if ((j+k)%2 == 0)
-					affiche_case_carre(p1, th.caseClaire);
-				else { 
-					affiche_case_carre(p1, th.caseSombre);
-					p1.x += TAILLE_CASE/2;
-					p1.y += TAILLE_CASE/2;
-					if (ig == CLASSIQUE)
-						affiche_piece_ronde(P,p1,th);
+					p2.x = p1.x + k*TAILLE_CASE;
+					p2.y = p1.y + j*TAILLE_CASE;
+					if ((j+k)%2 == 0) {
+						affiche_case_carre(p2, th.caseSombre);
+						p2.x += TAILLE_CASE/2;
+						p2.y += TAILLE_CASE/2;
+						if (ig == CLASSIQUE)
+							affiche_piece_ronde(P,p2,th);
+						else
+							affiche_piece_losange(P,p2,th);
+						P.coulP = NOIR;
+					}
 					else
-						affiche_piece_losange(P,p1,th);
-					P.coulP = BLANC;
-				}
+						affiche_case_carre(p2, th.caseClaire);
+
 			}
 		}
+		if (i == 2) {
+			p1.x = 	325 + 300;
+			p1.y = 350  - 250;
+		}
+		else if (i == 1) {
+			p1.y =  350 - 250;
+			p1.x = 325; 
+		}
+		else if (i == 0)
+			p1.x = 325 + 300;
 	}
 	affiche_all();	
 }

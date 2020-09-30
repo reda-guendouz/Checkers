@@ -120,7 +120,7 @@ int main()
 	int* ptr_taille_possible = &taille_possible;
 	COULP joueur_actuel = BLANC;
 	init_themes();
-	THEME th = themes[2];
+	THEME th = themes[1];
 	BOOL jeu_en_cours=true,partie_en_cours=true;
 	init_graphics(LARGEUR_FENETRE,HAUTEUR_FENETRE);
 	affiche_menu();
