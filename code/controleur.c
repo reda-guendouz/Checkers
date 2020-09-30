@@ -174,10 +174,8 @@ int main()
 			do {
 				clic1 = wait_clic();
 			} while (!premier_clic_valide(clic1, joueur_actuel,ig));
-			/*
 			printf("clic1 fait !\n");
 			printf("joueur : %d, \t clic valide\n",joueur_actuel);
-			*/
 			source = clic_to_numCase(clic1,ig);
 			cases_possibles = numCases_possibles_avant_prise(source,ptr_taille_possible);
 			// todo : si taille 0 source devient rouge
