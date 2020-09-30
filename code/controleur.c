@@ -21,11 +21,13 @@
 
 void deplacement(numCase source,numCase destination,INTERFACE_GRAPHIQUE ig,THEME th);
 
+BOOL clic_zone_valide(POINT clic_source, POINT zone1, POINT zone2);
+
+BOOL premier_clic_valide(POINT clic, COULP joueur,INTERFACE_GRAPHIQUE ig);
+
 BOOL second_clic_valide(numCase* cases_possibles,numCase destination,int taille);
 
 COULP changer_joueur(COULP joueur);
-
-BOOL clic_valide(POINT clic, COULP joueur,INTERFACE_GRAPHIQUE ig);
 
 BOOL peut_jouer(COULP joueur);
 
@@ -36,6 +38,13 @@ POINT numCase_to_point(numCase nc,INTERFACE_GRAPHIQUE ig);
 /****************************
 *          Fonctions        *
 ****************************/
+
+BOOL clic_zone_valide(POINT clic_source, POINT zone1, POINT zone2){
+	// zone1 = en bas a gauche, zone2 = en haut a droite
+	if (clic_source.x > zone1.x && clic_source.y > zone1.y && clic_source.x < zone2.x && clic_source.y < zone2.y)
+		return true;	
+	return false;
+}
 
 void deplacement(numCase source,numCase destination,INTERFACE_GRAPHIQUE ig, THEME th){
 	printf("deplacement de c1(%d) l1(%d) -> c2(%d) l2(%d)\n",source.c,source.l,destination.c,destination.l);
@@ -66,7 +75,7 @@ COULP changer_joueur(COULP joueur){
 		return NOIR;
 }
 
-BOOL clic_valide(POINT clic_source, COULP joueur_actuel,INTERFACE_GRAPHIQUE ig){
+BOOL premier_clic_valide(POINT clic_source, COULP joueur_actuel,INTERFACE_GRAPHIQUE ig){
 	numCase source = clic_to_numCase(clic_source,ig);
 	PIECE pi_source = tableau[source.c][source.l];
 	printf("colonne : %d,\t ligne : %d\n",source.c,source.l);
@@ -164,7 +173,7 @@ int main()
 		{
 			do {
 				clic1 = wait_clic();
-			} while (!clic_valide(clic1, joueur_actuel,ig));
+			} while (!premier_clic_valide(clic1, joueur_actuel,ig));
 			/*
 			printf("clic1 fait !\n");
 			printf("joueur : %d, \t clic valide\n",joueur_actuel);
