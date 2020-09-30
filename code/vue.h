@@ -92,4 +92,6 @@ void affiche_menu_partie();
 *        Affiche Plateau       *
 *******************************/
 
+void affiche_joueur(COULEUR clr, INTERFACE_GRAPHIQUE ig, THEME theme);
+
 void affiche_plateau(INTERFACE_GRAPHIQUE ig, THEME theme);

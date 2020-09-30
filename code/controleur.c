@@ -120,14 +120,14 @@ int main()
 	int* ptr_taille_possible = &taille_possible;
 	COULP joueur_actuel = BLANC;
 	init_themes();
-	THEME th = themes[1];
+	THEME th = themes[0];
 	BOOL jeu_en_cours=true,partie_en_cours=true;
 	init_graphics(LARGEUR_FENETRE,HAUTEUR_FENETRE);
 	affiche_menu();
 	wait_clic();
 	affiche_auto_off();
 	init_tabDamier();
-	INTERFACE_GRAPHIQUE ig = CLASSIQUE;
+	INTERFACE_GRAPHIQUE ig = ALTERNATIF;
 	POINT clic1,clic2;
 	numCase source,destination;
 	numCase *cases_possibles = NULL;
@@ -136,6 +136,7 @@ int main()
 	{
 		while (partie_en_cours)
 		{
+			affiche_joueur(joueur_actuel,ig,th);
 			do {
 				clic1 = wait_clic();
 			} while (!clic_valide(clic1, joueur_actuel,ig));
@@ -159,7 +160,7 @@ int main()
 				printf("c2(%d) l2(%d)\n",destination.c,destination.l);
 				printf("foo\n");
 			}
-			affiche_damier_classique(th);
+			affiche_damier_alternatif(th);
 		}
 		// jeu_en_cours = "Voulez-vous continuer ?"
 	}

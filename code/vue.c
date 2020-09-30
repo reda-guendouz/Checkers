@@ -29,6 +29,10 @@ void affiche_piece_ronde(PIECE P, POINT p, THEME theme){
 		draw_fill_circle(p,RAYON,theme.pionSombre);
 	else 
 		draw_fill_circle(p,RAYON,theme.pionClair);
+	p1.x -= 5;
+	p1.y += 17;
+	if (P.typeP == DAME)
+		aff_pol("D",22,p1,noir);
 }
 
 void affiche_piece_losange(PIECE P, POINT p,THEME theme){
@@ -49,6 +53,10 @@ void affiche_piece_losange(PIECE P, POINT p,THEME theme){
 		p2.y = p.y + 17;
 		draw_fill_triangle(p1,p2,p3,theme.pionClair);
 	}
+	p1.x += 9;
+	p1.y += 16;
+	if (P.typeP == DAME)
+		aff_pol("D",22,p1,noir);
 }
 
 
@@ -136,7 +144,7 @@ void affiche_themes(INTERFACE_GRAPHIQUE ig) {
 	P.typeP = PION;
 	THEME th;
 	p1.x = 325;
-	p1.y = 350;
+	p1.y = 400;
 	for (i = 0; i!= 4;i++) {
 		th = themes[i];
 		P.coulP = BLANC;
@@ -163,11 +171,11 @@ void affiche_themes(INTERFACE_GRAPHIQUE ig) {
 			}
 		}
 		if (i == 2) {
-			p1.x = 	325 + 300;
-			p1.y = 350  - 250;
+			p1.x = 325 + 300;
+			p1.y = 400  - 200;
 		}
 		else if (i == 1) {
-			p1.y =  350 - 250;
+			p1.y = 400 - 200;
 			p1.x = 325; 
 		}
 		else if (i == 0)
@@ -196,7 +204,7 @@ void affiche_damier_classique(THEME theme)  {
 				p1.x += TAILLE_CASE/2;
 				p1.y += TAILLE_CASE/2;
 				P = tableau[i][j];
-				if (P.typeP == PION)
+				if (P.typeP != VIDE)
 					affiche_piece_ronde(P,p1,theme);
 			}
 		}
@@ -222,7 +230,7 @@ void affiche_damier_alternatif(THEME theme) {
 			else { 
 				affiche_case_ronde(p1, theme.caseSombre);
 				P = tableau[j][i];
-				if (P.typeP == PION)
+				if (P.typeP != VIDE)
 					affiche_piece_losange(P,p1,theme);
 			}
 		}
@@ -269,7 +277,7 @@ void affiche_menu_principal() {
 	p2.x = 625 ; p2.y = 365;
 	affiche_menu_cadre (p1,p2,rouge);
 
-	p1.x = 375;p1.y = 75;
+	p1.x = 375;p1.y = 100;
 	aff_pol("Realise par Marwane BAHRAOUI & Reda GUENDOUZ",15,p1,blanc);
 	
 	affiche_all();
@@ -277,13 +285,18 @@ void affiche_menu_principal() {
 
 void affiche_menu_partie() {
 	reset_affichage_screen(noir);
-	POINT p1;
+	POINT p1,p2;
 	INTERFACE_GRAPHIQUE ig = CLASSIQUE;
 	
 	p1.x = 350;p1.y = 600;
-	aff_pol("CHOISIR UN THEME",35,p1,blanc);
-	
+	aff_pol("CHOISIR UN THEME",35,p1,blanc);	
 	affiche_themes(ig);
+
+	p1.x = 400;p1.y = 100;
+	aff_pol("LANCER LA PARTIE",25,p1,blanc);
+	p1.x = 390;p1.y = 60;
+	p2.x = 650; p2.y = 110;
+	affiche_menu_cadre(p1,p2,vert);
 	affiche_all();
 }
 
@@ -312,6 +325,26 @@ void affiche_menu_retour() {
 	p1.x = 45;
 	p1.y = 615;
 	aff_pol("H",30,p1,brown);
+}
+
+/*******************************
+*        Affiche Menu          *
+*******************************/
+
+void affiche_joueur(COULEUR joueurActuel,INTERFACE_GRAPHIQUE ig, THEME th) {
+	PIECE P;
+	POINT p1,p2;
+	P.typeP = PION;
+	P.coulP = joueurActuel;
+	p1.x = 575;p1.y = 550;
+	p2.x = 625;p2.y = 600;
+	draw_fill_rectangle(p1,p2,lavender);
+	p1.x = 600;p1.y = 575;
+	if (ig == CLASSIQUE)
+		affiche_piece_ronde(P,p1,th);
+	else
+		affiche_piece_losange(P,p1,th);
+	affiche_all();	
 }
 
 void affiche_plateau(INTERFACE_GRAPHIQUE ig, THEME theme) {	
