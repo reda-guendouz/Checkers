@@ -29,9 +29,23 @@ numCase clic_to_numCase(POINT p,INTERFACE_GRAPHIQUE ig);
 
 POINT numCase_to_point(numCase nc,INTERFACE_GRAPHIQUE ig);
 
+POINT* numCasesPossibles_to_Point(numCase* numCasesPossibles,INTERFACE_GRAPHIQUE ig, int nbCasesPossibles);
+
 /****************************
 *          Fonctions        *
 ****************************/
+
+POINT* numCasesPossibles_to_Point(numCase* numCasesPossibles,INTERFACE_GRAPHIQUE ig,int nbCasesPossibles){
+	int i;
+	POINT p;
+	POINT * pointCasesPossibles = NULL;
+	pointCasesPossibles = (POINT *)malloc(nbCasesPossibles*sizeof(POINT));
+	for (i = 0;i<nbCasesPossibles;i++) {
+		p = numCase_to_point(numCasesPossibles[i],ig);
+		pointCasesPossibles[i] = p;
+	}
+	return pointCasesPossibles;
+}
 
 void deplacement(numCase source,numCase destination,INTERFACE_GRAPHIQUE ig, THEME th){
 	printf("deplacement de c1(%d) l1(%d) -> c2(%d) l2(%d)\n",source.c,source.l,destination.c,destination.l);
@@ -117,6 +131,8 @@ POINT numCase_to_point(numCase nc,INTERFACE_GRAPHIQUE ig){
 int main()
 {
 	int taille_possible = 0;
+	POINT* pointsCasesPossibles;
+	BOOL afficheEfface = TRUE;
 	int* ptr_taille_possible = &taille_possible;
 	COULP joueur_actuel = BLANC;
 	init_themes();
@@ -144,6 +160,8 @@ int main()
 			printf("joueur : %d, \t clic valide\n",joueur_actuel);
 			source = clic_to_numCase(clic1,ig);
 			cases_possibles = numCases_possibles_avant_prise(source,ptr_taille_possible);
+			pointsCasesPossibles = numCasesPossibles_to_Point(cases_possibles,ig,taille_possible);
+			affiche_efface_cases_possibles(pointsCasesPossibles,taille_possible,ig,th,afficheEfface);
 			// todo : si taille 0 source devient rouge
 			clic2 = wait_clic();
 			printf("clic2 fait !\n");

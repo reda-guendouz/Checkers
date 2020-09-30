@@ -247,7 +247,7 @@ BOOL affiche_menu() {
 	affiche_menu_principal();
 	p1 = wait_clic();
 	if(p1.x >= 475 && p1.x <= 625 && p1.y >= 365 && p1.y <= 465) {
-		affiche_menu_partie();
+		affiche_menu_apres_partie();
 		wait_clic();
 		return true;
 	}
@@ -327,8 +327,31 @@ void affiche_menu_retour() {
 	aff_pol("H",30,p1,brown);
 }
 
+void affiche_menu_apres_partie() {
+	reset_affichage_screen(noir);
+	POINT p1,p2;
+
+	p1.x =300;p1.y =600;
+	aff_pol("VOULEZ-VOUS REJOUER ?",35,p1,blanc);
+	p1.x = 290; p1.y = 550;
+	p2.x = 770; p2.y = 610;
+	affiche_menu_cadre(p1,p2,blanc);
+
+	p1.x = 450; p1.y = 400;
+	aff_pol("RELANCER",30,p1,blanc);
+	p1.x = 440; p1.y = 350;
+	p2.x = 620; p2.y = 410;
+	affiche_menu_cadre(p1,p2,vert);
+
+	p1.x = 470; p1.y = 300;
+	aff_pol("RETOUR",30,p1,blanc);
+	p1.x = 460; p1.y = 250;
+	p2.x = 600; p2.y = 310;
+	affiche_menu_cadre(p1,p2,rouge);
+}
+
 /*******************************
-*        Affiche Menu          *
+*        Affiche               *
 *******************************/
 
 void affiche_joueur(COULEUR joueurActuel,INTERFACE_GRAPHIQUE ig, THEME th) {
@@ -367,3 +390,27 @@ void affiche_plateau(INTERFACE_GRAPHIQUE ig, THEME theme) {
 		affiche_damier_alternatif(theme);
 	}
 }
+
+
+void affiche_efface_cases_possibles(POINT* pointsCasesPossibles, int nombreCasesPossibles, INTERFACE_GRAPHIQUE ig,THEME th,BOOL afficheEfface) {
+	POINT p1;
+	int i;
+	for (i = 0; i <nombreCasesPossibles; i++) {
+		p1 = pointsCasesPossibles[i];
+		if (ig == CLASSIQUE) {
+			p1.x -= TAILLE_CASE/2;
+			p1.y -= TAILLE_CASE/2;
+			if (afficheEfface)
+				affiche_case_carre(p1,rouge);
+			else 
+				affiche_case_carre(p1,th.caseSombre);
+		}
+		else
+			if (afficheEfface)
+				affiche_case_ronde(p1,rouge);
+			else 
+				affiche_case_ronde(p1,th.caseSombre);
+	}
+	affiche_all();	
+}
+

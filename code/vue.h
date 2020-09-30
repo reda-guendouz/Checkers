@@ -88,6 +88,8 @@ void affiche_menu_principal();
 
 void affiche_menu_partie();
 
+void affiche_menu_apres_partie();
+
 /*******************************
 *        Affiche Plateau       *
 *******************************/
@@ -95,3 +97,6 @@ void affiche_menu_partie();
 void affiche_joueur(COULEUR clr, INTERFACE_GRAPHIQUE ig, THEME theme);
 
 void affiche_plateau(INTERFACE_GRAPHIQUE ig, THEME theme);
+
+void affiche_efface_cases_possibles(POINT* pointsCasesPossibles, int nombreCasesPossibles, INTERFACE_GRAPHIQUE ig,THEME th,BOOL afficheEfface);
+
