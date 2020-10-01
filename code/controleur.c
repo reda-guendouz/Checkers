@@ -164,20 +164,21 @@ int main()
 				if (secondClicValide)
 				{
 					casesPossibles = numCases_possibles_avant_prise(source,ptrTaillePossible);
+					pieceEnPrise = false;
 					if (joueurActuel == BLANC) {
 						distance = deplacement(source,destination,joueurActuel,ig,th,piecePerdueSombre);
-						if (distance == 2)
+						if (distance == 2) {
 							piecePerdueSombre++;
+							pieceEnPrise = true;
+						}
 					}
 					else {
 						distance = deplacement(source,destination,joueurActuel,ig,th,piecePerdueClaire);
-						if (distance == 2)
+						if (distance == 2) {
 							piecePerdueClaire++;
+							pieceEnPrise = true;
+						}
 					}
-					if (distance == 2) 
-						pieceEnPrise = true;
-					else
-						pieceEnPrise = false;
 					while(pieceEnPrise) { //prises multiples
 						source = destination;
 						casesPossibles = numCases_possibles_apres_prise(source, ptrTaillePossible);
