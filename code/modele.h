@@ -45,6 +45,6 @@ BOOL conditions_deplacement(numCase source,numCase destination);
 
 numCase* deplacement_possible(numCase source);
 
-numCase* numCases_possibles_apres_prise(numCase source);
+numCase* numCases_possibles_apres_prise(numCase source,int *tailleCmpt);
 
-numCase* numCases_possibles_avant_prise(numCase source, int *compteur);
+numCase* numCases_possibles_avant_prise(numCase source,int *tailleCmpt);
