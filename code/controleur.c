@@ -175,10 +175,11 @@ int main()
 	init_graphics(LARGEUR_FENETRE,HAUTEUR_FENETRE);
 	init_themes();
 	affiche_auto_off();
-	BOOL retourMenu;
+	BOOL retourMenu, secondClicValide;
 	INTERFACE_GRAPHIQUE ig;
 	POINT clic1,clic2,zoneJouer1,zoneJouer2,zoneQuitter1,zoneQuitter2,
-	zoneValide1, zoneValide2, zoneIg1, zoneIg2, zoneIg3, zoneIg4;
+	zoneValide1, zoneValide2, zoneIg1, zoneIg2, zoneIg3, zoneIg4,
+	zoneClic1, zoneClic2;
 	
 	zoneJouer1.x = 475;zoneJouer1.y = 365;
 	zoneJouer2.x = 625;zoneJouer2.y = 425;
@@ -261,13 +262,17 @@ int main()
 				cases_possibles = numCases_possibles_avant_prise(source,ptr_taille_possible);
 				pointsCasesPossibles = numCasesPossibles_to_Point(cases_possibles,ig,taille_possible);
 				affiche_efface_cases_possibles(pointsCasesPossibles,taille_possible,ig,th,true);
-				// todo : si taille 0 source devient rou
-
-				clic2 = wait_clic();
-				printf("clic2 fait !\n");
+				clic1 = numCase_to_point(source,ig);
+				zoneClic1.x =clic1.x - TAILLE_CASE/2;zoneClic1.y = clic1.y - TAILLE_CASE/2;
+				zoneClic2.x =clic1.x + TAILLE_CASE/2;zoneClic2.y = clic1.y + TAILLE_CASE/2;
+				do {
+					clic2 = wait_clic();
+					printf("clic2 fait !\n");
+					destination = clic_to_numCase(clic2,ig);
+					secondClicValide = second_clic_valide(cases_possibles,destination,taille_possible);
+				}while (!secondClicValide && !clic_zone_valide(clic2,zoneClic1,zoneClic2));
 				affiche_efface_cases_possibles(pointsCasesPossibles,taille_possible,ig,th,false);
-				destination = clic_to_numCase(clic2,ig);
-				if (second_clic_valide(cases_possibles,destination,taille_possible))
+				if (secondClicValide)
 				{
 					printf("clic2 validé !\n");
 					deplacement(source,destination,ig,th);
