@@ -86,6 +86,8 @@ void affiche_menu_cadre(POINT p1, POINT p2, COULEUR clr);
 
 void affiche_menu_principal();
 
+void affiche_menu_fleche_theme(THEME th, BOOL afficheEfface);
+
 void affiche_menu_partie_theme(INTERFACE_GRAPHIQUE ig);
 
 void affiche_menu_partie_ig();

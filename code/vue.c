@@ -298,6 +298,37 @@ void affiche_menu_principal() {
 	affiche_all();
 }
 
+void affiche_menu_fleche_theme(THEME th, BOOL afficheEfface) {
+	POINT p1,p2,p3;
+	COULEUR clr = noir;
+	COULEUR thActuel = th.caseSombre;
+	if (afficheEfface)
+		clr = vert;
+	
+	if (thActuel == themes[0].caseSombre) {
+		p1.x = 475;p1.y = 450;
+		p2.x = 525;p2.y = 460;
+	}
+	else if (thActuel == themes[1].caseSombre) {
+		p1.x = 775;p1.y = 450;
+		p2.x = 825;p2.y = 460;
+	}
+	else if (thActuel == themes[2].caseSombre) {
+		p1.x = 475;p1.y = 245;
+		p2.x = 525;p2.y = 255;
+	}
+	else { 	
+		p1.x = 775;p1.y = 245;
+		p2.x = 825;p2.y = 255;
+	}
+	draw_fill_rectangle(p1,p2,clr);
+	p3.x = p1.x; p3.y = p1.y - 10;
+	p2.x = p1.x; p2.y = p1.y + 20;
+	p1.x -= 15; p1.y += 5;
+	draw_fill_triangle(p1,p2,p3,clr);
+	affiche_all();
+}
+
 void affiche_menu_partie_theme(INTERFACE_GRAPHIQUE ig) {
 	reset_affichage_screen(noir);
 	POINT p1,p2;

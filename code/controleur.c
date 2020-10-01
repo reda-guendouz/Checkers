@@ -206,9 +206,11 @@ int main()
 		th = themes[0];
 		affiche_menu_partie_theme(ig);
 		//affiche fleche par defaut
+		affiche_menu_fleche_theme(th,true);
 		do
 		{
 			clic1 = wait_clic();
+			affiche_menu_fleche_theme(th,false);
 			if (clic1.x > 325 && clic1.x < 425 && clic1.y > 400 && clic1.y < 500) 
 				th = themes[0];
 			else if  (clic1.x > 625 && clic1.x < 725 && clic1.y > 400 && clic1.y < 500)
@@ -217,6 +219,7 @@ int main()
 				th = themes[2];				
 			else if  (clic1.x > 625 && clic1.x < 725 && clic1.y > 200 && clic1.y < 300)
 				th = themes[3];
+			affiche_menu_fleche_theme(th,true);
 		} while (!clic_zone_valide(clic1,zoneTheme1,zoneTheme2));
 		
 		init_tabDamier();
