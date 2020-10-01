@@ -454,7 +454,7 @@ void affiche_pieces_prises(COULEUR clr, INTERFACE_GRAPHIQUE ig, THEME th, int nb
 	PIECE P;
 	POINT p1;
 	P.typeP = PION;P.coulP = clr;
-	if (clr == BLANC) {
+	if (clr == NOIR) {
 		p1.x = 50 + (TAILLE_CASE*(nbPiecesPrises/6));p1.y =  400 - (TAILLE_CASE * (nbPiecesPrises%6));
 	}
 	else {

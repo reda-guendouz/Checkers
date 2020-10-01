@@ -84,24 +84,18 @@ BOOL premier_clic_valide(POINT clicSource, COULP joueurActuel,INTERFACE_GRAPHIQU
 }
 
 BOOL joueur_suivant_peut_jouer(COULP joueur){
-	COULP joueurSuivant;
 	numCase source;
 	int verifTailleCasesPossibles = 0,col,lig;
 	int *ptrVerif = &verifTailleCasesPossibles;
-
-	if (joueur==NOIR)
-		joueurSuivant = BLANC;
-	else
-		joueurSuivant = NOIR;
 
 	for (col = 0; col < 10; col++)
 	{
 		for (lig = 0; lig < 10; lig++)
 		{
-			if (tableau[col][lig].coulP == joueurSuivant && tableau[col][lig].typeP!=VIDE)
+			if (tableau[col][lig].typeP!=VIDE && tableau[col][lig].coulP == joueur) // si c'est lent c'est a cause de reda
 			{
 				source.c = col; source.l = lig;
-				numCases_possibles_avant_prise(source,ptr_verif);
+				numCases_possibles_avant_prise(source,ptrVerif);
 				if (verifTailleCasesPossibles > 0)
 					return true;
 			}
@@ -287,8 +281,14 @@ int main()
 				}
 			}
 		} while (partieEnCours && !retourMenu);
-		if (!retourMenu && partieEnCours) {
+		printf("retour : %d, partie : %d\n",retourMenu, partieEnCours);
+		if (!retourMenu && !partieEnCours) {
+			if (joueurActuel==NOIR)
+				finPartie = VICTOIREJOUEUR1;
+			else
+				finPartie = VICTOIREJOUEUR2;
 			affiche_menu_apres_partie(finPartie,th);
+			//wait clic
 		}
 		wait_clic();
 	}

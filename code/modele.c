@@ -19,7 +19,7 @@ void init_tabDamier ()
             else
             {
                 tableau[i][j].typeP=VIDE;
-                if (i<4)
+                if ((i==4 && j==5) || (i==4 && j==3))
                 {
                     tableau[i][j].typeP=PION;
                     tableau[i][j].coulP=BLANC;
@@ -83,7 +83,7 @@ numCase* numCases_possibles_apres_prise(numCase source,int *tailleCmpt){
 
     if (tableau[source.c][source.l].typeP == VIDE)
         return false; 
-    joueur = tableau[source.c][source.l];.coulP;
+    joueur = tableau[source.c][source.l].coulP;
 
     for (i = 0; i != 4; i++)
     {
