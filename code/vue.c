@@ -6,6 +6,17 @@
 *******************************/
 
 /*******************************
+*         Reset screen         *
+*******************************/
+
+void reset_affichage_screen(COULEUR clr) {
+	POINT p1, p2;
+	p1.x = 0; p1.y = 0;
+	p2.x = LARGEUR_FENETRE ; p2.y = HAUTEUR_FENETRE;
+	draw_fill_rectangle(p1,p2,clr);
+}
+
+/*******************************
 *      Affichage de piece      *
 *******************************/
 
@@ -18,6 +29,10 @@ void affiche_piece_ronde(PIECE P, POINT p, THEME theme){
 		draw_fill_circle(p,RAYON,theme.pionSombre);
 	else 
 		draw_fill_circle(p,RAYON,theme.pionClair);
+	p1.x -= 5;
+	p1.y += 17;
+	if (P.typeP == DAME)
+		aff_pol("D",22,p1,noir);
 }
 
 void affiche_piece_losange(PIECE P, POINT p,THEME theme){
@@ -38,6 +53,10 @@ void affiche_piece_losange(PIECE P, POINT p,THEME theme){
 		p2.y = p.y + 17;
 		draw_fill_triangle(p1,p2,p3,theme.pionClair);
 	}
+	p1.x += 9;
+	p1.y += 16;
+	if (P.typeP == DAME)
+		aff_pol("D",22,p1,noir);
 }
 
 
@@ -78,8 +97,6 @@ void efface_piece_losange(POINT p, THEME theme) {
 *      Deplacement piece       *
 *******************************/
 
-//todo combine
-
 void affiche_deplacement_piece(INTERFACE_GRAPHIQUE ig, PIECE P,POINT p1, POINT p2, THEME theme) {
 	if (ig == CLASSIQUE) {
 		efface_piece_ronde(p1, theme);
@@ -92,6 +109,88 @@ void affiche_deplacement_piece(INTERFACE_GRAPHIQUE ig, PIECE P,POINT p1, POINT p
 	affiche_all();
 }
 
+/*******************************
+*             THEMES           *
+*******************************/
+
+void init_themes() {
+	THEME th;
+	th.caseClaire = beige;
+	th.caseSombre = brown;
+	th.pionClair  = blanc;
+	th.pionSombre = darkgray;
+	themes[0] = th;
+	th.caseClaire = darkgray;
+	th.caseSombre = gray;
+	th.pionClair  = darksalmon;
+	th.pionSombre = darkred;
+	themes[1] = th;
+	th.caseClaire = beige;
+	th.caseSombre = lightblue;
+	th.pionClair  = darkcyan;
+	th.pionSombre = darkblue;
+	themes[2] = th;
+	th.caseClaire = beige;
+	th.caseSombre = darkmagenta;
+	th.pionClair  = darkorange;
+	th.pionSombre = darkred;
+	themes[3] = th;
+}
+
+void affiche_themes(INTERFACE_GRAPHIQUE ig) {	
+	int i,j,k;
+	POINT p1,p2;
+	PIECE P;
+	P.typeP = PION;
+	THEME th;
+	p1.x = 325;
+	p1.y = 400;
+	for (i = 0; i!= 4;i++) {
+		th = themes[i];
+		P.coulP = BLANC;
+		p2.x = p1.x;
+		p2.y = p1.y;
+		for (j = 0; j <2; j++)
+		{
+			for (k = 0; k<2; k++) {
+				p2.x = p1.x + k*TAILLE_CASE;
+				p2.y = p1.y + j*TAILLE_CASE;
+				if ((j+k)%2 == 0) {
+					if (ig == CLASSIQUE) {
+						affiche_case_carre(p2, th.caseSombre);
+						p2.x += TAILLE_CASE/2;
+						p2.y += TAILLE_CASE/2;
+						affiche_piece_ronde(P,p2,th);
+					}
+					else
+						{	
+						affiche_case_ronde(p2, th.caseSombre);
+						affiche_piece_losange(P,p2,th);
+					}
+					P.coulP = NOIR;
+				}
+				else
+				{
+					if (ig == CLASSIQUE) 
+						affiche_case_carre(p2, th.caseClaire);
+					else
+						affiche_case_ronde(p2, th.caseClaire);
+				}
+			}
+		}
+		if (i == 2) {
+			p1.x = 325 + 300;
+			p1.y = 400  - 200;
+		}
+		else if (i == 1) {
+			p1.y = 400 - 200;
+			p1.x = 325; 
+		}
+		else if (i == 0)
+			p1.x = 325 + 300;
+	}
+	affiche_all();	
+}
 
 /*******************************
 *        Affiche damier        *
@@ -104,7 +203,7 @@ void affiche_damier_classique(THEME theme)  {
 	POINT p2;
 	for (i = 0; i<10; i++) {
 		for (j = 0; j<10; j++) {
-			p1.x =i*TAILLE_CASE +300;
+			p1.x =i*TAILLE_CASE +275;
 			p1.y =j*TAILLE_CASE + 25;
 			if ((i+j)%2 == 0)
 				affiche_case_carre(p1, theme.caseClaire);
@@ -113,13 +212,12 @@ void affiche_damier_classique(THEME theme)  {
 				p1.x += TAILLE_CASE/2;
 				p1.y += TAILLE_CASE/2;
 				P = tableau[i][j];
-				if (P.typeP == PION)
+				if (P.typeP != VIDE)
 					affiche_piece_ronde(P,p1,theme);
-			
 			}
 		}
 	}
-	p2.x = 300;
+	p2.x = 275;
 	p2.y = 25;
 	p1.x += TAILLE_CASE;
 	p1.y += TAILLE_CASE;
@@ -140,12 +238,85 @@ void affiche_damier_alternatif(THEME theme) {
 			else { 
 				affiche_case_ronde(p1, theme.caseSombre);
 				P = tableau[j][i];
-				if (P.typeP == PION)
+				if (P.typeP != VIDE)
 					affiche_piece_losange(P,p1,theme);
 			}
 		}
 	}
 	affiche_all();
+}
+
+/*******************************
+*        Affiche Menu          *
+*******************************/
+
+BOOL affiche_menu() {
+	POINT p1;
+	INTERFACE_GRAPHIQUE ig = CLASSIQUE;
+	affiche_menu_principal();
+	p1 = wait_clic();
+	if(p1.x >= 475 && p1.x <= 625 && p1.y >= 365 && p1.y <= 465) {
+		affiche_menu_partie_ig();
+		affiche_menu_partie_theme(ig);
+		wait_clic();
+		return true;
+	}
+	else 
+		return false;
+}
+
+void affiche_menu_cadre(POINT p1, POINT p2, COULEUR clr) {
+	int i;
+	for (i = 1; i<4;i+=2) {
+		p1.x -= i ;p1.y -= i;
+		p2.x += i ;p2.y += i;
+		draw_rectangle(p1,p2,clr);
+	}	
+}
+
+void affiche_menu_principal() {
+	reset_affichage_screen(noir);	
+	POINT p1,p2;
+	p1.x = 425;p1.y = 625;
+	aff_pol("CHECKERS",45,p1,blanc);
+	p2.x = 675 ; p2.y = 565;
+	affiche_menu_cadre (p1,p2,blanc);
+
+	p1.x = 475;p1.y = 425;
+	aff_pol("JOUER",45,p1,blanc);
+	p2.x = 625 ; p2.y = 365;
+	affiche_menu_cadre (p1,p2,vert);
+
+	p1.x = 450;p1.y = 330;
+	aff_pol("QUITTER",45,p1,blanc);
+	p2.x = 650 ; p2.y = 270;
+	affiche_menu_cadre (p1,p2,rouge);
+
+	p1.x = 375;p1.y = 100;
+	aff_pol("Realise par Marwane BAHRAOUI & Reda GUENDOUZ",15,p1,blanc);
+	
+	affiche_all();
+}
+
+void affiche_menu_partie_theme(INTERFACE_GRAPHIQUE ig) {
+	reset_affichage_screen(noir);
+	POINT p1,p2;
+	
+	p1.x = 350;p1.y = 600;
+	aff_pol("CHOISIR UN THEME",35,p1,blanc);	
+	affiche_themes(ig);
+
+	p1.x = 400;p1.y = 100;
+	aff_pol("LANCER LA PARTIE",25,p1,blanc);
+	p1.x = 390;p1.y = 60;
+	p2.x = 650; p2.y = 110;
+	affiche_menu_cadre(p1,p2,vert);
+	affiche_all();
+}
+
+void affiche_menu_partie_ig() {
+
+
 }
 
 void affiche_menu_retour() {
@@ -175,9 +346,52 @@ void affiche_menu_retour() {
 	aff_pol("H",30,p1,brown);
 }
 
+void affiche_menu_apres_partie() {
+	reset_affichage_screen(noir);
+	POINT p1,p2;
+
+	p1.x =300;p1.y =600;
+	aff_pol("VOULEZ-VOUS REJOUER ?",35,p1,blanc);
+	p1.x = 290; p1.y = 550;
+	p2.x = 770; p2.y = 610;
+	affiche_menu_cadre(p1,p2,blanc);
+
+	p1.x = 450; p1.y = 400;
+	aff_pol("RELANCER",30,p1,blanc);
+	p1.x = 440; p1.y = 350;
+	p2.x = 620; p2.y = 410;
+	affiche_menu_cadre(p1,p2,vert);
+
+	p1.x = 470; p1.y = 300;
+	aff_pol("RETOUR",30,p1,blanc);
+	p1.x = 460; p1.y = 250;
+	p2.x = 600; p2.y = 310;
+	affiche_menu_cadre(p1,p2,rouge);
+}
+
+/*******************************
+*        Affiche               *
+*******************************/
+
+void affiche_joueur(COULEUR joueurActuel,INTERFACE_GRAPHIQUE ig, THEME th) {
+	PIECE P;
+	POINT p1,p2;
+	P.typeP = PION;
+	P.coulP = joueurActuel;
+	p1.x = 575;p1.y = 550;
+	p2.x = 625;p2.y = 600;
+	draw_fill_rectangle(p1,p2,lavender);
+	p1.x = 600;p1.y = 575;
+	if (ig == CLASSIQUE)
+		affiche_piece_ronde(P,p1,th);
+	else
+		affiche_piece_losange(P,p1,th);
+	affiche_all();	
+}
+
 void affiche_plateau(INTERFACE_GRAPHIQUE ig, THEME theme) {	
 	POINT p;
-	fill_screen(argent);
+	reset_affichage_screen(lavender);
 	p.x = 5;
 	p.y = 500;
 	aff_pol("Piece obtenu par Joueur 1 :",15,p,marron);
@@ -195,3 +409,27 @@ void affiche_plateau(INTERFACE_GRAPHIQUE ig, THEME theme) {
 		affiche_damier_alternatif(theme);
 	}
 }
+
+
+void affiche_efface_cases_possibles(POINT* pointsCasesPossibles, int nombreCasesPossibles, INTERFACE_GRAPHIQUE ig,THEME th,BOOL afficheEfface) {
+	POINT p1;
+	int i;
+	for (i = 0; i <nombreCasesPossibles; i++) {
+		p1 = pointsCasesPossibles[i];
+		if (ig == CLASSIQUE) {
+			p1.x -= TAILLE_CASE/2;
+			p1.y -= TAILLE_CASE/2;
+			if (afficheEfface)
+				affiche_case_carre(p1,rouge);
+			else 
+				affiche_case_carre(p1,th.caseSombre);
+		}
+		else
+			if (afficheEfface)
+				affiche_case_ronde(p1,rouge);
+			else 
+				affiche_case_ronde(p1,th.caseSombre);
+	}
+	affiche_all();	
+}
+
