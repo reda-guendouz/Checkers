@@ -207,7 +207,7 @@ int main()
 		{
 			clic1 = wait_clic(); // JOUER
 			if (clic_zone_valide(clic1,zoneQuitter1,zoneQuitter2)) //QUITTER
-				return 0;
+				exit(0);
 		} while (!clic_zone_valide(clic1,zoneJouer1,zoneJouer2));
 		
 		ig = CLASSIQUE;
