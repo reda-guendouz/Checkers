@@ -197,7 +197,10 @@ void affiche_damier(INTERFACE_GRAPHIQUE ig, THEME theme) {
 					p1.x += TAILLE_CASE/2;
 					p1.y += TAILLE_CASE/2;
 				}
-				P = tableau[i][j];
+				if (ig == CLASSIQUE)
+					P = tableau[i][j];
+				else 
+					P = tableau[j][i];
 				if (P.typeP != VIDE)
 					affiche_piece(ig,P,p1,theme);
 			}
@@ -433,8 +436,10 @@ void affiche_efface_cases_possibles(POINT* pointsCasesPossibles, int nombreCases
 	int i;
 	for (i = 0; i <nombreCasesPossibles; i++) {
 		p1 = pointsCasesPossibles[i];
-		p1.x -= TAILLE_CASE/2;
-		p1.y -= TAILLE_CASE/2;
+		if (ig == CLASSIQUE) {
+			p1.x -= TAILLE_CASE/2;
+			p1.y -= TAILLE_CASE/2;
+		}
 		if (afficheEfface)
 			affiche_case(ig,p1,rouge);
 		else 
