@@ -21,6 +21,10 @@ typedef enum{
     CLASSIQUE,ALTERNATIF
 }INTERFACE_GRAPHIQUE;
 
+typedef enum{
+	VICTOIREJOUEUR1,VICTOIREJOUEUR2,EGALITE
+}FIN;
+
 typedef struct {
 	COULEUR caseClaire;
 	COULEUR caseSombre;
@@ -28,7 +32,8 @@ typedef struct {
 	COULEUR pionSombre;
 }THEME;
 
-THEME themes[4];
+THEME themes[4]; //Madame Pilard a validé cette variable globale
+
 
 /*******************************
 *      Affichage de piece      *
@@ -84,7 +89,7 @@ void affiche_menu_partie_theme(INTERFACE_GRAPHIQUE ig);
 
 void affiche_menu_partie_ig();
 
-void affiche_menu_apres_partie();
+void affiche_menu_apres_partie(FIN fin, THEME th);
 
 /*******************************
 *        Affiche Plateau       *
@@ -98,3 +103,4 @@ void affiche_plateau(INTERFACE_GRAPHIQUE ig, THEME theme);
 
 void affiche_efface_cases_possibles(POINT* pointsCasesPossibles, int nombreCasesPossibles, INTERFACE_GRAPHIQUE ig,THEME th,BOOL afficheEfface);
 
+void affiche_pieces_prises(COULEUR clr, INTERFACE_GRAPHIQUE ig, THEME th, int nbPiecesPrises);
