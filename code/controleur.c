@@ -166,7 +166,7 @@ POINT numCase_to_point(numCase nc,INTERFACE_GRAPHIQUE ig){
 
 int main()
 {
-	int taille_possible = 0;
+	int taille_possible = 0, piecePerdueClaire,piecePerdueSombre;
 	POINT* pointsCasesPossibles;
 	int* ptr_taille_possible = &taille_possible;
 	COULP joueur_actuel;
@@ -240,6 +240,8 @@ int main()
 		
 		init_tabDamier();
 		joueur_actuel = BLANC;
+		piecePerdueClaire = 0;
+		piecePerdueSombre = 0;
 		affiche_plateau(ig,th);
 		retourMenu = FALSE;
 
