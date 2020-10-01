@@ -5,16 +5,7 @@
 *          Fonctions           *
 *******************************/
 
-/*******************************
-*         Reset screen         *
-*******************************/
 
-void reset_affichage_screen(COULEUR clr) {
-	POINT p1, p2;
-	p1.x = 0; p1.y = 0;
-	p2.x = LARGEUR_FENETRE ; p2.y = HAUTEUR_FENETRE;
-	draw_fill_rectangle(p1,p2,clr);
-}
 
 /*******************************
 *      Affichage de piece      *
@@ -44,11 +35,13 @@ void affiche_piece(INTERFACE_GRAPHIQUE ig,PIECE P, POINT p, THEME theme) {
 		p3.y = p.y;
 		if (P.coulP == NOIR) {
 			draw_fill_triangle(p1,p2,p3,theme.pionSombre);
+			draw_triangle(p1,p2,p3,noir);
 			p2.y = p.y + 17;
-			draw_fill_triangle(p1,p2,p3,theme.pionSombre);
+			draw_fill_triangle(p1,p2,p3,theme.pionSombre);	
 		}
 		else {
 			draw_fill_triangle(p1,p2,p3,theme.pionClair);
+			draw_triangle(p1,p2,p3,noir);
 			p2.y = p.y + 17;
 			draw_fill_triangle(p1,p2,p3,theme.pionClair);
 		}
@@ -398,8 +391,15 @@ void affiche_menu_apres_partie() {
 }
 
 /*******************************
-*        Affiche               *
+*        Affiche  Plateau      *
 *******************************/
+
+void reset_affichage_screen(COULEUR clr) {
+	POINT p1, p2;
+	p1.x = 0; p1.y = 0;
+	p2.x = LARGEUR_FENETRE ; p2.y = HAUTEUR_FENETRE;
+	draw_fill_rectangle(p1,p2,clr);
+}
 
 void affiche_joueur(COULEUR joueurActuel,INTERFACE_GRAPHIQUE ig, THEME th) {
 	PIECE P;
