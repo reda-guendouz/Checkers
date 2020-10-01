@@ -70,7 +70,7 @@ void appliqueCoup(numCase source, numCase destination){
 }
 
 
-numCase* numCases_possibles_apres_prise(numCase source){
+numCase* numCases_possibles_apres_prise(numCase source,int *tailleCmpt){
     int compteur = 0,i;
     int col [4] = {1,1,-1,-1};
     int lig [4] = {1,-1,1,-1};
@@ -91,18 +91,12 @@ numCase* numCases_possibles_apres_prise(numCase source){
         {
             retour.c = source.c + prise.c;
             retour.l = source.l + prise.l;
-            temp[compteur] = retour;
+            casesPossibles[compteur] = retour;
             compteur++;
         }
     }
 
-    if (compteur != 0)
-    {
-        casesPossibles = (numCase *)malloc(compteur*sizeof(numCase));
-        for (i = 0; i != compteur; i++)
-            casesPossibles[i] = temp[i];
-    }
-
+    *tailleCmpt = compteur;
     return casesPossibles;
 }
 
