@@ -76,15 +76,14 @@ numCase* numCases_possibles_apres_prise(numCase source,int *tailleCmpt){
     int col [4] = {1,1,-1,-1};
     int lig [4] = {1,-1,1,-1};
     numCase possible,prise,retour;
-    PIECE P,PDestination,PSource;
+    PIECE P,PDestination;
     COULP joueur;
     numCase *casesPossibles = NULL;
     casesPossibles = (numCase *)malloc(4*sizeof(numCase));
 
-    PSource = tableau[source.c][source.l];
-    if (PSource.typeP == VIDE)
+    if (tableau[source.c][source.l].typeP == VIDE)
         return false; 
-    joueur = PSource.coulP;
+    joueur = tableau[source.c][source.l];.coulP;
 
     for (i = 0; i != 4; i++)
     {
