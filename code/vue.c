@@ -285,6 +285,11 @@ void affiche_menu_principal() {
 	p1.x = 475;p1.y = 425;
 	aff_pol("JOUER",45,p1,blanc);
 	p2.x = 625 ; p2.y = 365;
+	affiche_menu_cadre (p1,p2,vert);
+
+	p1.x = 450;p1.y = 330;
+	aff_pol("QUITTER",45,p1,blanc);
+	p2.x = 650 ; p2.y = 270;
 	affiche_menu_cadre (p1,p2,rouge);
 
 	p1.x = 375;p1.y = 100;
