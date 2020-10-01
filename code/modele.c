@@ -6,6 +6,7 @@ int absol(int val){
     return val;
 }
 
+
 void init_tabDamier ()
 {
     int i,j;
