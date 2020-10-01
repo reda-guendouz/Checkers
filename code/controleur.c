@@ -232,7 +232,6 @@ int main()
 
 		do
 		{
-			// jeu ici ?
 			affiche_joueur(joueur_actuel,ig,th);
 			clic1 = wait_clic();
 			if (clic1.x > 10 && clic1.x < 90 && clic1.y > 560) { // si clique dans le logo dans le coin superieur gauche
