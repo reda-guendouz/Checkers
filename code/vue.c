@@ -466,7 +466,6 @@ void affiche_pieces_prises(COULEUR clr, INTERFACE_GRAPHIQUE ig, THEME th, int nb
 		p1.x = 1000 - (TAILLE_CASE*(nbPiecesPrises/6));p1.y = 400 -(TAILLE_CASE * (nbPiecesPrises%6));
 		P.coulP = BLANC;
 	}
-	printf("Affiche piece prises : %d  %d %d\n",p1.x,p1.y,nbPiecesPrises);
 	affiche_piece(ig,P,p1,th);
 	affiche_all();
 }
