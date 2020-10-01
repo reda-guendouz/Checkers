@@ -153,21 +153,29 @@ void affiche_themes(INTERFACE_GRAPHIQUE ig) {
 		for (j = 0; j <2; j++)
 		{
 			for (k = 0; k<2; k++) {
-					p2.x = p1.x + k*TAILLE_CASE;
-					p2.y = p1.y + j*TAILLE_CASE;
-					if ((j+k)%2 == 0) {
+				p2.x = p1.x + k*TAILLE_CASE;
+				p2.y = p1.y + j*TAILLE_CASE;
+				if ((j+k)%2 == 0) {
+					if (ig == CLASSIQUE) {
 						affiche_case_carre(p2, th.caseSombre);
 						p2.x += TAILLE_CASE/2;
 						p2.y += TAILLE_CASE/2;
-						if (ig == CLASSIQUE)
-							affiche_piece_ronde(P,p2,th);
-						else
-							affiche_piece_losange(P,p2,th);
-						P.coulP = NOIR;
+						affiche_piece_ronde(P,p2,th);
 					}
 					else
+						{	
+						affiche_case_ronde(p2, th.caseSombre);
+						affiche_piece_losange(P,p2,th);
+					}
+					P.coulP = NOIR;
+				}
+				else
+				{
+					if (ig == CLASSIQUE) 
 						affiche_case_carre(p2, th.caseClaire);
-
+					else
+						affiche_case_ronde(p2, th.caseClaire);
+				}
 			}
 		}
 		if (i == 2) {
@@ -244,10 +252,12 @@ void affiche_damier_alternatif(THEME theme) {
 
 BOOL affiche_menu() {
 	POINT p1;
+	INTERFACE_GRAPHIQUE ig = CLASSIQUE;
 	affiche_menu_principal();
 	p1 = wait_clic();
 	if(p1.x >= 475 && p1.x <= 625 && p1.y >= 365 && p1.y <= 465) {
-		affiche_menu_apres_partie();
+		affiche_menu_partie_ig();
+		affiche_menu_partie_theme(ig);
 		wait_clic();
 		return true;
 	}
@@ -283,10 +293,9 @@ void affiche_menu_principal() {
 	affiche_all();
 }
 
-void affiche_menu_partie() {
+void affiche_menu_partie_theme(INTERFACE_GRAPHIQUE ig) {
 	reset_affichage_screen(noir);
 	POINT p1,p2;
-	INTERFACE_GRAPHIQUE ig = CLASSIQUE;
 	
 	p1.x = 350;p1.y = 600;
 	aff_pol("CHOISIR UN THEME",35,p1,blanc);	
@@ -298,6 +307,11 @@ void affiche_menu_partie() {
 	p2.x = 650; p2.y = 110;
 	affiche_menu_cadre(p1,p2,vert);
 	affiche_all();
+}
+
+void affiche_menu_partie_ig() {
+
+
 }
 
 void affiche_menu_retour() {
