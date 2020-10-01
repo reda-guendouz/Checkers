@@ -154,7 +154,7 @@ int main()
 	INTERFACE_GRAPHIQUE ig;
 	POINT clic1,clic2,zoneJouer1,zoneJouer2,zoneQuitter1,zoneQuitter2,
 	zoneValide1, zoneValide2, zoneIg1, zoneIg2, zoneIg3, zoneIg4,
-	zoneClic1, zoneClic2;
+	zoneClic1, zoneClic2, zoneRejouer1, zoneRejouer2;
 	
 	zoneJouer1.x = 475;zoneJouer1.y = 365;
 	zoneJouer2.x = 625;zoneJouer2.y = 425;
@@ -170,6 +170,9 @@ int main()
 	
 	zoneIg3.x = 447; zoneIg3.y =250;
 	zoneIg4.x = 653; zoneIg4.y =310;
+
+	zoneRejouer1.x =435; zoneRejouer1.y =245;
+	zoneRejouer2.x =625; zoneRejouer2.y =315;
 
 	numCase source,destination;
 	numCase *casesPossibles = NULL;
@@ -256,12 +259,12 @@ int main()
 					{
 						numCase entreDeux;
 						if (joueurActuel == NOIR) {
-							affiche_pieces_prises(joueurActuel, ig, th,piecePerdueSombre);
-							piecePerdueSombre++;
-						}
-						else { 
 							affiche_pieces_prises(joueurActuel, ig, th,piecePerdueClaire);
 							piecePerdueClaire++;
+						}
+						else { 
+							affiche_pieces_prises(joueurActuel, ig, th,piecePerdueSombre);
+							piecePerdueSombre++;
 						}
 						entreDeux.c = source.c + (destination.c - source.c)/2;
 				       	 	entreDeux.l = source.l + (destination.l - source.l)/2;
@@ -288,9 +291,13 @@ int main()
 			else
 				finPartie = VICTOIREJOUEUR2;
 			affiche_menu_apres_partie(finPartie,th);
-			//wait clic
+			
+			do{
+				clic1 = wait_clic();
+				if (clic1.x > 455 && clic1.x < 610 && clic1.y > 145 && clic1.y <215)
+					return 0;
+			}while(!clic_zone_valide(clic1,zoneRejouer1,zoneRejouer2));	
 		}
-		wait_clic();
 	}
 	
 	wait_escape();

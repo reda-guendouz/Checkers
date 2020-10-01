@@ -138,6 +138,10 @@ void affiche_themes(INTERFACE_GRAPHIQUE ig) {
 			for (k = 0; k<2; k++) {
 				p2.x = p1.x + k*TAILLE_CASE;
 				p2.y = p1.y + j*TAILLE_CASE;
+				if (ig == ALTERNATIF) {
+					p2.x += TAILLE_CASE/2;
+					p2.y += TAILLE_CASE/2;
+				}
 				if ((j+k)%2 == 0) {
 					affiche_case(ig,p2,th.caseSombre);
 					if (ig == CLASSIQUE) {
@@ -384,10 +388,10 @@ void affiche_menu_apres_partie(FIN fin, THEME th) {
 	p2.x = 620; p2.y = 310;
 	affiche_menu_cadre(p1,p2,vert);
 
-	p1.x = 470; p1.y = 200;
-	aff_pol("RETOUR",30,p1,blanc);
-	p1.x = 460; p1.y = 150;
-	p2.x = 600; p2.y = 210;
+	p1.x = 465; p1.y = 200;
+	aff_pol("QUITTER",30,p1,blanc);
+	p1.x = 455; p1.y = 150;
+	p2.x = 610; p2.y = 210;
 	affiche_menu_cadre(p1,p2,rouge);
 	affiche_all();
 }
@@ -453,12 +457,14 @@ void affiche_efface_cases_possibles(POINT* pointsCasesPossibles, int nombreCases
 void affiche_pieces_prises(COULEUR clr, INTERFACE_GRAPHIQUE ig, THEME th, int nbPiecesPrises) {
 	PIECE P;
 	POINT p1;
-	P.typeP = PION;P.coulP = clr;
-	if (clr == NOIR) {
+	P.typeP = PION;
+	if (clr == BLANC) {
 		p1.x = 50 + (TAILLE_CASE*(nbPiecesPrises/6));p1.y =  400 - (TAILLE_CASE * (nbPiecesPrises%6));
+		P.coulP = NOIR;
 	}
 	else {
 		p1.x = 1000 - (TAILLE_CASE*(nbPiecesPrises/6));p1.y = 400 -(TAILLE_CASE * (nbPiecesPrises%6));
+		P.coulP = BLANC;
 	}
 	printf("Affiche piece prises : %d  %d %d\n",p1.x,p1.y,nbPiecesPrises);
 	affiche_piece(ig,P,p1,th);
