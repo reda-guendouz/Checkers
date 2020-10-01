@@ -178,7 +178,7 @@ int main()
 	BOOL retourMenu;
 	INTERFACE_GRAPHIQUE ig;
 	POINT clic1,clic2,zoneJouer1,zoneJouer2,zoneQuitter1,zoneQuitter2,
-	zoneThemeInterface1, zoneThemeInterface2;
+	zoneValide1, zoneValide2, zoneIg1, zoneIg2, zoneIg3, zoneIg4;
 	
 	zoneJouer1.x = 475;zoneJouer1.y = 365;
 	zoneJouer2.x = 625;zoneJouer2.y = 425;
@@ -186,8 +186,14 @@ int main()
 	zoneQuitter1.x = 450;zoneQuitter1.y = 270;
 	zoneQuitter2.x = 650;zoneQuitter2.y = 330;
 	
-	zoneThemeInterface1.x = 420;zoneThemeInterface1.y =55;
-	zoneThemeInterface2.x = 690;zoneThemeInterface2.y = 115;
+	zoneValide1.x = 420;zoneValide1.y =55;
+	zoneValide2.x = 690;zoneValide2.y = 115;
+
+	zoneIg1.x = 450; zoneIg1.y =350;
+	zoneIg2.x = 650; zoneIg2.y =410;
+	
+	zoneIg3.x = 447; zoneIg3.y =250;
+	zoneIg4.x = 653; zoneIg4.y =310;
 
 	numCase source,destination;
 	numCase *cases_possibles = NULL;
@@ -207,15 +213,12 @@ int main()
 		affiche_menu_partie_ig();
 		do
 		{
-			//affiche_menu_fleche_ig(ig,true);
 			clic1 = wait_clic(); // INTERFACE_GRAPHIQUE
-			//affiche_menu_fleche_ig(ig,false);
 			if (clic1.x > 450 && clic1.x < 650 && clic1.y > 350 && clic1.y < 410) 
 				ig = CLASSIQUE;
 			else if (clic1.x > 447 && clic1.x < 653 && clic1.y > 250 && clic1.y < 310) 
 				ig = ALTERNATIF;
-
-		} while (!clic_zone_valide(clic1,zoneThemeInterface1,zoneThemeInterface2));
+		} while (!clic_zone_valide(clic1,zoneIg1,zoneIg2) && !clic_zone_valide(clic1,zoneIg3,zoneIg4));
 		th = themes[0];
 		affiche_menu_partie_theme(ig);
 		do
@@ -232,7 +235,7 @@ int main()
 				th = themes[2];				
 			else if  (clic1.x > 625 && clic1.x < 725 && clic1.y > 200 && clic1.y < 300)
 				th = themes[3];
-		} while (!clic_zone_valide(clic1,zoneThemeInterface1,zoneThemeInterface2));
+		} while (!clic_zone_valide(clic1,zoneValide1,zoneValide2));
 		
 		init_tabDamier();
 		joueur_actuel = BLANC;

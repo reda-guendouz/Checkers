@@ -331,19 +331,19 @@ void affiche_menu_partie_ig() {
 	p1.x = 450; p1.y = 350;
 	p2.x = 650; p2.y = 410;
 	affiche_menu_cadre(p1,p2,bleu);
-
+	
 	p1.x = 457; p1.y = 300;
 	aff_pol("ALTERNATIF",30,p1,blanc);
 	p1.x = 447; p1.y = 250;
 	p2.x = 653; p2.y = 310;
 	affiche_menu_cadre(p1,p2,jaune);
-	
+	/*
 	p1.x = 430;p1.y = 100;   
 	aff_pol("CHOISIR UN THEME",25,p1,blanc);
 	p1.x = 420;p1.y = 60;
 	p2.x = 690; p2.y = 110;
 	affiche_menu_cadre(p1,p2,vert);
-
+	*/
 	affiche_all();
 }
 
