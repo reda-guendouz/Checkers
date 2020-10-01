@@ -119,7 +119,7 @@ BOOL joueur_suivant_peut_jouer(COULP joueur){
 		for (lig = 0; lig < 10; lig++)
 		{
 			source.c = col; source.l = lig;
-			if (tableau[col][lig].coulP == joueur_suivant)
+			if (tableau[col][lig].coulP == joueur_suivant && tableau[col][lig].typeP!=VIDE)
 			{
 				numCases_possibles_avant_prise(source,ptr_verif);
 				if (verif_taille_cases_possibles > 0)
