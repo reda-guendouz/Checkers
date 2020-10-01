@@ -448,3 +448,17 @@ void affiche_efface_cases_possibles(POINT* pointsCasesPossibles, int nombreCases
 	affiche_all();	
 }
 
+void affiche_pieces_prises(COULEUR clr, INTERFACE_GRAPHIQUE ig, THEME th, int nbPiecesPrises) {
+	PIECE P;
+	POINT p1;
+	P.typeP = PION;P.coulP = clr;
+	if (clr == BLANC) {
+		p1.x = 50 + (TAILLE_CASE*(nbPiecesPrises/6));p1.y =  400 - (TAILLE_CASE * (nbPiecesPrises%6));
+	}
+	else {
+		p1.x = 1000 - (TAILLE_CASE*(nbPiecesPrises/6));p1.y = 400 -(TAILLE_CASE * (nbPiecesPrises%6));
+	}
+	printf("Affiche piece prises : %d  %d %d\n",p1.x,p1.y,nbPiecesPrises);
+	affiche_piece(ig,P,p1,th);
+	affiche_all();
+}

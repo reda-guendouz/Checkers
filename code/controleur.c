@@ -15,13 +15,11 @@
 *          Protoypes        *
 ****************************/
 
-void deplacement(numCase source,numCase destination,INTERFACE_GRAPHIQUE ig,THEME th);
-
-BOOL clic_zone_valide(POINT clic_source, POINT zone1, POINT zone2);
+BOOL clic_zone_valide(POINT clicSource, POINT zone1, POINT zone2);
 
 BOOL premier_clic_valide(POINT clic, COULP joueur,INTERFACE_GRAPHIQUE ig);
 
-BOOL second_clic_valide(numCase* cases_possibles,numCase destination,int taille);
+BOOL second_clic_valide(numCase* casesPossibles,numCase destination,int taille);
 
 COULP changer_joueur(COULP joueur);
 
@@ -37,9 +35,9 @@ POINT* numCasesPossibles_to_Point(numCase* numCasesPossibles,INTERFACE_GRAPHIQUE
 *          Fonctions        *
 ****************************/
 
-BOOL clic_zone_valide(POINT clic_source, POINT zone1, POINT zone2){
+BOOL clic_zone_valide(POINT clicSource, POINT zone1, POINT zone2){
 	// zone1 = en bas a gauche, zone2 = en haut a droite
-	if (clic_source.x > zone1.x && clic_source.y > zone1.y && clic_source.x < zone2.x && clic_source.y < zone2.y)
+	if (clicSource.x > zone1.x && clicSource.y > zone1.y && clicSource.x < zone2.x && clicSource.y < zone2.y)
 		return true;	
 	return false;
 }
@@ -56,30 +54,12 @@ POINT* numCasesPossibles_to_Point(numCase* numCasesPossibles,INTERFACE_GRAPHIQUE
 	return pointCasesPossibles;
 }
 
-void deplacement(numCase source,numCase destination,INTERFACE_GRAPHIQUE ig, THEME th){
-	printf("deplacement de c1(%d) l1(%d) -> c2(%d) l2(%d)\n",source.c,source.l,destination.c,destination.l);
-	PIECE P;
-	POINT p1 = numCase_to_point(source,ig), p2 = numCase_to_point(destination,ig),p3;
-	printf("p1 %d %d  p2  %d %d\n", p1.x, p1.y,p2.x, p2.y);
-	appliqueCoup(source,destination);
-	P = tableau[destination.c][destination.l]; // car la source et la destination ont ete intervertis
-	if (absol(destination.c - source.c) == 2)
-	{
-		numCase entreDeux;
-		entreDeux.c = source.c + (destination.c - source.c)/2;
-        	entreDeux.l = source.l + (destination.l - source.l)/2;
-		p3 = numCase_to_point(entreDeux,ig);
-		efface_piece(ig,p3,th);
-	}
-	
-	affiche_deplacement_piece(ig,P, p1,p2,th);
-}
 
-BOOL second_clic_valide(numCase* cases_possibles,numCase destination,int taille){
+BOOL second_clic_valide(numCase* casesPossibles,numCase destination,int taille){
 	int i;
 	for (i = 0; i != taille; i++)
 	{
-		if (cases_possibles[i].c == destination.c && cases_possibles[i].l == destination.l)
+		if (casesPossibles[i].c == destination.c && casesPossibles[i].l == destination.l)
 			return true;
 	}
 	return false;
@@ -92,37 +72,37 @@ COULP changer_joueur(COULP joueur){
 		return NOIR;
 }
 
-BOOL premier_clic_valide(POINT clic_source, COULP joueur_actuel,INTERFACE_GRAPHIQUE ig){
-	numCase source = clic_to_numCase(clic_source,ig);
-	PIECE pi_source = tableau[source.c][source.l];
+BOOL premier_clic_valide(POINT clicSource, COULP joueurActuel,INTERFACE_GRAPHIQUE ig){
+	numCase source = clic_to_numCase(clicSource,ig);
+	PIECE PSource = tableau[source.c][source.l];
 	printf("colonne : %d,\t ligne : %d\n",source.c,source.l);
 	if(source.c >= 0 && source.l >= 0 && source.c < 10 && source.l < 10){
-		if (joueur_actuel == pi_source.coulP && pi_source.typeP!=VIDE)
+		if (joueurActuel == PSource.coulP && PSource.typeP!=VIDE)
 			return true;
 	}
 	return false; 	
 }
 
 BOOL joueur_suivant_peut_jouer(COULP joueur){
-	COULP joueur_suivant;
+	COULP joueurSuivant;
 	numCase source;
-	int verif_taille_cases_possibles = 0,col,lig;
-	int *ptr_verif = &verif_taille_cases_possibles;
+	int verifTailleCasesPossibles = 0,col,lig;
+	int *ptrVerif = &verifTailleCasesPossibles;
 
 	if (joueur==NOIR)
-		joueur_suivant = BLANC;
+		joueurSuivant = BLANC;
 	else
-		joueur_suivant = NOIR;
+		joueurSuivant = NOIR;
 
 	for (col = 0; col < 10; col++)
 	{
 		for (lig = 0; lig < 10; lig++)
 		{
 			source.c = col; source.l = lig;
-			if (tableau[col][lig].coulP == joueur_suivant)
+			if (tableau[col][lig].coulP == joueurSuivant)
 			{
-				numCases_possibles_avant_prise(source,ptr_verif);
-				if (verif_taille_cases_possibles > 0)
+				numCases_possibles_avant_prise(source,ptrVerif);
+				if (verifTailleCasesPossibles > 0)
 					return true;
 			}
 		}
@@ -166,12 +146,12 @@ POINT numCase_to_point(numCase nc,INTERFACE_GRAPHIQUE ig){
 
 int main()
 {
-	int taille_possible = 0, piecePerdueClaire,piecePerdueSombre;
+	int taillePossible = 0, piecePerdueClaire,piecePerdueSombre;
 	POINT* pointsCasesPossibles;
-	int* ptr_taille_possible = &taille_possible;
-	COULP joueur_actuel;
+	int* ptrTaillePossible = &taillePossible;
+	COULP joueurActuel;
 	THEME th;
-	BOOL jeu_en_cours=true,partie_en_cours=true;
+	BOOL jeuEnCours=true,partieEnCours=true;
 	init_graphics(LARGEUR_FENETRE,HAUTEUR_FENETRE);
 	init_themes();
 	affiche_auto_off();
@@ -197,9 +177,9 @@ int main()
 	zoneIg4.x = 653; zoneIg4.y =310;
 
 	numCase source,destination;
-	numCase *cases_possibles = NULL;
+	numCase *casesPossibles = NULL;
 
-	while (jeu_en_cours)
+	while (jeuEnCours)
 	{
 		//affiche_menu();
 		affiche_menu_principal();
@@ -239,7 +219,7 @@ int main()
 		} while (!clic_zone_valide(clic1,zoneValide1,zoneValide2));
 		
 		init_tabDamier();
-		joueur_actuel = BLANC;
+		joueurActuel = BLANC;
 		piecePerdueClaire = 0;
 		piecePerdueSombre = 0;
 		affiche_plateau(ig,th);
@@ -248,22 +228,22 @@ int main()
 		do
 		{
 			// jeu ici ?
-			affiche_joueur(joueur_actuel,ig,th);
+			affiche_joueur(joueurActuel,ig,th);
 			clic1 = wait_clic();
 			if (clic1.x > 10 && clic1.x < 90 && clic1.y > 560) {
-					printf("dedans sortir\n");
-					retourMenu = TRUE;
-				}
+				printf("dedans sortir\n");
+				retourMenu = TRUE;
+			}
 			else {
-				while (!premier_clic_valide(clic1, joueur_actuel,ig)){
+				while (!premier_clic_valide(clic1, joueurActuel,ig)){
 					clic1 = wait_clic();
 				} 
 				printf("clic1 fait !\n");
-				printf("joueur : %d, \t clic valide\n",joueur_actuel);
+				printf("joueur : %d, \t clic valide\n",joueurActuel);
 				source = clic_to_numCase(clic1,ig);
-				cases_possibles = numCases_possibles_avant_prise(source,ptr_taille_possible);
-				pointsCasesPossibles = numCasesPossibles_to_Point(cases_possibles,ig,taille_possible);
-				affiche_efface_cases_possibles(pointsCasesPossibles,taille_possible,ig,th,true);
+				casesPossibles = numCases_possibles_avant_prise(source,ptrTaillePossible);
+				pointsCasesPossibles = numCasesPossibles_to_Point(casesPossibles,ig,taillePossible);
+				affiche_efface_cases_possibles(pointsCasesPossibles,taillePossible,ig,th,true);
 				clic1 = numCase_to_point(source,ig);
 				zoneClic1.x =clic1.x - TAILLE_CASE/2;zoneClic1.y = clic1.y - TAILLE_CASE/2;
 				zoneClic2.x =clic1.x + TAILLE_CASE/2;zoneClic2.y = clic1.y + TAILLE_CASE/2;
@@ -271,16 +251,37 @@ int main()
 					clic2 = wait_clic();
 					printf("clic2 fait !\n");
 					destination = clic_to_numCase(clic2,ig);
-					secondClicValide = second_clic_valide(cases_possibles,destination,taille_possible);
+					secondClicValide = second_clic_valide(casesPossibles,destination,taillePossible);
 				}while (!secondClicValide && !clic_zone_valide(clic2,zoneClic1,zoneClic2));
-				affiche_efface_cases_possibles(pointsCasesPossibles,taille_possible,ig,th,false);
+				affiche_efface_cases_possibles(pointsCasesPossibles,taillePossible,ig,th,false);
 				if (secondClicValide)
 				{
 					printf("clic2 validé !\n");
-					deplacement(source,destination,ig,th);
-					printf("j(%d)\n",joueur_actuel);
-					joueur_actuel = changer_joueur(joueur_actuel);
-					partie_en_cours = joueur_suivant_peut_jouer(joueur_actuel);
+					PIECE P;
+					POINT p1 = numCase_to_point(source,ig), p2 = numCase_to_point(destination,ig),p3;
+					appliqueCoup(source,destination);
+					P = tableau[destination.c][destination.l]; // car la source et la destination ont ete intervertis
+					if (absol(destination.c - source.c) == 2)
+					{
+						numCase entreDeux;
+						if (joueurActuel == NOIR) {
+							affiche_pieces_prises(joueurActuel, ig, th,piecePerdueSombre);
+							piecePerdueSombre++;
+						}
+						else { 
+							affiche_pieces_prises(joueurActuel, ig, th,piecePerdueClaire);
+							piecePerdueClaire++;
+						}
+						entreDeux.c = source.c + (destination.c - source.c)/2;
+				       	 	entreDeux.l = source.l + (destination.l - source.l)/2;
+						p3 = numCase_to_point(entreDeux,ig);
+						efface_piece(ig,p3,th);
+					}
+	
+					affiche_deplacement_piece(ig,P, p1,p2,th);
+					printf("j(%d)\n",joueurActuel);
+					joueurActuel = changer_joueur(joueurActuel);
+					partieEnCours = joueur_suivant_peut_jouer(joueurActuel);
 				} else
 				{
 					// afficher animation second clic invalide (faire clignoter la mauvaise case cliqué en rouge par exemple)
@@ -288,7 +289,7 @@ int main()
 					printf("foo\n");
 				}
 			}
-		} while (partie_en_cours && !retourMenu);
+		} while (partieEnCours && !retourMenu);
 	}
 	
 	wait_escape();

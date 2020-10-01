@@ -28,7 +28,8 @@ typedef struct {
 	COULEUR pionSombre;
 }THEME;
 
-THEME themes[4];
+THEME themes[4]; //Madame Pilard a validé cette variable globale
+
 
 /*******************************
 *      Affichage de piece      *
@@ -98,3 +99,4 @@ void affiche_plateau(INTERFACE_GRAPHIQUE ig, THEME theme);
 
 void affiche_efface_cases_possibles(POINT* pointsCasesPossibles, int nombreCasesPossibles, INTERFACE_GRAPHIQUE ig,THEME th,BOOL afficheEfface);
 
+void affiche_pieces_prises(COULEUR clr, INTERFACE_GRAPHIQUE ig, THEME th, int nbPiecesPrises);
