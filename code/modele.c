@@ -19,7 +19,7 @@ void init_tabDamier ()
             else
             {
                 tableau[i][j].typeP=VIDE;
-                if (i==4 && j==5)
+                if ((i==4 && j==5) || (i==4 && j==3))
                 {
                     tableau[i][j].typeP=PION;
                     tableau[i][j].coulP=BLANC;
