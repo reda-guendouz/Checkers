@@ -176,15 +176,19 @@ int main()
 	init_themes();
 	affiche_auto_off();
 	BOOL retourMenu;
-	INTERFACE_GRAPHIQUE ig = CLASSIQUE;
+	INTERFACE_GRAPHIQUE ig;
 	POINT clic1,clic2,zoneJouer1,zoneJouer2,zoneQuitter1,zoneQuitter2,
-	zoneTheme1, zoneTheme2;
+	zoneThemeInterface1, zoneThemeInterface2;
+	
 	zoneJouer1.x = 475;zoneJouer1.y = 365;
 	zoneJouer2.x = 625;zoneJouer2.y = 425;
+	
 	zoneQuitter1.x = 450;zoneQuitter1.y = 270;
 	zoneQuitter2.x = 650;zoneQuitter2.y = 330;
-	zoneTheme1.x = 385;zoneTheme1.y =55;
-	zoneTheme2.x = 655;zoneTheme2.y = 115;
+	
+	zoneThemeInterface1.x = 420;zoneThemeInterface1.y =55;
+	zoneThemeInterface2.x = 690;zoneThemeInterface2.y = 115;
+
 	numCase source,destination;
 	numCase *cases_possibles = NULL;
 
@@ -198,12 +202,26 @@ int main()
 			if (clic_zone_valide(clic1,zoneQuitter1,zoneQuitter2)) //QUITTER
 				return 0;
 		} while (!clic_zone_valide(clic1,zoneJouer1,zoneJouer2));
-		//affiche_menu_partie_ig();
-		th = themes[0];
-		affiche_menu_partie_theme(ig);
-		affiche_menu_fleche_theme(th,true);
+		
+		ig = CLASSIQUE;
+		affiche_menu_partie_ig();
 		do
 		{
+			//affiche_menu_fleche_ig(ig,true);
+			clic1 = wait_clic(); // INTERFACE_GRAPHIQUE
+			//affiche_menu_fleche_ig(ig,false);
+			if (clic1.x > 450 && clic1.x < 650 && clic1.y > 350 && clic1.y < 410) 
+				ig = CLASSIQUE;
+			else if (clic1.x > 447 && clic1.x < 653 && clic1.y > 250 && clic1.y < 310) 
+				ig = ALTERNATIF;
+
+		} while (!clic_zone_valide(clic1,zoneThemeInterface1,zoneThemeInterface2));
+		th = themes[0];
+		affiche_menu_partie_theme(ig);
+		do
+		{
+
+			affiche_menu_fleche_theme(th,true);
 			clic1 = wait_clic();
 			affiche_menu_fleche_theme(th,false);
 			if (clic1.x > 325 && clic1.x < 425 && clic1.y > 400 && clic1.y < 500) 
@@ -214,8 +232,7 @@ int main()
 				th = themes[2];				
 			else if  (clic1.x > 625 && clic1.x < 725 && clic1.y > 200 && clic1.y < 300)
 				th = themes[3];
-			affiche_menu_fleche_theme(th,true);
-		} while (!clic_zone_valide(clic1,zoneTheme1,zoneTheme2));
+		} while (!clic_zone_valide(clic1,zoneThemeInterface1,zoneThemeInterface2));
 		
 		init_tabDamier();
 		joueur_actuel = BLANC;

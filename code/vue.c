@@ -193,8 +193,10 @@ void affiche_damier(INTERFACE_GRAPHIQUE ig, THEME theme) {
 				affiche_case(ig,p1, theme.caseClaire);
 			else { 
 				affiche_case(ig,p1,theme.caseSombre);
-				p1.x += TAILLE_CASE/2;
-				p1.y += TAILLE_CASE/2;
+				if (ig == CLASSIQUE) {
+					p1.x += TAILLE_CASE/2;
+					p1.y += TAILLE_CASE/2;
+				}
 				P = tableau[i][j];
 				if (P.typeP != VIDE)
 					affiche_piece(ig,P,p1,theme);
@@ -303,17 +305,43 @@ void affiche_menu_partie_theme(INTERFACE_GRAPHIQUE ig) {
 	aff_pol("CHOISIR UN THEME",35,p1,blanc);	
 	affiche_themes(ig);
 
-	p1.x = 400;p1.y = 100;
+	p1.x = 430;p1.y = 100;
 	aff_pol("LANCER LA PARTIE",25,p1,blanc);
-	p1.x = 390;p1.y = 60;
-	p2.x = 650; p2.y = 110;
+	p1.x = 420;p1.y = 60;
+	p2.x = 685; p2.y = 110;
 	affiche_menu_cadre(p1,p2,vert);
 	affiche_all();
 }
 
 void affiche_menu_partie_ig() {
+	POINT p1,p2;
+	reset_affichage_screen(noir);
 
+	p1.x =330;p1.y =600;
+	aff_pol("CHOISIR UNE INTERFACE",35,p1,blanc);
+	p1.x = 320; p1.y = 550;
+	p2.x = 790; p2.y = 610;
+	affiche_menu_cadre(p1,p2,blanc);
 
+	p1.x = 460; p1.y = 400;
+	aff_pol("CLASSIQUE",30,p1,blanc);
+	p1.x = 450; p1.y = 350;
+	p2.x = 650; p2.y = 410;
+	affiche_menu_cadre(p1,p2,bleu);
+
+	p1.x = 457; p1.y = 300;
+	aff_pol("ALTERNATIF",30,p1,blanc);
+	p1.x = 447; p1.y = 250;
+	p2.x = 653; p2.y = 310;
+	affiche_menu_cadre(p1,p2,jaune);
+	
+	p1.x = 430;p1.y = 100;   
+	aff_pol("CHOISIR UN THEME",25,p1,blanc);
+	p1.x = 420;p1.y = 60;
+	p2.x = 690; p2.y = 110;
+	affiche_menu_cadre(p1,p2,vert);
+
+	affiche_all();
 }
 
 void affiche_menu_retour() {
