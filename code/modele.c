@@ -20,7 +20,7 @@ void init_tabDamier ()
                 tableau[i][j].typeP=VIDE;
                 if (i<4)
                 {
-                    tableau[i][j].typeP=DAME;
+                    tableau[i][j].typeP=PION;
                     tableau[i][j].coulP=BLANC;
                 }
                 else if (i>5)
@@ -109,11 +109,11 @@ numCase* numCases_possibles_apres_prise(numCase source){
 numCase* numCases_possibles_avant_prise(numCase source,int *tailleCmpt){
     int compteur=0;
     int i,taille;
-    int *col = NULL; int *lig = NULL;
+    int col [4]; int lig [4];
     numCase possible,prise,retour;
     PIECE pi,piDestination,piSource;
     numCase *casesPossibles = NULL;
-    numCase temp [5];
+    casesPossibles = (numCase *)malloc(4*sizeof(numCase));
 
     piSource = tableau[source.c][source.l];
     if (piSource.typeP == VIDE)
@@ -122,8 +122,6 @@ numCase* numCases_possibles_avant_prise(numCase source,int *tailleCmpt){
     if (piSource.typeP==PION)
     {
         taille=2;
-        col = (int *)malloc(taille*sizeof(int));
-        lig = (int *)malloc(taille*sizeof(int));
         if (piSource.coulP==BLANC)
         {
             col[0] = 1; col[1] = 1;
@@ -135,8 +133,6 @@ numCase* numCases_possibles_avant_prise(numCase source,int *tailleCmpt){
     } else
     {
         taille=4;
-        col = (int *)malloc(taille*sizeof(int));
-        lig = (int *)malloc(taille*sizeof(int));
         col[0] = 1; col[1] = 1; col[2] = -1; col[3] = -1;
         lig[0] = 1; lig[1] = -1;lig[2] = 1; lig[3] = -1;
     }
@@ -145,6 +141,7 @@ numCase* numCases_possibles_avant_prise(numCase source,int *tailleCmpt){
     {
         possible.c = col[i]; possible.l = lig[i];
         prise.c = col[i]*2;  prise.l = lig[i]*2;
+        // verification que les 4 cases de distance 1 sont bien incluses dans le damier (evitons de se deplacer en doehors du damier)
         if (source.c + possible.c >= 0 && source.l + possible.l >=0 && source.c + possible.c < 10 && source.l + possible.l < 10)
         {
             pi = tableau[source.c + possible.c][source.l + possible.l];
@@ -153,25 +150,20 @@ numCase* numCases_possibles_avant_prise(numCase source,int *tailleCmpt){
             {                
                 retour.c = source.c + possible.c;
                 retour.l = source.l + possible.l;
-                temp[compteur] = retour;
+                casesPossibles[compteur] = retour;
                 compteur++;
-                printf("source.c %d source.l %d possible.c %d possible.l %d\n",source.c,source.l,retour.c,retour.l);
+                printf("deplacement normal possible\n");
             } else if (pi.coulP != joueur && piDestination.typeP==VIDE && 
             source.c + prise.c >= 0 && source.l + prise.l >=0 && source.c + prise.c < 10 && source.l + prise.l < 10)
+            // meme verification pour les cases a distance de 2 (dans le cas d'une prise)
             {
                 retour.c = source.c + prise.c;
                 retour.l = source.l + prise.l;
-                temp[compteur] = retour;
+                casesPossibles[compteur] = retour;
                 compteur++;
+                printf("prise possible\n");
             }
         }
-    }
-
-    if (compteur != 0)
-    {
-        casesPossibles = (numCase *)malloc(compteur*sizeof(numCase));
-        for (i = 0; i != compteur; i++)
-            casesPossibles[i] = temp[i];
     }
 
     for (i = 0; i != compteur; i++)

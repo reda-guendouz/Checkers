@@ -47,7 +47,12 @@ BOOL clic_zone_valide(POINT clic_source, POINT zone1, POINT zone2){
 POINT* numCasesPossibles_to_Point(numCase* numCasesPossibles,INTERFACE_GRAPHIQUE ig,int nbCasesPossibles){
 	int i;
 	POINT p;
-	POINT * pointCasesPossibles = NULL;
+	POINT *pointCasesPossibles = NULL;
+	if (numCasesPossibles!=NULL)
+	{
+		printf("taille cases possibles %d\n",numCasesPossibles[i].c);
+	}
+	
 	pointCasesPossibles = (POINT *)malloc(nbCasesPossibles*sizeof(POINT));
 	for (i = 0;i<nbCasesPossibles;i++) {
 		p = numCase_to_point(numCasesPossibles[i],ig);
@@ -230,11 +235,11 @@ int main()
 			// jeu ici ?
 			affiche_joueur(joueur_actuel,ig,th);
 			clic1 = wait_clic();
-			if (clic1.x > 10 && clic1.x < 90 && clic1.y > 560) {
+			if (clic1.x > 10 && clic1.x < 90 && clic1.y > 560) { // si clique dans le logo dans le coin superieur gauche
 					printf("dedans sortir\n");
 					retourMenu = TRUE;
 				}
-			else {
+			else { // sinon le jeu avance
 				while (!premier_clic_valide(clic1, joueur_actuel,ig)){
 					clic1 = wait_clic();
 				} 
