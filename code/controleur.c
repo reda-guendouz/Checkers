@@ -23,7 +23,7 @@ BOOL second_clic_valide(numCase* casesPossibles,numCase destination,int taille);
 
 COULP changer_joueur(COULP joueur);
 
-BOOL joueur_suivant_peut_jouer(COULP joueur);
+BOOL joueur_suivant_peut_jouer(COULP joueurSuivant);
 
 numCase clic_to_numCase(POINT p,INTERFACE_GRAPHIQUE ig);
 
@@ -243,7 +243,7 @@ BOOL premier_clic_valide(POINT clicSource, COULP joueurActuel,INTERFACE_GRAPHIQU
 	return false; 	
 }
 
-BOOL joueur_suivant_peut_jouer(COULP joueur){
+BOOL joueur_suivant_peut_jouer(COULP joueurSuivant){
 	numCase source;
 	int verifTailleCasesPossibles = 0,col,lig;
 	int *ptrVerif = &verifTailleCasesPossibles;
@@ -252,7 +252,7 @@ BOOL joueur_suivant_peut_jouer(COULP joueur){
 	{
 		for (lig = 0; lig < 10; lig++)
 		{
-			if (tableau[col][lig].typeP!=VIDE && tableau[col][lig].coulP == joueur) // si c'est lent c'est a cause de reda
+			if (tableau[col][lig].typeP!=VIDE && tableau[col][lig].coulP == joueurSuivant) // si c'est lent c'est a cause de reda
 			{
 				source.c = col; source.l = lig;
 				numCases_possibles_avant_prise(source,ptrVerif);
