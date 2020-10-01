@@ -6,12 +6,6 @@ int absol(int val){
     return val;
 }
 
-int abs(int val){
-    if (val<0)
-        return -val;
-    return val;
-}
-
 void init_tabDamier ()
 {
     int i,j;
@@ -36,7 +30,6 @@ void init_tabDamier ()
                 }
             }            
         }
-        
     }
     
 }
@@ -54,7 +47,7 @@ void test_afficheTab(){
 
 void appliqueCoup(numCase source, numCase destination){
     PIECE pi = tableau[destination.c][destination.l];
-    printf("distance = %d\n",abs(destination.c - source.c));
+    printf("distance = %d\n",absol(destination.c - source.c));
 
     if (destination.c==9 || destination.c==0)
     {
@@ -64,7 +57,7 @@ void appliqueCoup(numCase source, numCase destination){
             tableau[source.c][source.l].typeP=DAME;
     }
 
-    if (abs(destination.c - source.c) != 1) // dans le cas d'une prise
+    if (absol(destination.c - source.c) != 1) // dans le cas d'une prise
     {
         numCase nc;
         nc.c = source.c + (destination.c - source.c)/2;
