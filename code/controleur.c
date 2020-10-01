@@ -65,18 +65,14 @@ void deplacement(numCase source,numCase destination,INTERFACE_GRAPHIQUE ig, THEM
 	P = tableau[destination.c][destination.l]; // car la source et la destination ont ete intervertis
 	if (absol(destination.c - source.c) == 2)
 	{
-		//
 		numCase entreDeux;
 		entreDeux.c = source.c + (destination.c - source.c)/2;
-        entreDeux.l = source.l + (destination.l - source.l)/2;
+        	entreDeux.l = source.l + (destination.l - source.l)/2;
 		p3 = numCase_to_point(entreDeux,ig);
-		efface_piece_ronde(p3,th);
+		efface_piece(ig,p3,th);
 	}
 	
 	affiche_deplacement_piece(ig,P, p1,p2,th);
-	
-	//else
-		//affiche_deplacement_piece_losange();
 }
 
 BOOL second_clic_valide(numCase* cases_possibles,numCase destination,int taille){
@@ -205,7 +201,6 @@ int main()
 		//affiche_menu_partie_ig();
 		th = themes[0];
 		affiche_menu_partie_theme(ig);
-		//affiche fleche par defaut
 		affiche_menu_fleche_theme(th,true);
 		do
 		{
@@ -226,7 +221,6 @@ int main()
 		joueur_actuel = BLANC;
 		affiche_plateau(ig,th);
 		retourMenu = FALSE;
-
 
 		do
 		{

@@ -20,77 +20,73 @@ void reset_affichage_screen(COULEUR clr) {
 *      Affichage de piece      *
 *******************************/
 
-void affiche_piece_ronde(PIECE P, POINT p, THEME theme){
-	POINT p1;
-	p1.x = p.x-2;
-	p1.y = p.y-2;
-	draw_fill_circle(p1,RAYON,noir);
-	if (P.coulP == NOIR) 
-		draw_fill_circle(p,RAYON,theme.pionSombre);
-	else 
-		draw_fill_circle(p,RAYON,theme.pionClair);
-	p1.x -= 5;
-	p1.y += 17;
-	if (P.typeP == DAME)
-		aff_pol("D",22,p1,noir);
-}
-
-void affiche_piece_losange(PIECE P, POINT p,THEME theme){
+void affiche_piece(INTERFACE_GRAPHIQUE ig,PIECE P, POINT p, THEME theme) {
 	POINT p1,p2,p3;
-	p1.x = p.x - 17;
-	p1.y = p.y;
-	p2.x = p.x;
-	p2.y = p.y - 17;
-	p3.x = p.x + 17;
-	p3.y = p.y;
-	if (P.coulP == NOIR) {
-		draw_fill_triangle(p1,p2,p3,theme.pionSombre);
-		p2.y = p.y + 17;
-		draw_fill_triangle(p1,p2,p3,theme.pionSombre);
+	if (ig == CLASSIQUE) {
+		p1.x = p.x-2;
+		p1.y = p.y-2;
+		draw_fill_circle(p1,RAYON,noir);
+		if (P.coulP == NOIR) 
+			draw_fill_circle(p,RAYON,theme.pionSombre);
+		else 
+			draw_fill_circle(p,RAYON,theme.pionClair);
+		p1.x -= 5;
+		p1.y += 17;
+		if (P.typeP == DAME)
+			aff_pol("D",22,p1,noir);
 	}
 	else {
-		draw_fill_triangle(p1,p2,p3,theme.pionClair);
-		p2.y = p.y + 17;
-		draw_fill_triangle(p1,p2,p3,theme.pionClair);
-	}
-	p1.x += 9;
-	p1.y += 16;
-	if (P.typeP == DAME)
-		aff_pol("D",22,p1,noir);
+		p1.x = p.x - 17;
+		p1.y = p.y;
+		p2.x = p.x;
+		p2.y = p.y - 17;
+		p3.x = p.x + 17;
+		p3.y = p.y;
+		if (P.coulP == NOIR) {
+			draw_fill_triangle(p1,p2,p3,theme.pionSombre);
+			p2.y = p.y + 17;
+			draw_fill_triangle(p1,p2,p3,theme.pionSombre);
+		}
+		else {
+			draw_fill_triangle(p1,p2,p3,theme.pionClair);
+			p2.y = p.y + 17;
+			draw_fill_triangle(p1,p2,p3,theme.pionClair);
+		}
+		p1.x += 9;
+		p1.y += 16;
+		if (P.typeP == DAME)
+			aff_pol("D",22,p1,noir);
+	}	
 }
-
 
 /*******************************
 *       Affiche case           *
 *******************************/
 
 
-void affiche_case_carre(POINT p1, COULEUR clr) {
+void affiche_case(INTERFACE_GRAPHIQUE ig, POINT p1, COULEUR clr) {
 	POINT p2;
-	p2.x = p1.x + TAILLE_CASE;
-	p2.y = p1.y + TAILLE_CASE;
-	draw_fill_rectangle(p1,p2, clr);
-	
-}
-
-void affiche_case_ronde(POINT p, COULEUR clr) {
-	draw_fill_circle(p,RAYON,clr);
-	draw_circle(p,RAYON,noir);
+	if (ig == CLASSIQUE) {
+		p2.x = p1.x + TAILLE_CASE;
+		p2.y = p1.y + TAILLE_CASE;
+		draw_fill_rectangle(p1,p2, clr);
+	}
+	else {
+		draw_fill_circle(p1,RAYON,clr);
+		draw_circle(p1,RAYON,noir);
+	}
 }
 
 /*******************************
 *       Effacer une piece      *
 *******************************/
 
-void efface_piece_ronde(POINT p, THEME theme) {
-	POINT p1;
-	p1.x = p.x - TAILLE_CASE/2;
-	p1.y = p.y - TAILLE_CASE/2;
-	affiche_case_carre(p1, theme.caseSombre);
-}
-
-void efface_piece_losange(POINT p, THEME theme) {
-	affiche_case_ronde(p, theme.caseSombre);
+void efface_piece(INTERFACE_GRAPHIQUE ig, POINT p1, THEME theme) {
+	if (ig == CLASSIQUE) {
+		p1.x = p1.x - TAILLE_CASE/2;
+		p1.y = p1.y - TAILLE_CASE/2;
+	}
+	affiche_case(ig,p1, theme.caseSombre);
 }
 
 /*******************************
@@ -98,14 +94,8 @@ void efface_piece_losange(POINT p, THEME theme) {
 *******************************/
 
 void affiche_deplacement_piece(INTERFACE_GRAPHIQUE ig, PIECE P,POINT p1, POINT p2, THEME theme) {
-	if (ig == CLASSIQUE) {
-		efface_piece_ronde(p1, theme);
-		affiche_piece_ronde(P, p2, theme);
-	}
-	else {
-		efface_piece_losange(p1, theme);
-		affiche_piece_losange(P,p2,theme);
-	} 
+	efface_piece(ig,p1, theme);
+	affiche_piece(ig,P, p2, theme);
 	affiche_all();
 }
 
@@ -156,26 +146,16 @@ void affiche_themes(INTERFACE_GRAPHIQUE ig) {
 				p2.x = p1.x + k*TAILLE_CASE;
 				p2.y = p1.y + j*TAILLE_CASE;
 				if ((j+k)%2 == 0) {
+					affiche_case(ig,p2,th.caseSombre);
 					if (ig == CLASSIQUE) {
-						affiche_case_carre(p2, th.caseSombre);
 						p2.x += TAILLE_CASE/2;
 						p2.y += TAILLE_CASE/2;
-						affiche_piece_ronde(P,p2,th);
 					}
-					else
-						{	
-						affiche_case_ronde(p2, th.caseSombre);
-						affiche_piece_losange(P,p2,th);
-					}
+					affiche_piece(ig,P,p2,th);
 					P.coulP = NOIR;
 				}
 				else
-				{
-					if (ig == CLASSIQUE) 
-						affiche_case_carre(p2, th.caseClaire);
-					else
-						affiche_case_ronde(p2, th.caseClaire);
-				}
+					affiche_case(ig,p2, th.caseClaire);
 			}
 		}
 		if (i == 2) {
@@ -196,55 +176,41 @@ void affiche_themes(INTERFACE_GRAPHIQUE ig) {
 *        Affiche damier        *
 *******************************/
 
-void affiche_damier_classique(THEME theme)  {
-	int i,j;
+void affiche_damier(INTERFACE_GRAPHIQUE ig, THEME theme) {
+	int i,j,ecartX =300, ecartY =50;
 	PIECE P;
 	POINT p1;
 	POINT p2;
+	if(ig == CLASSIQUE){
+		ecartX = 275;
+		ecartY = 25;
+	}
 	for (i = 0; i<10; i++) {
 		for (j = 0; j<10; j++) {
-			p1.x =i*TAILLE_CASE +275;
-			p1.y =j*TAILLE_CASE + 25;
+			p1.x =i*TAILLE_CASE + ecartX;
+			p1.y =j*TAILLE_CASE + ecartY;
 			if ((i+j)%2 == 0)
-				affiche_case_carre(p1, theme.caseClaire);
+				affiche_case(ig,p1, theme.caseClaire);
 			else { 
-				affiche_case_carre(p1, theme.caseSombre);
+				affiche_case(ig,p1,theme.caseSombre);
 				p1.x += TAILLE_CASE/2;
 				p1.y += TAILLE_CASE/2;
 				P = tableau[i][j];
 				if (P.typeP != VIDE)
-					affiche_piece_ronde(P,p1,theme);
+					affiche_piece(ig,P,p1,theme);
 			}
 		}
 	}
-	p2.x = 275;
-	p2.y = 25;
-	p1.x += TAILLE_CASE;
-	p1.y += TAILLE_CASE;
-	draw_rectangle(p2,p1,noir);
+	if (ig == CLASSIQUE) {
+		p2.x = 275;
+		p2.y = 25;
+		p1.x += TAILLE_CASE;
+		p1.y += TAILLE_CASE;
+		draw_rectangle(p2,p1,noir);
+	}
 	affiche_all();
 }
 
-void affiche_damier_alternatif(THEME theme) {
-	int i,j;
-	PIECE P;
-	POINT p1;
-	for (i = 0; i<10; i++) {
-		for (j = 0; j<10; j++) {
-			p1.x =i*TAILLE_CASE + 300;
-			p1.y =j*TAILLE_CASE + 50;
-			if ((i+j)%2 == 0)
-				affiche_case_ronde(p1, theme.caseClaire);
-			else { 
-				affiche_case_ronde(p1, theme.caseSombre);
-				P = tableau[j][i];
-				if (P.typeP != VIDE)
-					affiche_piece_losange(P,p1,theme);
-			}
-		}
-	}
-	affiche_all();
-}
 
 /*******************************
 *        Affiche Menu          *
@@ -275,8 +241,8 @@ void affiche_menu_cadre(POINT p1, POINT p2, COULEUR clr) {
 }
 
 void affiche_menu_principal() {
-	reset_affichage_screen(noir);	
 	POINT p1,p2;
+	reset_affichage_screen(noir);	
 	p1.x = 425;p1.y = 625;
 	aff_pol("CHECKERS",45,p1,blanc);
 	p2.x = 675 ; p2.y = 565;
@@ -330,8 +296,8 @@ void affiche_menu_fleche_theme(THEME th, BOOL afficheEfface) {
 }
 
 void affiche_menu_partie_theme(INTERFACE_GRAPHIQUE ig) {
-	reset_affichage_screen(noir);
 	POINT p1,p2;
+	reset_affichage_screen(noir);
 	
 	p1.x = 350;p1.y = 600;
 	aff_pol("CHOISIR UN THEME",35,p1,blanc);	
@@ -378,8 +344,8 @@ void affiche_menu_retour() {
 }
 
 void affiche_menu_apres_partie() {
-	reset_affichage_screen(noir);
 	POINT p1,p2;
+	reset_affichage_screen(noir);
 
 	p1.x =300;p1.y =600;
 	aff_pol("VOULEZ-VOUS REJOUER ?",35,p1,blanc);
@@ -413,10 +379,7 @@ void affiche_joueur(COULEUR joueurActuel,INTERFACE_GRAPHIQUE ig, THEME th) {
 	p2.x = 625;p2.y = 600;
 	draw_fill_rectangle(p1,p2,lavender);
 	p1.x = 600;p1.y = 575;
-	if (ig == CLASSIQUE)
-		affiche_piece_ronde(P,p1,th);
-	else
-		affiche_piece_losange(P,p1,th);
+	affiche_piece(ig,P,p1,th);
 	affiche_all();	
 }
 
@@ -433,12 +396,7 @@ void affiche_plateau(INTERFACE_GRAPHIQUE ig, THEME theme) {
 	p.y = 600;
 	aff_pol("Tour du joueur :",30,p,marron);
 	affiche_menu_retour();
-	if (ig == CLASSIQUE) {
-		affiche_damier_classique(theme);
-	}
-	else {
-		affiche_damier_alternatif(theme);
-	}
+	affiche_damier(ig,theme);
 }
 
 
@@ -447,19 +405,12 @@ void affiche_efface_cases_possibles(POINT* pointsCasesPossibles, int nombreCases
 	int i;
 	for (i = 0; i <nombreCasesPossibles; i++) {
 		p1 = pointsCasesPossibles[i];
-		if (ig == CLASSIQUE) {
-			p1.x -= TAILLE_CASE/2;
-			p1.y -= TAILLE_CASE/2;
-			if (afficheEfface)
-				affiche_case_carre(p1,rouge);
-			else 
-				affiche_case_carre(p1,th.caseSombre);
-		}
-		else
-			if (afficheEfface)
-				affiche_case_ronde(p1,rouge);
-			else 
-				affiche_case_ronde(p1,th.caseSombre);
+		p1.x -= TAILLE_CASE/2;
+		p1.y -= TAILLE_CASE/2;
+		if (afficheEfface)
+			affiche_case(ig,p1,rouge);
+		else 
+			affiche_case(ig,p1,th.caseSombre);
 	}
 	affiche_all();	
 }
