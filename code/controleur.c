@@ -288,7 +288,9 @@ int main()
 				}
 			}
 		} while (partieEnCours && !retourMenu);
-		affiche_menu_apres_partie(finPartie,th);
+		if (!retourMenu && partieEnCours) {
+			affiche_menu_apres_partie(finPartie,th);
+		}
 		wait_clic();
 	}
 	
