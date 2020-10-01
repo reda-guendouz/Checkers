@@ -77,7 +77,7 @@ numCase* numCases_possibles_apres_prise(numCase source,int *tailleCmpt){
     PIECE pi,piDestination,piSource;
     COULP joueur;
     numCase *casesPossibles = NULL;
-    casesPossibles = (numCase)malloc(4*sizeof(numCase));
+    casesPossibles = (numCase *)malloc(4*sizeof(numCase));
 
     piSource = tableau[source.c][source.l];
     if (piSource.typeP == VIDE)
@@ -126,7 +126,7 @@ numCase* numCases_possibles_avant_prise(numCase source,int *tailleCmpt){
     numCase possible,prise,retour;
     PIECE pi,piDestination,piSource;
     numCase *casesPossibles = NULL;
-    casesPossibles = (numCase)malloc(4*sizeof(numCase));
+    casesPossibles = (numCase *)malloc(4*sizeof(numCase));
 
     piSource = tableau[source.c][source.l];
     if (piSource.typeP == VIDE)
