@@ -11,10 +11,6 @@
 #include<stdio.h>
 #include<SDL/SDL.h> 
 
-#define LARGEUR_FENETRE 1100
-
-#define HAUTEUR_FENETRE 650
-
 /****************************
 *          Protoypes        *
 ****************************/
@@ -35,6 +31,8 @@ numCase clic_to_numCase(POINT p,INTERFACE_GRAPHIQUE ig);
 
 POINT numCase_to_point(numCase nc,INTERFACE_GRAPHIQUE ig);
 
+POINT* numCasesPossibles_to_Point(numCase* numCasesPossibles,INTERFACE_GRAPHIQUE ig, int nbCasesPossibles);
+
 /****************************
 *          Fonctions        *
 ****************************/
@@ -44,6 +42,16 @@ BOOL clic_zone_valide(POINT clic_source, POINT zone1, POINT zone2){
 	if (clic_source.x > zone1.x && clic_source.y > zone1.y && clic_source.x < zone2.x && clic_source.y < zone2.y)
 		return true;	
 	return false;
+POINT* numCasesPossibles_to_Point(numCase* numCasesPossibles,INTERFACE_GRAPHIQUE ig,int nbCasesPossibles){
+	int i;
+	POINT p;
+	POINT * pointCasesPossibles = NULL;
+	pointCasesPossibles = (POINT *)malloc(nbCasesPossibles*sizeof(POINT));
+	for (i = 0;i<nbCasesPossibles;i++) {
+		p = numCase_to_point(numCasesPossibles[i],ig);
+		pointCasesPossibles[i] = p;
+	}
+	return pointCasesPossibles;
 }
 
 void deplacement(numCase source,numCase destination,INTERFACE_GRAPHIQUE ig, THEME th){
@@ -117,7 +125,7 @@ BOOL peut_jouer(COULP joueur){
 numCase clic_to_numCase(POINT p,INTERFACE_GRAPHIQUE ig){
 	numCase nc;
 	if (ig == CLASSIQUE) {
-		nc.c = (p.x - 300)/TAILLE_CASE;
+		nc.c = (p.x - 275)/TAILLE_CASE;
 		nc.l = (p.y - 25)/TAILLE_CASE;
 	}
 	else {
@@ -130,7 +138,7 @@ numCase clic_to_numCase(POINT p,INTERFACE_GRAPHIQUE ig){
 POINT numCase_to_point(numCase nc,INTERFACE_GRAPHIQUE ig){
 	POINT p;
 	if (ig == CLASSIQUE) {
-		p.x = (nc.c*TAILLE_CASE)+ 325;
+		p.x = (nc.c*TAILLE_CASE)+ 300;
 		p.y = (nc.l*TAILLE_CASE) + 50;
 	}
 	else {
@@ -148,17 +156,18 @@ POINT numCase_to_point(numCase nc,INTERFACE_GRAPHIQUE ig){
 
 
 int main()
-{	
+{
 	int taille_possible = 0;
+	POINT* pointsCasesPossibles;
+	BOOL afficheEfface = TRUE;
 	int* ptr_taille_possible = &taille_possible;
 	COULP joueur_actuel = BLANC;
-	THEME th;
-	th.caseClaire = argent;
-	th.caseSombre = marron;
-	th.pionClair = blanc;
-	th.pionSombre = noir;
+	init_themes();
+	THEME th = themes[0];
 	BOOL jeu_en_cours=true,partie_en_cours=true;
 	init_graphics(LARGEUR_FENETRE,HAUTEUR_FENETRE);
+	affiche_menu();
+	wait_clic();
 	affiche_auto_off();
 	init_tabDamier();
 	INTERFACE_GRAPHIQUE ig = CLASSIQUE;
@@ -166,11 +175,11 @@ int main()
 	numCase source,destination;
 	numCase *cases_possibles = NULL;
 	affiche_plateau(ig,th);
-
 	while (jeu_en_cours)
 	{
 		while (partie_en_cours)
 		{
+			affiche_joueur(joueur_actuel,ig,th);
 			do {
 				clic1 = wait_clic();
 			} while (!premier_clic_valide(clic1, joueur_actuel,ig));
@@ -178,6 +187,8 @@ int main()
 			printf("joueur : %d, \t clic valide\n",joueur_actuel);
 			source = clic_to_numCase(clic1,ig);
 			cases_possibles = numCases_possibles_avant_prise(source,ptr_taille_possible);
+			pointsCasesPossibles = numCasesPossibles_to_Point(cases_possibles,ig,taille_possible);
+			affiche_efface_cases_possibles(pointsCasesPossibles,taille_possible,ig,th,afficheEfface);
 			// todo : si taille 0 source devient rouge
 			clic2 = wait_clic();
 			printf("clic2 fait !\n");
