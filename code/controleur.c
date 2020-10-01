@@ -52,8 +52,7 @@ int main()
 	INTERFACE_GRAPHIQUE ig;
 	POINT clic1, clic2, zoneJouer1, zoneJouer2, zoneQuitter1, zoneQuitter2,
 		zoneValide1, zoneValide2, zoneIg1, zoneIg2, zoneIg3, zoneIg4,
-		zoneClic1, zoneClic2, zoneRejouer1, zoneRejouer2;
-
+		zoneClic1, zoneClic2, zoneRejouer1, zoneRejouer2,temp;
 	zoneJouer1.x = 475;
 	zoneJouer1.y = 365;
 	zoneJouer2.x = 625;
@@ -138,10 +137,16 @@ int main()
 				retourMenu = TRUE;
 			else
 			{
-				while (!premier_clic_valide(clic1, joueurActuel, ig))
-					clic1 = wait_clic();
-				source = clic_to_numCase(clic1, ig);
-				casesPossibles = numCases_possibles_avant_prise(source, ptrTaillePossible);
+				do {
+					while (!premier_clic_valide(clic1, joueurActuel, ig))
+						clic1 = wait_clic();
+					source = clic_to_numCase(clic1, ig);
+					casesPossibles = numCases_possibles_avant_prise(source, ptrTaillePossible);
+					printf("taille : %d\n",taillePossible);
+					temp.x = clic1.x;temp.y = clic1.y;
+					clic1.x = 0;clic1.y = 0;
+				}while (taillePossible == 0);
+				clic1.x = temp.x;clic1.y = temp.y;
 				pointsCasesPossibles = numCasesPossibles_to_Point(casesPossibles, ig, taillePossible);
 				affiche_efface_cases_possibles(pointsCasesPossibles, taillePossible, ig, th, true); // affiche surbrillance
 				clic1 = numCase_to_point(source, ig);
@@ -158,41 +163,62 @@ int main()
 				affiche_efface_cases_possibles(pointsCasesPossibles, taillePossible, ig, th, false); // enleve surbrillance
 				if (secondClicValide)
 				{
-					source = destination;
 					casesPossibles = numCases_possibles_avant_prise(source,ptrTaillePossible);
 					if (joueurActuel == BLANC) {
-						deplacement(source,destination,joueurActuel,ig,th,piecePerdueSombre);
-						piecePerdueSombre++;
+						distance = deplacement(source,destination,joueurActuel,ig,th,piecePerdueSombre);
+						if (distance == 2)
+							piecePerdueSombre++;
 					}
 					else {
-						deplacement(source,destination,joueurActuel,ig,th,piecePerdueClaire);
-						piecePerdueClaire++;
+						distance = deplacement(source,destination,joueurActuel,ig,th,piecePerdueClaire);
+						if (distance == 2)
+							piecePerdueClaire++;
 					}
 					if (distance == 2) 
 						pieceEnPrise = true;
 					else
 						pieceEnPrise = false;
-					// do while prise multiple
-					/*
-					while (pieceEnPrise)
-					{
+					while(pieceEnPrise) { //prises multiples
 						source = destination;
 						casesPossibles = numCases_possibles_apres_prise(source, ptrTaillePossible);
-						if (taillePossible > 0)
+						pointsCasesPossibles = numCasesPossibles_to_Point(casesPossibles, ig, taillePossible);
+						if (taillePossible > 0) 
 						{
-							if (joueurActuel == NOIR) {
-								deplacement(source,destination,joueurActuel,ig,th,piecePerdueSombre);
-								piecePerdueSombre++;
-							}
-							else {
-								deplacement(source,destination,joueurActuel,ig,th,piecePerdueClaire);
-								piecePerdueClaire++;
-							}
-						}
-						else
-							pieceEnPrise = false;
-					} */
+							affiche_efface_cases_possibles(pointsCasesPossibles, taillePossible, ig, th, true);
+							clic1 = numCase_to_point(source, ig);
+							zoneClic1.x = clic1.x - TAILLE_CASE / 2;
+							zoneClic1.y = clic1.y - TAILLE_CASE / 2;
+							zoneClic2.x = clic1.x + TAILLE_CASE / 2;
+							zoneClic2.y = clic1.y + TAILLE_CASE / 2;
 
+							do 
+							{
+								clic2 = wait_clic();
+								destination = clic_to_numCase(clic2, ig);
+								secondClicValide = second_clic_valide(casesPossibles, destination, taillePossible);
+							} while (!secondClicValide && !clic_zone_valide(clic2, zoneClic1, zoneClic2));
+							affiche_efface_cases_possibles(pointsCasesPossibles, taillePossible, ig, th, false); // enleve surbrillance
+							if (secondClicValide)
+							{
+								casesPossibles = numCases_possibles_apres_prise(source,ptrTaillePossible);
+								if (joueurActuel == BLANC) {
+									distance = deplacement(source,destination,joueurActuel,ig,th,piecePerdueSombre);
+									piecePerdueSombre++;
+								}
+								else {
+									distance = deplacement(source,destination,joueurActuel,ig,th,piecePerdueClaire);
+									piecePerdueClaire++;
+								}
+								if (distance == 2) 
+									pieceEnPrise = true;
+								else
+									pieceEnPrise = false;
+						 	}
+	
+						}
+						else 
+							pieceEnPrise = false;
+					}
 					joueurActuel = changer_joueur(joueurActuel);
 					pieceEnPrise = false;
 					partieEnCours = joueur_suivant_peut_jouer(joueurActuel);

@@ -19,7 +19,7 @@ void init_tabDamier ()
             else
             {
                 tableau[i][j].typeP=VIDE;
-                if ((i==4 && j==5) || (i==4 && j==3))
+                if (i<4)
                 {
                     tableau[i][j].typeP=PION;
                     tableau[i][j].coulP=BLANC;
@@ -80,18 +80,21 @@ numCase* numCases_possibles_apres_prise(numCase source,int *tailleCmpt){
     COULP joueur;
     numCase *casesPossibles = NULL;
     casesPossibles = (numCase *)malloc(4*sizeof(numCase));
-
     if (tableau[source.c][source.l].typeP == VIDE)
         return false; 
     joueur = tableau[source.c][source.l].coulP;
-
+    if (joueur == NOIR)
+	    joueur = BLANC;
+    else 
+	    joueur = NOIR;
+    printf("joueur : %d\n",joueur);
     for (i = 0; i != 4; i++)
     {
         possible.c = col[i]; possible.l = lig[i];
         prise.c = col[i]*2;  prise.l = lig[i]*2;
         P = tableau[source.c + possible.c][source.l + possible.l];
         PDestination = tableau[source.c + prise.c][source.l + prise.l];
-        if (P.coulP != joueur && PDestination.typeP==VIDE && 
+        if (P.coulP == joueur && PDestination.typeP == VIDE && P.typeP != VIDE && 
         source.c + prise.c >= 0 && source.l + prise.l >=0 && source.c + prise.c < 10 && source.l + prise.l < 10)
         // meme verification pour les cases a distance de 2 (dans le cas d'une prise)
         {
@@ -103,7 +106,7 @@ numCase* numCases_possibles_apres_prise(numCase source,int *tailleCmpt){
     }
 
     for (i = 0; i != compteur; i++)
-		printf("numero %d : c(%d)\tl(%d)\n",i,casesPossibles[i].c,casesPossibles[i].l);
+		printf("numero b, %d : c(%d)\tl(%d)\n",i,casesPossibles[i].c,casesPossibles[i].l);
 
     *tailleCmpt = compteur;
     return casesPossibles;
@@ -154,7 +157,7 @@ numCase* numCases_possibles_avant_prise(numCase source,int *tailleCmpt){
                 retour.l = source.l + possible.l;
                 casesPossibles[compteur] = retour;
                 compteur++;
-            } else if (P.coulP != joueur && PDestination.typeP==VIDE && 
+            } else if (P.coulP != joueur && PDestination.typeP==VIDE && P.typeP != VIDE &&
             source.c + prise.c >= 0 && source.l + prise.l >=0 && source.c + prise.c < 10 && source.l + prise.l < 10)
             // meme verification pour les cases a distance de 2 (dans le cas d'une prise)
             {
