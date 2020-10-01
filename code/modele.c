@@ -77,7 +77,7 @@ numCase* numCases_possibles_apres_prise(numCase source){
     numCase possible,prise,retour;
     PIECE pi,piDestination,piSource;
     numCase *casesPossibles = NULL;
-    numCase temp [5];
+    casesPossibles = (numCase *)malloc(4*sizeof(numCase));
     
     piSource = tableau[source.c][source.l];
     COULP joueur = piSource.coulP;
