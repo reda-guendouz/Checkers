@@ -224,7 +224,6 @@ int main()
 		affiche_menu_partie_theme(ig);
 		do
 		{
-
 			affiche_menu_fleche_theme(th,true);
 			clic1 = wait_clic();
 			affiche_menu_fleche_theme(th,false);
@@ -263,7 +262,7 @@ int main()
 				source = clic_to_numCase(clic1,ig);
 				cases_possibles = numCases_possibles_avant_prise(source,ptr_taille_possible);
 				pointsCasesPossibles = numCasesPossibles_to_Point(cases_possibles,ig,taille_possible);
-				affiche_efface_cases_possibles(pointsCasesPossibles,taille_possible,ig,th,true);
+				affiche_efface_cases_possibles(pointsCasesPossibles,taille_possible,ig,th,true); // afficher surbrillance
 				clic1 = numCase_to_point(source,ig);
 				zoneClic1.x =clic1.x - TAILLE_CASE/2;zoneClic1.y = clic1.y - TAILLE_CASE/2;
 				zoneClic2.x =clic1.x + TAILLE_CASE/2;zoneClic2.y = clic1.y + TAILLE_CASE/2;
@@ -273,7 +272,7 @@ int main()
 					destination = clic_to_numCase(clic2,ig);
 					secondClicValide = second_clic_valide(cases_possibles,destination,taille_possible);
 				}while (!secondClicValide && !clic_zone_valide(clic2,zoneClic1,zoneClic2));
-				affiche_efface_cases_possibles(pointsCasesPossibles,taille_possible,ig,th,false);
+				affiche_efface_cases_possibles(pointsCasesPossibles,taille_possible,ig,th,false); // enleve surbrillance
 				if (secondClicValide)
 				{
 					printf("clic2 validé !\n");
