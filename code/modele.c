@@ -149,7 +149,7 @@ numCase* numCases_possibles_avant_prise(numCase source,int *tailleCmpt){
             P = tableau[source.c + possible.c][source.l + possible.l];
             PDestination = tableau[source.c + prise.c][source.l + prise.l];
             if (P.typeP==VIDE)
-            {                
+            {
                 retour.c = source.c + possible.c;
                 retour.l = source.l + possible.l;
                 casesPossibles[compteur] = retour;
