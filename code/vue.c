@@ -330,13 +330,6 @@ void affiche_menu_partie_ig() {
 	p1.x = 447; p1.y = 250;
 	p2.x = 653; p2.y = 310;
 	affiche_menu_cadre(p1,p2,jaune);
-	/*
-	p1.x = 430;p1.y = 100;   
-	aff_pol("CHOISIR UN THEME",25,p1,blanc);
-	p1.x = 420;p1.y = 60;
-	p2.x = 690; p2.y = 110;
-	affiche_menu_cadre(p1,p2,vert);
-	*/
 	affiche_all();
 }
 
@@ -367,27 +360,36 @@ void affiche_menu_retour() {
 	aff_pol("H",30,p1,brown);
 }
 
-void affiche_menu_apres_partie() {
+void affiche_menu_apres_partie(FIN fin, THEME th) {
 	POINT p1,p2;
 	reset_affichage_screen(noir);
-
-	p1.x =300;p1.y =600;
-	aff_pol("VOULEZ-VOUS REJOUER ?",35,p1,blanc);
-	p1.x = 290; p1.y = 550;
-	p2.x = 770; p2.y = 610;
-	affiche_menu_cadre(p1,p2,blanc);
-
-	p1.x = 450; p1.y = 400;
+	if (fin == VICTOIREJOUEUR1) {
+		p1.x =350;p1.y =600;
+		aff_pol("VICTOIRE JOUEUR 1 !",35,p1,th.pionClair);
+	}
+	else if (fin == VICTOIREJOUEUR2) {
+		p1.x =350;p1.y =600;
+		aff_pol("VICTOIRE JOUEUR 2 !",35,p1,th.pionSombre);
+	}
+	else {
+		p1.x =450;p1.y =600;
+		aff_pol("EGALITE !",35,p1,blanc);
+	}
+	
+	p1.x = 325;p1.y = 450;
+	aff_pol("QUE VOULEZ-VOUS FAIRE ?",30,p1,blanc);
+	p1.x = 450; p1.y = 300;
 	aff_pol("RELANCER",30,p1,blanc);
-	p1.x = 440; p1.y = 350;
-	p2.x = 620; p2.y = 410;
+	p1.x = 440; p1.y = 250;
+	p2.x = 620; p2.y = 310;
 	affiche_menu_cadre(p1,p2,vert);
 
-	p1.x = 470; p1.y = 300;
+	p1.x = 470; p1.y = 200;
 	aff_pol("RETOUR",30,p1,blanc);
-	p1.x = 460; p1.y = 250;
-	p2.x = 600; p2.y = 310;
+	p1.x = 460; p1.y = 150;
+	p2.x = 600; p2.y = 210;
 	affiche_menu_cadre(p1,p2,rouge);
+	affiche_all();
 }
 
 /*******************************

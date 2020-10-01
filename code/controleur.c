@@ -151,6 +151,7 @@ int main()
 	int* ptrTaillePossible = &taillePossible;
 	COULP joueurActuel;
 	THEME th;
+	FIN finPartie = EGALITE;
 	BOOL jeuEnCours=true,partieEnCours=true;
 	init_graphics(LARGEUR_FENETRE,HAUTEUR_FENETRE);
 	init_themes();
@@ -217,7 +218,6 @@ int main()
 			else if  (clic1.x > 625 && clic1.x < 725 && clic1.y > 200 && clic1.y < 300)
 				th = themes[3];
 		} while (!clic_zone_valide(clic1,zoneValide1,zoneValide2));
-		
 		init_tabDamier();
 		joueurActuel = BLANC;
 		piecePerdueClaire = 0;
@@ -230,10 +230,8 @@ int main()
 			// jeu ici ?
 			affiche_joueur(joueurActuel,ig,th);
 			clic1 = wait_clic();
-			if (clic1.x > 10 && clic1.x < 90 && clic1.y > 560) {
-				printf("dedans sortir\n");
+			if (clic1.x > 10 && clic1.x < 90 && clic1.y > 560)
 				retourMenu = TRUE;
-			}
 			else {
 				while (!premier_clic_valide(clic1, joueurActuel,ig)){
 					clic1 = wait_clic();
@@ -290,6 +288,8 @@ int main()
 				}
 			}
 		} while (partieEnCours && !retourMenu);
+		affiche_menu_apres_partie(finPartie,th);
+		wait_clic();
 	}
 	
 	wait_escape();
