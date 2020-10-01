@@ -71,8 +71,7 @@ void appliqueCoup(numCase source, numCase destination){
 
 
 numCase* numCases_possibles_apres_prise(numCase source,int *tailleCmpt){
-    int compteur=0;
-    int i;
+    int compteur=0,i;
     int col [4]; int lig [4];
     numCase possible,prise,retour;
     PIECE pi,piDestination,piSource;
@@ -122,8 +121,7 @@ numCase* numCases_possibles_apres_prise(numCase source,int *tailleCmpt){
 }
 
 numCase* numCases_possibles_avant_prise(numCase source,int *tailleCmpt){
-    int compteur=0;
-    int i,taille;
+    int compteur=0, i, taille;
     int col [4]; int lig [4];
     numCase possible,prise,retour;
     PIECE pi,piDestination,piSource;
