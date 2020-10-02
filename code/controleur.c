@@ -39,7 +39,8 @@ POINT* numCasesPossibles_to_Point(numCase* numCasesPossibles, INTERFACE_GRAPHIQU
 
 int main()
 {
-	int taillePossible = 0, piecePerdueClaire, piecePerdueSombre,distance;
+	int taillePossible = 0, piecePerdueClaire, piecePerdueSombre,distance,
+	zoneClic1, zoneClic2, zoneClic3, zoneClic4;
 	POINT *pointsCasesPossibles;
 	int *ptrTaillePossible = &taillePossible; 
 	COULP joueurActuel;
@@ -121,14 +122,15 @@ int main()
 					pointsCasesPossibles = numCasesPossibles_to_Point(casesPossibles, ig, taillePossible);
 					affiche_efface_cases_possibles(pointsCasesPossibles, taillePossible, ig, th, true); // affiche surbrillance
 					clic1 = numCase_to_point(source, ig);
+					zoneClic1 = clic1.x - TAILLE_CASE/2; zoneClic2 = clic1.y - TAILLE_CASE/2;
+					zoneClic3 = clic1.x + TAILLE_CASE/2; zoneClic4 = clic1.y + TAILLE_CASE/2;
 					do
 					{
 						clic2 = wait_clic();
 						destination = clic_to_numCase(clic2, ig);
 						secondClicValide = est_second_coup_valide(casesPossibles, destination, taillePossible);
 					} while (!secondClicValide && 
-							!est_clic_valide(clic2, (clic1.x - TAILLE_CASE / 2), (clic1.y - TAILLE_CASE / 2),
-							(clic1.x + TAILLE_CASE / 2),( clic1.y + TAILLE_CASE / 2)));
+							!est_clic_valide(clic2, zoneClic1, zoneClic2,zoneClic3, zoneClic4));
 					affiche_efface_cases_possibles(pointsCasesPossibles,taillePossible,ig,th,false);
 					if (secondClicValide){
 						if (joueurActuel == BLANC) {
