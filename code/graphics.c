@@ -96,7 +96,7 @@ void init_graphics(int W, int H)
 	SDL_EnableKeyRepeat(1,0);
 	
 	// Le titre de la fenêtre
-	SDL_WM_SetCaption("UVSQ -- SDL -- Franck.Quessette@uvsq.fr",NULL);
+	SDL_WM_SetCaption("Reda GUENDOUZ & Marwane BAHRAOUI : CHECKERS",NULL);
 	
 	__init_graphics_is_already_called = 25;
 	printf("Fenetre de %d x %d\n",WIDTH,HEIGHT);

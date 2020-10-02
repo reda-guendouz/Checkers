@@ -48,7 +48,7 @@ int main()
 	init_graphics(LARGEUR_FENETRE, HAUTEUR_FENETRE);
 	init_themes();
 	affiche_auto_off();
-	BOOL retourMenu, secondClicValide, jeuEnCours = true, partieEnCours = true, pieceEnPrise = false;
+	BOOL retourMenu, secondClicValide, estValide = false, jeuEnCours = true, partieEnCours = true, pieceEnPrise = false;
 	INTERFACE_GRAPHIQUE ig;
 	POINT clic1, clic2, temp;
 
@@ -104,55 +104,51 @@ int main()
 		{
 			affiche_joueur(joueurActuel, ig, th);
 			do {
+				printf("attend premier clic\n");
+				estValide = false;
 				clic1 = wait_clic();
 				if (est_clic_valide(clic1, 10, 560, 90,HAUTEUR_FENETRE))
 					retourMenu = TRUE;
 				if (est_premier_coup_valide(clic1, joueurActuel, ig)) {
+					estValide = true;
 					source = clic_to_numCase(clic1, ig);
 					casesPossibles = get_numCases_possibles_avant_prise(source, ptrTaillePossible);
 				}
-			}while(taillePossible == 0 && !retourMenu);
+			}while((!estValide || taillePossible == 0) && !retourMenu);
 			if (!retourMenu) 
 			{
+				pieceEnPrise = false;
 				do {
 					pointsCasesPossibles = numCasesPossibles_to_Point(casesPossibles, ig, taillePossible);
 					affiche_efface_cases_possibles(pointsCasesPossibles, taillePossible, ig, th, true); // affiche surbrillance
 					clic1 = numCase_to_point(source, ig);
 					do
 					{
+						printf("attend second clic\n");
 						clic2 = wait_clic();
 						destination = clic_to_numCase(clic2, ig);
 						secondClicValide = est_second_coup_valide(casesPossibles, destination, taillePossible);
 					} while (!secondClicValide && 
 							!est_clic_valide(clic2, (clic1.x - TAILLE_CASE / 2), (clic1.y - TAILLE_CASE / 2),
 							(clic1.x + TAILLE_CASE / 2),( clic1.y + TAILLE_CASE / 2)));
-					affiche_efface_cases_possibles(pointsCasesPossibles, taillePossible, ig, th, false);
-					casesPossibles = get_numCases_possibles_avant_prise(source, ptrTaillePossible);
-					pieceEnPrise = false;
-					if (joueurActuel == BLANC) {
-						distance = deplacer_piece(source, destination, joueurActuel, ig, th, piecePerdueSombre);
-						if (distance == 2) {
-							piecePerdueSombre++;
-							pieceEnPrise = true;
+					affiche_efface_cases_possibles(pointsCasesPossibles,taillePossible,ig,th,false);
+					if (secondClicValide){
+						printf("deplacement\n");
+						if (joueurActuel == BLANC) {
+							distance = deplacer_piece(source, destination, joueurActuel, ig, th, piecePerdueSombre);
+							if (distance == 2)
+								piecePerdueSombre++;
 						}
-					}
-					else {
-						distance = deplacer_piece(source, destination, joueurActuel, ig, th, piecePerdueClaire);
-						if (distance == 2) {
-							piecePerdueClaire++;
-							pieceEnPrise = true;
+						else {
+							distance = deplacer_piece(source, destination, joueurActuel, ig, th, piecePerdueClaire);
+							if (distance == 2)
+								piecePerdueClaire++;
 						}
+						joueurActuel = changer_joueur(joueurActuel);
+						partieEnCours = verifie_partie_finie(joueurActuel);
+						printf("joueur : %d\n",joueurActuel);
 					}
-					if (pieceEnPrise) {
-						source = destination;
-						casesPossibles = get_numCases_possibles_apres_prise(source, ptrTaillePossible);
-						pointsCasesPossibles = numCasesPossibles_to_Point(casesPossibles, ig, taillePossible);
-						if (taillePossible < 1)
-							pieceEnPrise = false;
-					}
-				}while(secondClicValide && pieceEnPrise);
-				joueurActuel = changer_joueur(joueurActuel);
-				partieEnCours = verifie_partie_finie(joueurActuel);
+				}while(!secondClicValide && !pieceEnPrise);
 			}
 		} while (partieEnCours && !retourMenu);
 		if (!retourMenu && !partieEnCours)
