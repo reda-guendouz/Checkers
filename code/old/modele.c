@@ -9,14 +9,14 @@ void init_tabDamier ()
 		for (c=0; c!=10; c++)
 		{
             if ((l+c)%2==1)
-                tableau[l][c] = -1;
+                tabDamier[l][c] = -1;
             else
             {
-                tableau[l][c] = 0;
+                tabDamier[l][c] = 0;
                 if (c<4)
-                    tableau[l][c] = 1;
+                    tabDamier[l][c] = 1;
                 else if (c>5)
-                    tableau[l][c] = 2;           
+                    tabDamier[l][c] = 2;           
             }
 		}		
 	}
@@ -29,7 +29,7 @@ void test_afficheTab(){
 	{
 		for (c=0; c!=10; c++)
 		{
-            printf("ligne : %d, colonne %d, valeur => %d\n",l,c,tableau[l][c]);
+            printf("ligne : %d, colonne %d, valeur => %d\n",l,c,tabDamier[l][c]);
 		}		
 	}
 }
@@ -42,8 +42,8 @@ numCase clic_to_numCase(POINT p){
 }
 
 void deplacement(numCase source, numCase destination){
-	tableau[destination.c][destination.l] = tableau[source.c][source.l];
-	tableau[source.c][source.l] = 0;
+	tabDamier[destination.c][destination.l] = tabDamier[source.c][source.l];
+	tabDamier[source.c][source.l] = 0;
 }
 
 int est_dans_la_zone(POINT p){

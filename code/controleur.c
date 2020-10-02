@@ -44,7 +44,7 @@ int main()
 	int *ptrTaillePossible = &taillePossible; 
 	COULP joueurActuel;
 	THEME th;
-	FIN finPartie = EGALITE;
+	FIN finPartie = VICTOIREJOUEUR1;
 	init_graphics(LARGEUR_FENETRE, HAUTEUR_FENETRE);
 	init_themes();
 	affiche_auto_off();
@@ -294,7 +294,7 @@ COULP changer_joueur(COULP joueur)
 BOOL premier_clic_valide(POINT clicSource, COULP joueurActuel, INTERFACE_GRAPHIQUE ig)
 {
 	numCase source = clic_to_numCase(clicSource, ig);
-	PIECE PSource = tableau[source.c][source.l];
+	PIECE PSource = tabDamier[source.c][source.l];
 	printf("colonne : %d,\t ligne : %d\n", source.c, source.l);
 	if (source.c >= 0 && source.l >= 0 && source.c < 10 && source.l < 10)
 	{
@@ -314,7 +314,7 @@ BOOL joueur_suivant_peut_jouer(COULP joueurSuivant)
 	{
 		for (lig = 0; lig < 10; lig++)
 		{
-			if (tableau[col][lig].typeP != VIDE && tableau[col][lig].coulP == joueurSuivant) // si c'est lent c'est a cause de reda
+			if (tabDamier[col][lig].typeP != VIDE && tabDamier[col][lig].coulP == joueurSuivant) // si c'est lent c'est a cause de reda
 			{
 				source.c = col;
 				source.l = lig;
@@ -363,7 +363,7 @@ int deplacement(numCase source,numCase destination,COULP joueurActuel,INTERFACE_
 	PIECE P;
 	POINT p1 = numCase_to_point(source,ig), p2 = numCase_to_point(destination,ig),p3;
 	appliqueCoup(source,destination);
-	P = tableau[destination.c][destination.l]; // car la source et la destination ont ete intervertis
+	P = tabDamier[destination.c][destination.l]; // car la source et la destination ont ete intervertis
 	if (absol(destination.c - source.c) == 2)
 	{
 		numCase entreDeux;
