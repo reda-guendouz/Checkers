@@ -50,7 +50,7 @@ int main()
 	affiche_auto_off();
 	BOOL retourMenu, secondClicValide, estValide = false, jeuEnCours = true, partieEnCours = true, pieceEnPrise = false;
 	INTERFACE_GRAPHIQUE ig;
-	POINT clic1, clic2, temp;
+	POINT clic1, clic2;
 
 	numCase source, destination;
 	numCase *casesPossibles = NULL;
@@ -136,17 +136,39 @@ int main()
 						printf("deplacement\n");
 						if (joueurActuel == BLANC) {
 							distance = deplacer_piece(source, destination, joueurActuel, ig, th, piecePerdueSombre);
-							if (distance == 2)
+							if (distance == 2){
 								piecePerdueSombre++;
+								pieceEnPrise = true;
+							}
+							else
+								pieceEnPrise = false;
 						}
 						else {
 							distance = deplacer_piece(source, destination, joueurActuel, ig, th, piecePerdueClaire);
-							if (distance == 2)
+							if (distance == 2) {
 								piecePerdueClaire++;
+								pieceEnPrise = true;
+							}
+							else
+								pieceEnPrise = false;
 						}
-						joueurActuel = changer_joueur(joueurActuel);
-						partieEnCours = verifie_partie_finie(joueurActuel);
-						printf("joueur : %d\n",joueurActuel);
+						if (pieceEnPrise) {
+							printf("priseMultiple\n");
+							source = destination;
+							casesPossibles = get_numCases_possibles_apres_prise(source,ptrTaillePossible);
+							pointsCasesPossibles = numCasesPossibles_to_Point(casesPossibles, ig, taillePossible);
+							if (taillePossible != 0) {
+								affiche_efface_cases_possibles(pointsCasesPossibles,taillePossible,ig,th,true);
+								pieceEnPrise = false;
+								secondClicValide = false;
+							}
+						}
+						if (taillePossible == 0 || secondClicValide){
+							joueurActuel = changer_joueur(joueurActuel);
+							partieEnCours = verifie_partie_finie(joueurActuel);
+							printf("joueur : %d\n",joueurActuel);
+						}
+						printf("%d & %d\n",secondClicValide, pieceEnPrise);
 					}
 				}while(!secondClicValide && !pieceEnPrise);
 			}
@@ -186,16 +208,16 @@ POINT* numCasesPossibles_to_Point(numCase* numCasesPossibles, INTERFACE_GRAPHIQU
 {
 	int i;
 	POINT p;
-	POINT* pointCasesPossibles = NULL;
-	pointCasesPossibles = (POINT *)malloc(nbCasesPossibles * sizeof(POINT));
+	POINT* pointsCasesPossibles = NULL;
+	pointsCasesPossibles = (POINT *)malloc(nbCasesPossibles * sizeof(POINT));
 
 	for (i = 0; i < nbCasesPossibles; i++)
 	{
 		p = numCase_to_point(numCasesPossibles[i], ig);
-		pointCasesPossibles[i] = p;
+		pointsCasesPossibles[i] = p;
 	}
 
-	return pointCasesPossibles;
+	return pointsCasesPossibles;
 }
 
 BOOL est_second_coup_valide(numCase* casesPossibles, numCase destination, int taille)
