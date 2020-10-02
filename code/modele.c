@@ -35,7 +35,7 @@ void init_tabDamier ()
     }   
 }
 
-void appliqueCoup(numCase source, numCase destination){
+void appliquer_coup(numCase source, numCase destination){
     PIECE PDestinationAvecPrise = tabDamier[destination.c][destination.l];
 
     if (destination.c==9 || destination.c==0)
@@ -60,7 +60,7 @@ void appliqueCoup(numCase source, numCase destination){
 }
 
 
-numCase* numCases_possibles_apres_prise(numCase source,int *tailleCmpt){
+numCase* get_numCases_possibles_apres_prise(numCase source,int *tailleCmpt){
     int compteur=0, i;
     int col [4] = {1,1,-1,-1};
     int lig [4] = {1,-1,1,-1};
@@ -103,7 +103,7 @@ numCase* numCases_possibles_apres_prise(numCase source,int *tailleCmpt){
     return casesPossibles;
 }
 
-numCase* numCases_possibles_avant_prise(numCase source,int *tailleCmpt){
+numCase* get_numCases_possibles_avant_prise(numCase source,int *tailleCmpt){
     int compteur = 0, i, taille;
     int col [4]; int lig [4];
     numCase destinationSansPrise, destinationAvecPrise, destinationPossible;

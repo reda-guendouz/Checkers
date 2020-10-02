@@ -42,12 +42,12 @@ void init_tabDamier();
 *       Deplacement Damier     *
 *******************************/
 
-void appliqueCoup(numCase source, numCase destination);
+void appliquer_coup(numCase source, numCase destination);
 
 /*******************************
 *         Prises PIECE         *
 *******************************/
 
-numCase* numCases_possibles_avant_prise(numCase source,int *tailleCmpt);
+numCase* get_numCases_possibles_avant_prise(numCase source,int *tailleCmpt);
 
-numCase* numCases_possibles_apres_prise(numCase source,int *tailleCmpt);
+numCase* get_numCases_possibles_apres_prise(numCase source,int *tailleCmpt);
