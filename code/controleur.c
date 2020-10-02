@@ -104,7 +104,6 @@ int main()
 		{
 			affiche_joueur(joueurActuel, ig, th);
 			do {
-				printf("attend premier clic\n");
 				estValide = false;
 				clic1 = wait_clic();
 				if (est_clic_valide(clic1, 10, 560, 90,HAUTEUR_FENETRE))
@@ -124,7 +123,6 @@ int main()
 					clic1 = numCase_to_point(source, ig);
 					do
 					{
-						printf("attend second clic\n");
 						clic2 = wait_clic();
 						destination = clic_to_numCase(clic2, ig);
 						secondClicValide = est_second_coup_valide(casesPossibles, destination, taillePossible);
@@ -133,7 +131,6 @@ int main()
 							(clic1.x + TAILLE_CASE / 2),( clic1.y + TAILLE_CASE / 2)));
 					affiche_efface_cases_possibles(pointsCasesPossibles,taillePossible,ig,th,false);
 					if (secondClicValide){
-						printf("deplacement\n");
 						if (joueurActuel == BLANC) {
 							distance = deplacer_piece(source, destination, joueurActuel, ig, th, piecePerdueSombre);
 							if (distance == 2){
@@ -153,24 +150,30 @@ int main()
 								pieceEnPrise = false;
 						}
 						if (pieceEnPrise) {
-							printf("priseMultiple\n");
 							source = destination;
 							casesPossibles = get_numCases_possibles_apres_prise(source,ptrTaillePossible);
 							pointsCasesPossibles = numCasesPossibles_to_Point(casesPossibles, ig, taillePossible);
 							if (taillePossible != 0) {
 								affiche_efface_cases_possibles(pointsCasesPossibles,taillePossible,ig,th,true);
-								pieceEnPrise = false;
+								pieceEnPrise = true;
 								secondClicValide = false;
 							}
 						}
 						if (taillePossible == 0 || secondClicValide){
 							joueurActuel = changer_joueur(joueurActuel);
 							partieEnCours = verifie_partie_finie(joueurActuel);
-							printf("joueur : %d\n",joueurActuel);
 						}
-						printf("%d & %d\n",secondClicValide, pieceEnPrise);
+					} else
+					{
+						secondClicValide = true;
+						if (pieceEnPrise)
+						{
+							joueurActuel = changer_joueur(joueurActuel);
+							partieEnCours = verifie_partie_finie(joueurActuel);
+						}
 					}
-				}while(!secondClicValide && !pieceEnPrise);
+					
+				}while(!secondClicValide);
 			}
 		} while (partieEnCours && !retourMenu);
 		if (!retourMenu && !partieEnCours)
@@ -319,8 +322,8 @@ int deplacer_piece(numCase source, numCase destination, COULP joueurActuel, INTE
 	PIECE P;
 	POINT p3, pSource = numCase_to_point(source, ig), pDestination = numCase_to_point(destination, ig);
 	
-	P = tabDamier[source.c][source.l];
 	appliquer_coup(source, destination);
+	P = tabDamier[destination.c][destination.l];
 	if (absol(destination.c - source.c) == 2)
 	{
 		numCase entreDeux;

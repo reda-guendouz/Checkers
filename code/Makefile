@@ -58,8 +58,7 @@ tar: clean
 
 clean:
 	rm -f *core
-	rm -f *.o
 	rm -f police.h
-	rm -f controleur resultat
+	rm -f resultat
 	rm -f *.tar
 	rm -rf $(DIR)

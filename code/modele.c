@@ -20,12 +20,12 @@ void init_tabDamier ()
             else
             {
                 tabDamier[i][j].typeP=VIDE;
-                if (i<4)
+                if (i==7)
                 {
                     tabDamier[i][j].typeP=PION;
                     tabDamier[i][j].coulP=BLANC;
                 }
-                else if (i>5)
+                else if (i==2)
                 {
                     tabDamier[i][j].typeP=PION;
                     tabDamier[i][j].coulP=NOIR;
