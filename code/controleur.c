@@ -190,7 +190,10 @@ int main()
 			{
 				clic1 = wait_clic();
 				if (est_clic_valide(clic1, 455, 145, 610, 215))
+				{
+					printf("Bien joue Werman40 !\n");
 					exit(0);
+				}
 			} while (!est_clic_valide(clic1, 435, 245, 625, 315));
 		}
 	}
